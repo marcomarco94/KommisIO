@@ -5,13 +5,15 @@ VisualStudioVersion = 17.9.34526.213
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiClient", "MauiClient\MauiClient.csproj", "{84223493-B089-4DD5-9EE9-44BB95B36458}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataRepoCore", "DataRepoCore\DataRepoCore.csproj", "{4EF40496-D990-4732-9B8B-15F244DBFB39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataRepoCore", "DataRepoCore\DataRepoCore.csproj", "{4EF40496-D990-4732-9B8B-15F244DBFB39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataRESTfulAPI", "DataRESTfulAPI\DataRESTfulAPI.csproj", "{A9F644FF-0915-45A1-BEB2-708831EFD563}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataRESTfulAPI", "DataRESTfulAPI\DataRESTfulAPI.csproj", "{A9F644FF-0915-45A1-BEB2-708831EFD563}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDataAccessCore", "AppDataAccessCore\AppDataAccessCore.csproj", "{0C70D8A6-42F6-4B9A-8717-DF34E28D7B63}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppDataAccessCore", "AppDataAccessCore\AppDataAccessCore.csproj", "{0C70D8A6-42F6-4B9A-8717-DF34E28D7B63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendTests", "BackendTests\BackendTests.csproj", "{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendTests", "BackendTests\BackendTests.csproj", "{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendDataAccessLayer", "BackendDataAccessLayer\BackendDataAccessLayer.csproj", "{A0FD3A3B-BCDC-4581-903A-A45195022DCB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +43,10 @@ Global
 		{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

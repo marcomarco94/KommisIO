@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public interface IEmployeeRepository : IRepository<Employee> {
+    public interface IKommissIOAPI : IDisposable {
 
         /// <summary>
         /// Identify an User by the personnel number and password.

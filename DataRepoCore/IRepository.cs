@@ -9,7 +9,7 @@ namespace DataRepoCore {
     /// The interfaces used for all repositories in the project.
     /// </summary>
     /// <typeparam name="T">The generic datatype of the datamodel of the repository.</typeparam>
-    public interface IRepository<T> {
+    public interface IRepository<T> : IDisposable {
         /// <summary>
         /// Get all elements of the repository.
         /// </summary>

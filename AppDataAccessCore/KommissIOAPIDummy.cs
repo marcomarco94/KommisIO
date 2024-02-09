@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public class EmployeeRepositoryDummy : IEmployeeRepository {
+    public class KommissIOAPIDummy : IKommissIOAPI {
         /// <summary>
         /// Protected dictionary to dummy the authentication.
         /// </summary>
@@ -57,6 +57,10 @@ namespace DataRepoCore {
         ///<inheritdoc/>
         public Task<bool> UpdateAsync(Employee element) {
             throw new InvalidOperationException();
+        }
+
+        public void Dispose() {
+            employees.Clear();
         }
     }
 }

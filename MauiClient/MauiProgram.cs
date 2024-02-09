@@ -22,7 +22,7 @@ namespace MauiClient
              * Admin: personnelNumber = 0, password = admin
              * User: personnelNumber = 2, password = user
              */
-            builder.Services.AddSingleton<IEmployeeRepository, EmployeeRepositoryDummy>();
+            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
 
 #if DEBUG
             builder.Logging.AddDebug();

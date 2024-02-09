@@ -1,6 +1,7 @@
 ﻿namespace DataRepoCore {
-    public enum Role : byte{
-        Administrator = 0,
-        User = 2
+    public enum Role : byte {
+        Default = 0,
+        Administrator = 2,
+        User = 4
     }
 }
