@@ -1,0 +1,6 @@
+@DataRESTfulAPI_HostAddress = http://localhost:5294
+
+GET {{DataRESTfulAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
