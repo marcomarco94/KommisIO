@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BackendDataAccessLayer\BackendDataAccessLayer.csproj" />
     <ProjectReference Include="..\DataRepoCore\DataRepoCore.csproj" />
   </ItemGroup>
 

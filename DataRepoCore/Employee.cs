@@ -5,27 +5,27 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public class Employee {
+    public struct Employee {
         /// <summary>
         /// The first name of the employee
         /// </summary>
-        public string FirstName { get; set; } = string.Empty;
+        public required string FirstName { get; init; }
 
         /// <summary>
         /// The last name of the employee.
         /// </summary>
-        public string LastName { get; set; } = string.Empty;
+        public required string LastName { get; init; }
 
         /// <summary>
         /// A individual number to identify the employee (unique Key), it is Unique but not the tech. primary key. (Seperation of tech. and buis. logic)
         /// </summary>
-        public short PersonnelNumber { get; set; }
+        public required short PersonnelNumber { get; init; }
 
         /// <summary>
         /// The assigned roles, an enum because the product is intended as demo, so no further customization is needed. 
         /// This strips away the not necessary complexity of the authentication system and database. 
         /// </summary>
-        public Role Role { get; set; }
+        public required Role Role { get; init; }
 
         public override int GetHashCode() {
             //Using business
