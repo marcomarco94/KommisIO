@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34526.213
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiClient", "MauiClient\MauiClient.csproj", "{84223493-B089-4DD5-9EE9-44BB95B36458}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53} = {FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataRepoCore", "DataRepoCore\DataRepoCore.csproj", "{4EF40496-D990-4732-9B8B-15F244DBFB39}"
 EndProject
@@ -14,6 +17,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BackendTests", "BackendTests\BackendTests.csproj", "{829D80CA-E4AA-4388-AD69-D1ACEF716B4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackendDataAccessLayer", "BackendDataAccessLayer\BackendDataAccessLayer.csproj", "{A0FD3A3B-BCDC-4581-903A-A45195022DCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiClientLibrary", "MauiClientLibrary\MauiClientLibrary.csproj", "{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +52,10 @@ Global
 		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0FD3A3B-BCDC-4581-903A-A45195022DCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA4C913C-9423-4EF0-A6FC-AA1BA09D6C53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
