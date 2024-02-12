@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:LocalizationsLibrary.Localizations;assembly=LocalizationsLibrary"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
+             x:DataType="viewmodel:MainMenuViewModel"
+             x:Class="MauiClient.Views.MainMenuPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="50"
+            Spacing="25">
+
+            <Label Text="KommisIO" 
+                   HorizontalOptions="CenterAndExpand" 
+                   Style="{StaticResource Headline}"
+            />
+
+            <Label Text="{x:Static lang:AppResources.LoginIntro}" 
+                   HorizontalOptions="CenterAndExpand" 
+                   Style="{StaticResource SubHeadline}" 
+            />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

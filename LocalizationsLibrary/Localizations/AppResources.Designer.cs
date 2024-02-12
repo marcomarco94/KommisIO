@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MauiClient.Resources.Localizations {
+namespace LocalizationsLibrary.Localizations {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace MauiClient.Resources.Localizations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AppResources {
+    public class AppResources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace MauiClient.Resources.Localizations {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MauiClient.Resources.Localizations.AppResources", typeof(AppResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("LocalizationsLibrary.Localizations.AppResources", typeof(AppResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace MauiClient.Resources.Localizations {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,27 +61,18 @@ namespace MauiClient.Resources.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please fill in the required fields.
+        ///   Looks up a localized string similar to .
         /// </summary>
-        internal static string EmptyInput {
+        public static string HelloWorld {
             get {
-                return ResourceManager.GetString("EmptyInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Invalid Input.
-        /// </summary>
-        internal static string HeaderInvalidInput {
-            get {
-                return ResourceManager.GetString("HeaderInvalidInput", resourceCulture);
+                return ResourceManager.GetString("HelloWorld", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
-        internal static string Login {
+        public static string Login {
             get {
                 return ResourceManager.GetString("Login", resourceCulture);
             }
@@ -90,16 +81,25 @@ namespace MauiClient.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Welcome, please login.
         /// </summary>
-        internal static string LoginIntro {
+        public static string LoginIntro {
             get {
                 return ResourceManager.GetString("LoginIntro", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PlaceHolder.
+        /// </summary>
+        public static string MessageInvalidInput {
+            get {
+                return ResourceManager.GetString("MessageInvalidInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OK.
         /// </summary>
-        internal static string Ok {
+        public static string Ok {
             get {
                 return ResourceManager.GetString("Ok", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace MauiClient.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
-        internal static string Password {
+        public static string Password {
             get {
                 return ResourceManager.GetString("Password", resourceCulture);
             }
@@ -117,9 +117,18 @@ namespace MauiClient.Resources.Localizations {
         /// <summary>
         ///   Looks up a localized string similar to Personnel Number.
         /// </summary>
-        internal static string PersonnelNumber {
+        public static string PersonnelNumber {
             get {
                 return ResourceManager.GetString("PersonnelNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Input.
+        /// </summary>
+        public static string TitleInvalidInput {
+            get {
+                return ResourceManager.GetString("TitleInvalidInput", resourceCulture);
             }
         }
     }

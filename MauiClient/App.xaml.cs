@@ -1,4 +1,5 @@
-﻿namespace MauiClient
+﻿
+namespace MauiClient
 {
     public partial class App : Application
     {
