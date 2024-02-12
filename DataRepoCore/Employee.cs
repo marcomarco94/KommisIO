@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public readonly struct Employee {
+    public record Employee {
         /// <summary>
         /// The first name of the employee
         /// </summary>

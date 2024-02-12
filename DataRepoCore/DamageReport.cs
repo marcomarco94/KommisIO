@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public readonly struct DamageReport {
+    public record DamageReport {
         /// <summary>
         /// The employee who has filed the damage report.
         /// </summary>
