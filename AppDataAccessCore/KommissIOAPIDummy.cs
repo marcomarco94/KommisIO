@@ -48,7 +48,7 @@ namespace DataRepoCore {
             await locker.WaitAsync();
 
             var emp = employees.FirstOrDefault((e) => e.employee.PersonnelNumber.Equals(personnelNumber) && e.password.Equals(password)).employee;
-            if (emp.Equals(default(Employee))) {
+            if (emp is null) {
                 locker.Release();
                 return null;
             }
@@ -59,7 +59,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<PickingOrder>> GetOpenPickingOrdersAsync() {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
 
             await locker.WaitAsync();
@@ -70,7 +70,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<bool> PickAsync(PickingOrderPosition orderPosition, StockPosition position, int? amount = null) {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
 
             await locker.WaitAsync();
@@ -87,7 +87,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(Article article) {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Manager) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
 
             await locker.WaitAsync();
@@ -97,8 +97,8 @@ namespace DataRepoCore {
         }
 
         ///<inheritdoc/>
-        public async Task<bool> AssignEmployeeToPickingOrderAsync(PickingOrder order) {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+        public async Task<bool> AssignToPickingOrderAsync(PickingOrder order) {
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
 
             if (pickingOrders.FirstOrDefault(o=>o.Id == order.Id).Assignee is not null)
@@ -114,7 +114,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<PickingOrder>> GetPickingOrdersAsync() {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.Administrator))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Administrator) && !CurrentEmployee.Role.HasFlag(Role.Manager)))
                 throw new UnauthorizedAccessException();
 
             await locker.WaitAsync();
@@ -125,7 +125,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<PickingOrder>> GetFinishedPickingOrdersAsync() {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Administrator) && !CurrentEmployee.Role.HasFlag(Role.Manager)))
                 throw new UnauthorizedAccessException();
 
             await locker.WaitAsync();
@@ -136,7 +136,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<bool> ResetToDefaultAsync() {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.Administrator))
+            if (CurrentEmployee is null || !CurrentEmployee.Role.HasFlag(Role.Administrator))
                 throw new UnauthorizedAccessException();
 
             return await RestWithoutAuthAsync();
@@ -145,12 +145,14 @@ namespace DataRepoCore {
         protected async Task<bool> RestWithoutAuthAsync() {
             await locker.WaitAsync();
             employees = new List<(Employee employee, string password)>(){
-                (employee: new Employee(){ FirstName="Max", LastName="Musteradmin", PersonnelNumber=1,
+                (employee: new Employee(){ FirstName="Admin", LastName="Musteradmin", PersonnelNumber=1,
                     Role=Role.Administrator }, password: "admin"),
-                (employee: new Employee(){ FirstName="Max", LastName="Musteradminuser", PersonnelNumber=2,
-                    Role=Role.User|Role.Administrator }, password: "adminuser"),
-                (employee: new Employee(){ FirstName="Max", LastName="Musteruser", PersonnelNumber=3,
-                    Role=Role.User}, password: "user")
+                (employee: new Employee(){ FirstName="Employee", LastName="Musteremployee", PersonnelNumber=2,
+                    Role=Role.Employee}, password: "employee"),
+                (employee: new Employee(){ FirstName="Manager", LastName="Mustermanager", PersonnelNumber=3,
+                    Role=Role.Manager}, password: "manager"),
+                (employee: new Employee(){ FirstName="God", LastName="OP", PersonnelNumber=4,
+                    Role=Role.Manager | Role.Administrator | Role.Employee}, password: "god")
             };
 
             articles = new List<Article>() {
@@ -203,7 +205,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<bool> ReportDamagedArticleAsync(DamageReport report) {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.User))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
             await locker.WaitAsync();
             damageReports.Add(report);
@@ -213,7 +215,7 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<DamageReport>> GetArticleDamageReportsAsync() {
-            if (CurrentEmployee is null || !CurrentEmployee.Value.Role.HasFlag(Role.Administrator))
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Manager) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
             await locker.WaitAsync();
             var li = new List<DamageReport>(damageReports);
@@ -233,6 +235,9 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<PickingOrder>> GetInProgressPickingOrdersAsync() {
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Administrator) && !CurrentEmployee.Role.HasFlag(Role.Manager)))
+                throw new UnauthorizedAccessException();
+
             await locker.WaitAsync();
             var li = pickingOrders.Where(po=>po.Assignee is not null && 
             po.OrderPositions.Any(op=>op.PickedAmount<op.DesiredAmount)).ToList();
@@ -242,6 +247,9 @@ namespace DataRepoCore {
 
         ///<inheritdoc/>
         public async Task<IEnumerable<PickingOrder>> GetInProgressAssignedPickingOrdersAsync() {
+            if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Administrator) && !CurrentEmployee.Role.HasFlag(Role.Manager)))
+                throw new UnauthorizedAccessException();
+
             await locker.WaitAsync();
             var li = pickingOrders.Where(po => po.Assignee.Equals(CurrentEmployee) && 
             po.OrderPositions.Any(op => op.PickedAmount < op.DesiredAmount)).ToList();

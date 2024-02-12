@@ -8,8 +8,9 @@ namespace BackendTests {
             //Trying to authenticate with different users.
             Assert.Null(await rep.IdentifyAndAuthenticateAysnc(0, "false"));
             Assert.Equal((short)1, (await rep.IdentifyAndAuthenticateAysnc(1, "admin"))?.PersonnelNumber);
-            Assert.Equal((short)2, (await rep.IdentifyAndAuthenticateAysnc(2, "adminuser"))?.PersonnelNumber);
-            Assert.Equal((short)3, (await rep.IdentifyAndAuthenticateAysnc(3, "user"))?.PersonnelNumber);
+            Assert.Equal((short)2, (await rep.IdentifyAndAuthenticateAysnc(2, "employee"))?.PersonnelNumber);
+            Assert.Equal((short)3, (await rep.IdentifyAndAuthenticateAysnc(3, "manager"))?.PersonnelNumber);
+            Assert.Equal((short)4, (await rep.IdentifyAndAuthenticateAysnc(4, "god"))?.PersonnelNumber);
         }
 
         [Fact]
@@ -19,7 +20,7 @@ namespace BackendTests {
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(rep.GetOpenPickingOrdersAsync);
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
 
             //Test if after auth. we can access the open orders.
             var pickingOrders = await rep.GetOpenPickingOrdersAsync();
@@ -32,27 +33,25 @@ namespace BackendTests {
             IKommissIOAPI rep = new KommissIOAPIDummy();
 
             //Check if auth is required.
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.AssignEmployeeToPickingOrderAsync(new PickingOrder() { Id= 1, Note="", 
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.AssignToPickingOrderAsync(new PickingOrder() { Id= 1, Note="", 
                 OrderPositions=new List<PickingOrderPosition>(), Priority=1}));
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
-            
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
+
             //Get the open picking-orders.
             var pickingOrders = await rep.GetOpenPickingOrdersAsync();
 
             //Assign an employee to an picking order.
             var selectedPickingOrder = pickingOrders.First();
-            await rep.AssignEmployeeToPickingOrderAsync(selectedPickingOrder);
+            await rep.AssignToPickingOrderAsync(selectedPickingOrder);
 
             //get the open picking orders after assinging one to an employee.
             pickingOrders = await rep.GetOpenPickingOrdersAsync();
             Assert.NotNull(pickingOrders);
             Assert.Equal(3, pickingOrders.Count());
 
-            authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "user");
-
             //Reassigning an open picking order is invalid.
-            await Assert.ThrowsAsync<InvalidOperationException>(()=>rep.AssignEmployeeToPickingOrderAsync(selectedPickingOrder));
+            await Assert.ThrowsAsync<InvalidOperationException>(()=>rep.AssignToPickingOrderAsync(selectedPickingOrder));
         }
 
         [Fact]
@@ -62,11 +61,11 @@ namespace BackendTests {
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.GetStockPositionsForArticleAsync(new Article() { ArticleNumber=1, Name="A name"}));
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
 
             var pickingOrders = await rep.GetOpenPickingOrdersAsync();
             var pickingOrder = pickingOrders.First();
-            await rep.AssignEmployeeToPickingOrderAsync(pickingOrder);
+            await rep.AssignToPickingOrderAsync(pickingOrder);
 
             var pop = pickingOrder.OrderPositions.First();
             var stockPosBefore = await rep.GetStockPositionsForArticleAsync(pop.Article);
@@ -87,19 +86,19 @@ namespace BackendTests {
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(rep.ResetToDefaultAsync);
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(1, "admin");
 
             Assert.True(await rep.ResetToDefaultAsync());
 
             //Pick something
             var pickingOrders = await rep.GetOpenPickingOrdersAsync();
             var pickingOrder = pickingOrders.First();
-            await rep.AssignEmployeeToPickingOrderAsync(pickingOrder);
+            await rep.AssignToPickingOrderAsync(pickingOrder);
 
             var pop = pickingOrder.OrderPositions.First();
             var stockPosBefore = await rep.GetStockPositionsForArticleAsync(pop.Article);
             await rep.PickAsync(pop, stockPosBefore.First());
-
+            
             Assert.True(await rep.ResetToDefaultAsync());
 
             var stockPosAfter = await rep.GetStockPositionsForArticleAsync(pop.Article);
@@ -113,7 +112,7 @@ namespace BackendTests {
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(rep.GetOpenPickingOrdersAsync);
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
 
             //Test if after auth. we can access the open orders.
             var pickingOrders = await rep.GetPickingOrdersAsync();
@@ -122,7 +121,10 @@ namespace BackendTests {
 
             //Assign an employee to an picking order.
             var selectedPickingOrder = pickingOrders.First();
-            await rep.AssignEmployeeToPickingOrderAsync(selectedPickingOrder);
+
+            authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
+            await rep.AssignToPickingOrderAsync(selectedPickingOrder);
+            authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
 
             //get the open picking orders after assinging one to an employee.
             pickingOrders = await rep.GetPickingOrdersAsync();
@@ -136,17 +138,20 @@ namespace BackendTests {
 
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.ReportDamagedArticleAsync(new DamageReport() { Article = new Article() { ArticleNumber=1, Name=""}, 
-                Employee=new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.User }, Message="" }));
+                Employee=new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee }, Message="" }));
 
-            var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
-
+            var authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
+            
             Assert.Equal(2, (await rep.GetArticleDamageReportsAsync())?.Count());
 
+            authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
             await rep.ReportDamagedArticleAsync(new DamageReport() {
                 Article = new Article() { ArticleNumber = 1, Name = "" },
-                Employee = new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.User },
+                Employee = new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
                 Message = ""
             });
+
+            authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
 
             Assert.Equal(3, (await rep.GetArticleDamageReportsAsync())?.Count());
         }

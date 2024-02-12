@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public struct PickingOrderPosition {
+    public record PickingOrderPosition {
         /// <summary>
         /// The id of the picking-order-position.
         /// </summary>

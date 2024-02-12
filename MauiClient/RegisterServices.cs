@@ -17,12 +17,13 @@ namespace MauiClient
             builder.Services.AddSingleton<MainMenuViewModel>();
             
 
-            //Register with IOC
             /*
-             * Admin & User: personnelNumber = 1, password = adminuser
-             * Admin: personnelNumber = 0, password = admin
-             * User: personnelNumber = 2, password = user
-             */
+             * Users: 
+             * PersonnelNumber = 1, Role = Role.Administrator, password: "admin",
+             * PersonnelNumber = 2, Role = Role.Employee password: "employee",
+             * PersonnelNumber = 3, Role = Role.Manager}, password: "manager",
+             * PersonnelNumber=4, Role=Role.Manager | Role.Administrator | Role.Employee, password: "god
+            */
             builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
         }
     }
