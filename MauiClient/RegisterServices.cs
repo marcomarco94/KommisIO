@@ -1,6 +1,7 @@
 ﻿
 using DataRepoCore;
 using MauiClient.Views;
+using MauiClientLibrary.Services;
 
 namespace MauiClient
 {
@@ -8,9 +9,13 @@ namespace MauiClient
     {
         public static void ConfigureService(this MauiAppBuilder builder)
         {
-
+            builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
+            
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<LoginViewModel>();
+            builder.Services.AddSingleton<MainMenuPage>();
+            builder.Services.AddSingleton<MainMenuViewModel>();
+            
 
             //Register with IOC
             /*

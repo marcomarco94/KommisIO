@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:lang="clr-namespace:MauiClient.Resources.Localizations"
+             xmlns:lang="clr-namespace:LocalizationsLibrary.Localizations;assembly=LocalizationsLibrary"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:LoginViewModel"
              x:Class="MauiClient.Views.LoginPage">
@@ -21,18 +22,56 @@
                    Style="{StaticResource SubHeadline}" 
             />
 
-            <Entry Placeholder="{x:Static lang:AppResources.PersonnelNumber}" 
-                   Text="{Binding PersonnelNumber}"/>
+
+            <Entry Placeholder="{x:Static lang:AppResources.PersonnelNumber}"
+                   Text="{Binding PersonnelNumber}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="TextChanged"
+                        Command="{Binding ValidateEntriesCommand}"
+                    />
+                </Entry.Behaviors>
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding IsPersonnelNumberValid}"
+                                 Value="True">
+                        <Setter Property="Style" Value="{StaticResource ValidEntryStyle}" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding IsPersonnelNumberValid}"
+                                 Value="False">
+                        <Setter Property="Style" Value="{StaticResource InvalidEntryStyle}" />
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
 
             <Entry Placeholder="{x:Static lang:AppResources.Password}" 
                    IsPassword="True" 
-                   Text="{Binding Password}"/>
+                   Text="{Binding Password}">
+                <Entry.Behaviors>
+                    <toolkit:EventToCommandBehavior 
+                        EventName="TextChanged" 
+                        Command="{Binding ValidateEntriesCommand}" 
+                        />
+                </Entry.Behaviors>
+                <Entry.Triggers>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="True">
+                        <Setter Property="Style" Value="{StaticResource ValidEntryStyle}" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Entry"
+                                 Binding="{Binding IsPasswordValid}"
+                                 Value="False">
+                        <Setter Property="Style" Value="{StaticResource InvalidEntryStyle}" />
+                    </DataTrigger>
+                </Entry.Triggers>
+            </Entry>
 
             <Button Text="{x:Static lang:AppResources.Login}" 
-                    IsEnabled="{Binding IsNotBusy}"
+                    IsEnabled="{Binding IsEnabled}"
                     Command="{Binding LoginCommand}"
             />
-
 
         </VerticalStackLayout>
     </ScrollView>

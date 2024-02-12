@@ -196,6 +196,18 @@
         <Setter Property="HorizontalOptions" Value="Center" />
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
+    
+    <Style 
+        x:Key="InvalidEntryStyle" 
+        TargetType="Entry">
+        <Setter Property="TextColor" Value="IndianRed" />
+    </Style>
+
+    <Style 
+        x:Key="ValidEntryStyle" 
+        TargetType="Entry">
+        <Setter Property="TextColor" Value="LightGreen" />
+    </Style>
 
     <Style TargetType="ListView">
         <Setter Property="SeparatorColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray500}}" />
