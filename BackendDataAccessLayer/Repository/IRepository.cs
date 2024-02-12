@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataRepoCore {
+namespace BackendDataAccessLayer.Repository
+{
     /// <summary>
     /// The interfaces used for all repositories in the project.
     /// </summary>
     /// <typeparam name="T">The generic datatype of the datamodel of the repository.</typeparam>
-    public interface IRepository<T> : IDisposable {
+    public interface IRepository<T> : IDisposable
+    {
         /// <summary>
         /// Get all elements of the repository.
         /// </summary>

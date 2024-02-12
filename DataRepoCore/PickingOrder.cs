@@ -14,7 +14,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The priority of the order.
         /// </summary>
-        public required int Priority { get; init; }
+        public required byte Priority { get; init; }
 
         /// <summary>
         /// A note for the picking-order, special instructions, etc?

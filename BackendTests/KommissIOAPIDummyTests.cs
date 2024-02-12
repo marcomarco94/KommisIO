@@ -33,8 +33,12 @@ namespace BackendTests {
             IKommissIOAPI rep = new KommissIOAPIDummy();
 
             //Check if auth is required.
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.AssignToPickingOrderAsync(new PickingOrder() { Id= 1, Note="", 
-                OrderPositions=new List<PickingOrderPosition>(), Priority=1}));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.AssignToPickingOrderAsync(new PickingOrder() {
+                Id = 1,
+                Note = "",
+                OrderPositions = new List<PickingOrderPosition>(),
+                Priority = 1
+            }));
 
             var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
 
@@ -51,7 +55,7 @@ namespace BackendTests {
             Assert.Equal(3, pickingOrders.Count());
 
             //Reassigning an open picking order is invalid.
-            await Assert.ThrowsAsync<InvalidOperationException>(()=>rep.AssignToPickingOrderAsync(selectedPickingOrder));
+            await Assert.ThrowsAsync<InvalidOperationException>(() => rep.AssignToPickingOrderAsync(selectedPickingOrder));
         }
 
         [Fact]
@@ -59,7 +63,7 @@ namespace BackendTests {
             IKommissIOAPI rep = new KommissIOAPIDummy();
 
             //Check if auth is required.
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.GetStockPositionsForArticleAsync(new Article() { ArticleNumber=1, Name="A name"}));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.GetStockPositionsForArticleAsync(new Article() { Id = 0, ArticleNumber = 1, Name = "A name" }));
 
             var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
 
@@ -98,7 +102,7 @@ namespace BackendTests {
             var pop = pickingOrder.OrderPositions.First();
             var stockPosBefore = await rep.GetStockPositionsForArticleAsync(pop.Article);
             await rep.PickAsync(pop, stockPosBefore.First());
-            
+
             Assert.True(await rep.ResetToDefaultAsync());
 
             var stockPosAfter = await rep.GetStockPositionsForArticleAsync(pop.Article);
@@ -137,17 +141,22 @@ namespace BackendTests {
             IKommissIOAPI rep = new KommissIOAPIDummy();
 
             //Check if auth is required.
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.ReportDamagedArticleAsync(new DamageReport() { Article = new Article() { ArticleNumber=1, Name=""}, 
-                Employee=new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee }, Message="" }));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.ReportDamagedArticleAsync(new DamageReport() {
+                Id = 0,
+                Article = new Article() { Id = 0, ArticleNumber = 1, Name = "" },
+                Employee = new Employee() { Id = 0, FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
+                Message = ""
+            }));
 
             var authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
-            
+
             Assert.Equal(2, (await rep.GetArticleDamageReportsAsync())?.Count());
 
             authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
             await rep.ReportDamagedArticleAsync(new DamageReport() {
-                Article = new Article() { ArticleNumber = 1, Name = "" },
-                Employee = new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
+                Id = 0,
+                Article = new Article() { Id = 0, ArticleNumber = 1, Name = "" },
+                Employee = new Employee() { Id = 0, FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
                 Message = ""
             });
 
