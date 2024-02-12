@@ -136,7 +136,7 @@ namespace BackendTests {
 
             //Check if auth is required.
             await Assert.ThrowsAsync<UnauthorizedAccessException>(()=>rep.ReportDamagedArticleAsync(new DamageReport() { Article = new Article() { ArticleNumber=1, Name=""}, 
-                Employee=new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.User }, Message="" }));
+                Employee=new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee }, Message="" }));
 
             var authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "adminuser");
 
@@ -144,7 +144,7 @@ namespace BackendTests {
 
             await rep.ReportDamagedArticleAsync(new DamageReport() {
                 Article = new Article() { ArticleNumber = 1, Name = "" },
-                Employee = new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.User },
+                Employee = new Employee() { FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
                 Message = ""
             });
 

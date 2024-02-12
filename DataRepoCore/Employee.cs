@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public struct Employee {
+    public readonly struct Employee {
         /// <summary>
         /// The first name of the employee
         /// </summary>
@@ -26,18 +26,5 @@ namespace DataRepoCore {
         /// This strips away the not necessary complexity of the authentication system and database. 
         /// </summary>
         public required Role Role { get; init; }
-
-        public override int GetHashCode() {
-            //Using business
-            return PersonnelNumber.GetHashCode();
-        }
-
-        public override bool Equals(object? obj) {
-            if(obj is  Employee e) {
-                //Using business logic to compare the objects.
-                return e.PersonnelNumber == PersonnelNumber;
-            }
-            return false;
-        }
     }
 }

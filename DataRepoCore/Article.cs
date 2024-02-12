@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public struct Article {
+    public readonly struct Article {
         /// <summary>
         /// The number of the article to identify it.
         /// </summary>

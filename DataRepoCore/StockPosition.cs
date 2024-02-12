@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace DataRepoCore {
-    public struct StockPosition {
+    public readonly struct StockPosition {
         /// <summary>
         /// The id of the stock-position.
         /// </summary>
