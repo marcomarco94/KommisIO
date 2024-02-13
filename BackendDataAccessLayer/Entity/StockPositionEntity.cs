@@ -39,11 +39,10 @@ namespace BackendDataAccessLayer.Entity {
             Id = stockPosition.Id;
             Amount = stockPosition.Amount;
             ShelfNumber = stockPosition.ShelfNumber;
-            Article = new ArticleEntity(stockPosition.Article);
         }
 
         public StockPosition MapToDataModel() {
-            return new StockPosition() { Amount = Amount, Article = Article.MapToDataModel(), Id = Id, ShelfNumber = ShelfNumber };
+            return new StockPosition() { Amount = Amount, Article = Article!.MapToDataModel(), Id = Id, ShelfNumber = ShelfNumber };
         }
     }
 }

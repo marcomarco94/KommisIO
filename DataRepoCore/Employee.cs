@@ -9,7 +9,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The tech. id of the employee.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The first name of the employee

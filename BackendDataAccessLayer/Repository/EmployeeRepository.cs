@@ -1,4 +1,6 @@
 ﻿using BackendDataAccessLayer.Entity;
+using DataRepoCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,10 @@ using System.Threading.Tasks;
 
 namespace BackendDataAccessLayer.Repository {
     public class EmployeeRepository : BaseRepository<EmployeeEntity>, IEmployeeRepository {
-        public EmployeeRepository(DALDbContext context) : base(context, context.Employees) {
+        protected IPasswordHasher<EmployeeEntity> _hasher;
+
+        public EmployeeRepository(DALDbContext context, IPasswordHasher<EmployeeEntity> hasher) : base(context, context.Employees) {
+            _hasher = hasher;
         }
 
         ///<inheritdoc/>

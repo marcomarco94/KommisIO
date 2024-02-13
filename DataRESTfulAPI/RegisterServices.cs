@@ -15,6 +15,8 @@ namespace DataRESTfulAPI {
             builder.Services.AddScoped<IRepository<PickingOrderEntity>, PickingOrderRepository>();
             builder.Services.AddScoped<IRepository<StockPositionEntity>, StockPositionRepository>();
             builder.Services.AddScoped<IRepository<PickingOrderPositionEntity>, PickingOrderPositionRepository>();
+
+            builder.Services.AddScoped<IDemoDataBuilder, DemoDataBuilder>();
         }
     }
 }

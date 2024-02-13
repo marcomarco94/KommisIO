@@ -9,7 +9,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The id of the damage report.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The employee who has filed the damage report.

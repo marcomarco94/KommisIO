@@ -43,6 +43,13 @@ namespace BackendDataAccessLayer.Repository {
         }
 
         ///<inheritdoc/>
+        public virtual async Task<bool> InsertRangeAsync(IEnumerable<T> elements) {
+            foreach (var element in elements)
+                await _dbSet.AddAsync(element);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        ///<inheritdoc/>
         public async Task<bool> UpdateAsync(T element) {
             _context.Update(element);
             return await _context.SaveChangesAsync() > 0;
@@ -53,9 +60,19 @@ namespace BackendDataAccessLayer.Repository {
             return await _dbSet.Where(selector).ToListAsync();
         }
 
+        public virtual async Task<T?> FindAsync(Expression<Func<T, bool>> selector) {
+            return await _dbSet.FirstAsync(selector);
+        }
+
         ///<inheritdoc/>
         public virtual async Task<int> CountAsync(Expression<Func<T, bool>> selector) {
             return await _dbSet.Where(selector).CountAsync();
+        }
+
+        public virtual async Task<bool> ResetAsync() {
+            _dbSet.RemoveRange(_dbSet);
+            await _context.SaveChangesAsync();
+            return (await CountAsync(a => true)) == 0;
         }
 
         public virtual void Dispose() {

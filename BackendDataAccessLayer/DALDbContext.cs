@@ -40,6 +40,5 @@ namespace BackendDataAccessLayer {
         /// The stock positions in the warehouse.
         /// </summary>
         public DbSet<StockPositionEntity> StockPositions { get; set; }
-
     }
 }

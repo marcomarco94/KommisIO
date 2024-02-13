@@ -9,7 +9,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The id of the stock-position.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The article stored at the stock-position

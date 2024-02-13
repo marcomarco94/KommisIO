@@ -5,14 +5,12 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackendDataAccessLayer.Repository
-{
+namespace BackendDataAccessLayer.Repository {
     /// <summary>
     /// The interfaces used for all repositories in the project.
     /// </summary>
     /// <typeparam name="T">The generic datatype of the datamodel of the repository.</typeparam>
-    public interface IRepository<T> : IDisposable
-    {
+    public interface IRepository<T> : IDisposable {
         /// <summary>
         /// Get all elements of the repository.
         /// </summary>
@@ -32,6 +30,13 @@ namespace BackendDataAccessLayer.Repository
         /// <param name="element">The element to insert.</param>
         /// <returns>Returns true if the operation completes successfully.</returns>
         Task<bool> InsertAsync(T element);
+
+        /// <summary>
+        /// Insert elements into the repository.
+        /// </summary>
+        /// <param name="elements">The elements to insert.</param>
+        /// <returns>Returns true if the operation completes successfully.</returns>
+        Task<bool> InsertRangeAsync(IEnumerable<T> elements);
 
         /// <summary>
         /// Delete an element using its id.
@@ -55,10 +60,23 @@ namespace BackendDataAccessLayer.Repository
         Task<IEnumerable<T>> SelectAsync(Expression<Func<T, bool>> selector);
 
         /// <summary>
+        /// Find the entity from the repository.
+        /// </summary>
+        /// <param name="selector">The function that checks if the element should be selected.</param>
+        /// <returns>Returns the found element, first.</returns>
+        Task<T?> FindAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
         /// Count the elments that meet the specified criteria.
         /// </summary>
         /// <param name="selector">A function checking if the element should be counted.</param>
         /// <returns>Returns the amount of elements matching the cretirea.</returns>
         Task<int> CountAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
+        /// Reset the data to some default data.
+        /// </summary>
+        /// <returns>Returns true if successful</returns>
+        Task<bool> ResetAsync();
     }
 }

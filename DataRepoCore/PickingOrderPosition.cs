@@ -9,7 +9,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The id of the picking-order-position.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The article of the picking-position.

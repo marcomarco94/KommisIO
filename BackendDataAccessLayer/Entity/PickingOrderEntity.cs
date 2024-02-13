@@ -42,15 +42,8 @@ namespace BackendDataAccessLayer.Entity {
 
         public PickingOrderEntity(PickingOrder pickingOrder) {
             Id = pickingOrder.Id;
-            if (pickingOrder.Assignee is not null)
-                Employee = new EmployeeEntity(pickingOrder.Assignee);
             Priority = pickingOrder.Priority; 
             Note = pickingOrder.Note; 
-            var list = new List<PickingOrderPositionEntity>();
-            foreach(var e in pickingOrder.OrderPositions) {
-                list.Add(new PickingOrderPositionEntity(e));
-            }
-            Positions = list;
         }
 
         public PickingOrder MapToDataModel() {

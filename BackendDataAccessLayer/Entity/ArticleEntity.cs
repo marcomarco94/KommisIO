@@ -56,7 +56,8 @@ namespace BackendDataAccessLayer.Entity {
         }
 
         public ArticleEntity(Article article) {
-            ArticleId = article.Id;
+            Id = article.Id;
+            ArticleId = article.ArticleNumber;
             Name = article.Name;
             Description = article.Description ?? string.Empty;
             Width = article.Width;

@@ -37,12 +37,10 @@ namespace BackendDataAccessLayer.Entity {
         public DamageReportEntity(DamageReport report) {
             Id = report.Id;
             Note = report.Message;
-            Employee = new EmployeeEntity(report.Employee);
-            Article = new ArticleEntity(report.Article);
         }
 
         public DamageReport MapToDataModel() {
-            return new DamageReport() { Article = Article.MapToDataModel(), Employee = Employee.MapToDataModel(), Id = Id, Message = Note };
+            return new DamageReport() { Article = Article!.MapToDataModel(), Employee = Employee!.MapToDataModel(), Id = Id, Message = Note };
         }
     }
 }

@@ -9,7 +9,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The tech. id of the article.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The number of the article to identify it.

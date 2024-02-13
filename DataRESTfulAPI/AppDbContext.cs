@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataRESTfulAPI {
     public class AppDbContext : DALDbContext{
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
+        }
 
         // Inspired by: https://learn.microsoft.com/en-us/ef/core/modeling/backing-field?tabs=data-annotations
         protected override void OnModelCreating(ModelBuilder modelBuilder) {

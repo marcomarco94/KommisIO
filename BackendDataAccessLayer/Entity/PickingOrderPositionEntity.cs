@@ -40,7 +40,6 @@ namespace BackendDataAccessLayer.Entity {
             Id = position.Id;
             DesiredAmount = position.DesiredAmount;
             PickedAmount = position.PickedAmount;
-            Article = new ArticleEntity(position.Article);
         }
 
         public PickingOrderPosition MapToDataModel() {

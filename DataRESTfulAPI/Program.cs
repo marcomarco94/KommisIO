@@ -5,6 +5,7 @@ using DataRepoCore;
 using DataRESTfulAPI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ else {
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 //End of copy
 
+builder.Services.AddScoped<DALDbContext, AppDbContext>();
+
 builder.ConfigureServices();
 
 var app = builder.Build();
@@ -43,5 +46,34 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//Some test functions >>>>
+
+app.MapGet("/employee", async (IEmployeeRepository repo) => {
+    var res = await repo.GetElementsAsync();
+    return res.Select(e => e.MapToDataModel());
+});
+
+app.MapGet("/article", async (IArticleRepository repo) => {
+    return (await repo.GetElementsAsync()).Select(e => e.MapToDataModel());
+});
+
+app.MapGet("/damagereport", async (IRepository<DamageReportEntity> repo) => {
+    return (await repo.GetElementsAsync()).Select(e => e.MapToDataModel());
+});
+
+app.MapGet("/stockposition", async (IRepository<StockPositionEntity> repo) => {
+    return (await repo.GetElementsAsync()).Select(e => e.MapToDataModel());
+});
+
+app.MapGet("/pickingorder", async (IRepository<PickingOrderEntity> repo) => {
+    return (await repo.GetElementsAsync()).Select(e => e.MapToDataModel());
+});
+
+
+app.MapGet("/reset", async (IDemoDataBuilder builder) => {
+    await builder.BuildDemoDataAsync();
+    return true;
+});
 
 app.Run();
