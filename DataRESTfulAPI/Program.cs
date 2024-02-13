@@ -1,5 +1,6 @@
 using BackendDataAccessLayer;
 using BackendDataAccessLayer.Entity;
+using BackendDataAccessLayer.Repository;
 using DataRepoCore;
 using DataRESTfulAPI;
 using Microsoft.AspNetCore.Identity;
@@ -27,7 +28,7 @@ else {
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
 //End of copy
 
-builder.Services.AddSingleton<IPasswordHasher<EmployeeEntity>, EmployeePasswordHasher>();
+builder.ConfigureServices();
 
 var app = builder.Build();
 

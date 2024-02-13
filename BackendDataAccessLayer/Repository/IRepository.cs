@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -45,5 +46,19 @@ namespace BackendDataAccessLayer.Repository
         /// <param name="element">The element to update</param>
         /// <returns>Returns true if the operation completes successfully.</returns>
         Task<bool> UpdateAsync(T element);
+
+        /// <summary>
+        /// Select entities from the repository.
+        /// </summary>
+        /// <param name="selector">The function that checks if the element should be included.</param>
+        /// <returns>Returns an enumerable containing the selected entries.</returns>
+        Task<IEnumerable<T>> SelectAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
+        /// Count the elments that meet the specified criteria.
+        /// </summary>
+        /// <param name="selector">A function checking if the element should be counted.</param>
+        /// <returns>Returns the amount of elements matching the cretirea.</returns>
+        Task<int> CountAsync(Expression<Func<T, bool>> selector);
     }
 }

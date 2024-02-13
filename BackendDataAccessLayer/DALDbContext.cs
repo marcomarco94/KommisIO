@@ -7,7 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackendDataAccessLayer {
-    public interface IAppDbContext {
+    public abstract class DALDbContext : DbContext{
+        public DALDbContext(DbContextOptions options) : base(options) {
+        }
+
         /// <summary>
         /// All the employees employed.
         /// </summary>
