@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The amount of the article stored at the position.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public required int Amount { get; init; }
 
         /// <summary>

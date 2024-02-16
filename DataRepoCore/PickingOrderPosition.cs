@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,11 +20,13 @@ namespace DataRepoCore {
         /// <summary>
         /// The amount to be picked.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public required int DesiredAmount { get; init; }
 
         /// <summary>
         /// The amount that was already picked.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public required int PickedAmount { get; init; }
     }
 }

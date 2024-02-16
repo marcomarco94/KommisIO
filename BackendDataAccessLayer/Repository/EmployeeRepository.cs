@@ -18,7 +18,8 @@ namespace BackendDataAccessLayer.Repository {
 
         ///<inheritdoc/>
         public async Task<EmployeeEntity?> GetEmployeeByPersonnelNumberAsync(int number) {
-            return await _dbSet.Where(e => e.PersonnelNumber.Equals(number)).FirstAsync();
+            var emp = await _dbSet.Where(e => e.PersonnelNumber == number).FirstOrDefaultAsync();
+            return emp;
         }
     }
 }

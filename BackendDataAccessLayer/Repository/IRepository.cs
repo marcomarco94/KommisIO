@@ -57,7 +57,7 @@ namespace BackendDataAccessLayer.Repository {
         /// </summary>
         /// <param name="selector">The function that checks if the element should be included.</param>
         /// <returns>Returns an enumerable containing the selected entries.</returns>
-        Task<IEnumerable<T>> SelectAsync(Expression<Func<T, bool>> selector);
+        Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> selector);
 
         /// <summary>
         /// Find the entity from the repository.

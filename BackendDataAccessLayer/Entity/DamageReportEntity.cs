@@ -40,7 +40,7 @@ namespace BackendDataAccessLayer.Entity {
         }
 
         public DamageReport MapToDataModel() {
-            return new DamageReport() { Article = Article!.MapToDataModel(), Employee = Employee!.MapToDataModel(), Id = Id, Message = Note };
+            return new DamageReport() { Article = Article!.MapToDataModel(), Employee = Employee?.MapToDataModel()??null!, Id = Id, Message = Note };
         }
     }
 }

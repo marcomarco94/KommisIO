@@ -28,7 +28,7 @@ namespace BackendDataAccessLayer.Repository {
         }
 
         /// <inheritdoc/>
-        public override async Task<IEnumerable<PickingOrderPositionEntity>> SelectAsync(Expression<Func<PickingOrderPositionEntity, bool>> selector) {
+        public override async Task<IEnumerable<PickingOrderPositionEntity>> WhereAsync(Expression<Func<PickingOrderPositionEntity, bool>> selector) {
             return await _dbSet.Include(d => d.Article).Where(selector).ToListAsync();
         }
     }

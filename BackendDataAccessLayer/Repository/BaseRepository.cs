@@ -56,7 +56,7 @@ namespace BackendDataAccessLayer.Repository {
         }
 
         ///<inheritdoc/>
-        public virtual async Task<IEnumerable<T>> SelectAsync(Expression<Func<T, bool>> selector) {
+        public virtual async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> selector) {
             return await _dbSet.Where(selector).ToListAsync();
         }
 
