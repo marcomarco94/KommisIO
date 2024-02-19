@@ -1,2 +1,5 @@
 ﻿global using MauiClientLibrary.ViewModels;
-global using LocalizationsLibrary.Localizations;
+global using DataRepoCore;
+global using MauiClient.Views;
+global using MauiClientLibrary.Services;
+global using MauiClientLibrary.Storages;

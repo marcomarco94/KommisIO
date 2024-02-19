@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:LocalizationsLibrary.Localizations;assembly=LocalizationsLibrary"
+             xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
+             x:DataType="viewmodel:CurrentUserViewModel"
+             x:Class="MauiClient.Views.CurrentUserPage"
+             Title="Akueller Benutzer">
+
+    <ScrollView>
+            <VerticalStackLayout 
+                VerticalOptions="Center">
+                <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Large" />
+                <Label Text="{Binding CurrentUser.FirstName}" FontSize="Large" />
+                <Label Text="{Binding CurrentUser.LastName}" FontSize="Large" />
+                <Label Text="{Binding CurrentUser.Role}" FontSize="Large" />
+            </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

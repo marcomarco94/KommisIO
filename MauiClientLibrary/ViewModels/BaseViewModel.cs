@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel;
+
 namespace MauiClientLibrary.ViewModels;
 public partial class BaseViewModel : ObservableValidator
 { 
@@ -31,4 +33,8 @@ public partial class BaseViewModel : ObservableValidator
     
     public bool IsNotBusy => !IsBusy;
     public bool IsEnabled => IsNotBusy && IsConnected;
+
+    [ObservableProperty] 
+    bool _isLoggedIn;
+    public bool IsLoggedOut => !IsLoggedIn;
 }

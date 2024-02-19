@@ -4,10 +4,14 @@ namespace MauiClient
 {
     public partial class AppShell : Shell
     {
-        public AppShell()
+        public AppShell(NavBarViewModel navBarViewModel)
         {
             InitializeComponent();
+            BindingContext = navBarViewModel;
+            
             Routing.RegisterRoute(nameof(MainMenuPage), typeof(MainMenuPage));
+            Routing.RegisterRoute(nameof(CurrentUserPage), typeof(CurrentUserPage));
+            Routing.RegisterRoute(nameof(UnderConstructionPage), typeof(UnderConstructionPage));
         }
     }
 }

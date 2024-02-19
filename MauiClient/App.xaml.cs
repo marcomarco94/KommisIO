@@ -3,10 +3,11 @@ namespace MauiClient
 {
     public partial class App : Application
     {
-        public App()
+        public App(NavBarViewModel navBarViewModel)
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            
+            MainPage = new AppShell(navBarViewModel);
         }
     }
 }

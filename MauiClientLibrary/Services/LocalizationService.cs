@@ -1,21 +1,20 @@
-﻿namespace MauiClientLibrary.Services
+﻿using System.Resources;
+using System.Globalization;
+using System.Reflection;
+
+namespace MauiClientLibrary.Services;
+
+public class LocalizationService : ILocalizationService
 {
-    using System.Resources;
-    using System.Globalization;
-    using System.Reflection;
+    private readonly ResourceManager _resourceManager;
 
-    public class LocalizationService : ILocalizationService
+    public LocalizationService()
     {
-        private readonly ResourceManager _resourceManager;
+        _resourceManager = new ResourceManager("LocalizationsLibrary.Localizations.AppResources", Assembly.Load("LocalizationsLibrary"));
+    }
 
-        public LocalizationService()
-        {
-            _resourceManager = new ResourceManager("LocalizationsLibrary.Localizations.AppResources", Assembly.Load("LocalizationsLibrary"));
-        }
-
-        public string GetResourceValue(string key)
-        {
-            return _resourceManager.GetString(key, CultureInfo.CurrentCulture);
-        }
+    public string GetResourceValue(string key)
+    {
+        return _resourceManager.GetString(key, CultureInfo.CurrentCulture);
     }
 }

@@ -6,12 +6,12 @@ public partial class LoginViewModel : BaseViewModel
     private readonly IKommissIOAPI _kommissIoApi;
     private readonly ILocalizationService _localizationService;
     
-    public LoginViewModel( IKommissIOAPI kommissIoApi, ILocalizationService localizationService)
+    public LoginViewModel(IKommissIOAPI kommissIoApi, ILocalizationService localizationService)
     {
         _localizationService = localizationService;
         _kommissIoApi = kommissIoApi;
     }
-
+    
     [Required]
     [Range(0, 9999)]
     [ObservableProperty]
@@ -38,6 +38,16 @@ public partial class LoginViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task LogOutAsync()
+    {
+            PersonnelNumber = string.Empty;
+            Password = string.Empty;
+            IsPersonnelNumberValid = false;
+            IsPasswordValid = false;
+             _kommissIoApi.CurrentEmployee = null;
+    }
+    
+    [RelayCommand]
     private async Task LoginAsync()
     {
         ValidateAllProperties();
@@ -54,13 +64,9 @@ public partial class LoginViewModel : BaseViewModel
         short personnelNumberParsed = 0;
         bool canParse = short.TryParse(PersonnelNumber, out personnelNumberParsed);
         var currentEmployee = await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
-        if (currentEmployee.HasValue)
+        if (_kommissIoApi.CurrentEmployee != null)
         {
-            await Shell.Current.GoToAsync("MainMenuPage", true,
-                new Dictionary<string, object>
-                {
-                   { "currentEmployee", currentEmployee },
-                });
+            await Shell.Current.GoToAsync("MainMenuPage", true);
         }
         else 
         {

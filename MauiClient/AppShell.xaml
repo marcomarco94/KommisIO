@@ -4,12 +4,21 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:view="clr-namespace:MauiClient.Views"
+    x:DataType="viewmodel:NavBarViewModel"
+    xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
+    
     Shell.FlyoutBehavior="Disabled"
     Title="MauiClient">
-
+    <Shell.BackgroundColor>LightBlue</Shell.BackgroundColor>
+    <Shell.ToolbarItems>
+        <ToolbarItem
+            IconImageSource="info.png"
+            Command="{Binding ShowUserPageCommand}" />
+    
+    </Shell.ToolbarItems>
+    
     <ShellContent
         ContentTemplate="{DataTemplate view:LoginPage}"
-        Route="LoginPage"
-        />
-
+        Route="LoginPage">
+    </ShellContent>
 </Shell>
