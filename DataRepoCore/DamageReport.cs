@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 namespace DataRepoCore {
     public record DamageReport {
         /// <summary>
+        /// The id of the damage report.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
         /// The employee who has filed the damage report.
         /// </summary>
         public required Employee Employee { get; init; }

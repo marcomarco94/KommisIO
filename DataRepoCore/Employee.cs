@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 namespace DataRepoCore {
     public record Employee {
         /// <summary>
+        /// The tech. id of the employee.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
         /// The first name of the employee
         /// </summary>
         public required string FirstName { get; init; }

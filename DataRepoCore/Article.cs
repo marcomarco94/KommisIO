@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 namespace DataRepoCore {
     public record Article {
         /// <summary>
+        /// The tech. id of the article.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
         /// The number of the article to identify it.
         /// </summary>
         public required int ArticleNumber { get; init; }
@@ -24,21 +29,21 @@ namespace DataRepoCore {
         /// <summary>
         /// The width of the article in [mm]
         /// </summary>
-        public float? Width { get; init; }
+        public float Width { get; init; }
 
         /// <summary>
         /// The length of the article in [mm]
         /// </summary>
-        public float? Length { get; init; }
+        public float Length { get; init; }
 
         /// <summary>
         /// The height of the article in [mm]
         /// </summary>
-        public float? Height { get; init; }
+        public float Height { get; init; }
 
         /// <summary>
         /// The weight of the article in [g]
         /// </summary>
-        public float? Weight { get; init; }
+        public float Weight { get; init; }
     }
 }

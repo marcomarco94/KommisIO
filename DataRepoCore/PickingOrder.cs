@@ -9,12 +9,12 @@ namespace DataRepoCore {
         /// <summary>
         /// The id of the picking order.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The priority of the order.
         /// </summary>
-        public required int Priority { get; init; }
+        public required byte Priority { get; init; }
 
         /// <summary>
         /// A note for the picking-order, special instructions, etc?

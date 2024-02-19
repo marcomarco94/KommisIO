@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataRepoCore {
+namespace BackendDataAccessLayer.Repository {
     /// <summary>
     /// The interfaces used for all repositories in the project.
     /// </summary>
@@ -31,6 +32,13 @@ namespace DataRepoCore {
         Task<bool> InsertAsync(T element);
 
         /// <summary>
+        /// Insert elements into the repository.
+        /// </summary>
+        /// <param name="elements">The elements to insert.</param>
+        /// <returns>Returns true if the operation completes successfully.</returns>
+        Task<bool> InsertRangeAsync(IEnumerable<T> elements);
+
+        /// <summary>
         /// Delete an element using its id.
         /// </summary>
         /// <param name="id">The id of the element to remove from the repository.</param>
@@ -43,5 +51,32 @@ namespace DataRepoCore {
         /// <param name="element">The element to update</param>
         /// <returns>Returns true if the operation completes successfully.</returns>
         Task<bool> UpdateAsync(T element);
+
+        /// <summary>
+        /// Select entities from the repository.
+        /// </summary>
+        /// <param name="selector">The function that checks if the element should be included.</param>
+        /// <returns>Returns an enumerable containing the selected entries.</returns>
+        Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
+        /// Find the entity from the repository.
+        /// </summary>
+        /// <param name="selector">The function that checks if the element should be selected.</param>
+        /// <returns>Returns the found element, first.</returns>
+        Task<T?> FindAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
+        /// Count the elments that meet the specified criteria.
+        /// </summary>
+        /// <param name="selector">A function checking if the element should be counted.</param>
+        /// <returns>Returns the amount of elements matching the cretirea.</returns>
+        Task<int> CountAsync(Expression<Func<T, bool>> selector);
+
+        /// <summary>
+        /// Reset the data to some default data.
+        /// </summary>
+        /// <returns>Returns true if successful</returns>
+        Task<bool> ResetAsync();
     }
 }

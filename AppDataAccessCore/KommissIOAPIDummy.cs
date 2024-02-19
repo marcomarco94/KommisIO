@@ -145,22 +145,22 @@ namespace DataRepoCore {
         protected async Task<bool> RestWithoutAuthAsync() {
             await locker.WaitAsync();
             employees = new List<(Employee employee, string password)>(){
-                (employee: new Employee(){ FirstName="Admin", LastName="Musteradmin", PersonnelNumber=1,
+                (employee: new Employee(){Id=0, FirstName="Admin", LastName="Musteradmin", PersonnelNumber=1,
                     Role=Role.Administrator }, password: "admin"),
-                (employee: new Employee(){ FirstName="Employee", LastName="Musteremployee", PersonnelNumber=2,
+                (employee: new Employee(){Id=1, FirstName="Employee", LastName="Musteremployee", PersonnelNumber=2,
                     Role=Role.Employee}, password: "employee"),
-                (employee: new Employee(){ FirstName="Manager", LastName="Mustermanager", PersonnelNumber=3,
+                (employee: new Employee(){Id=2, FirstName="Manager", LastName="Mustermanager", PersonnelNumber=3,
                     Role=Role.Manager}, password: "manager"),
-                (employee: new Employee(){ FirstName="God", LastName="OP", PersonnelNumber=4,
+                (employee: new Employee(){Id=3, FirstName="God", LastName="OP", PersonnelNumber=4,
                     Role=Role.Manager | Role.Administrator | Role.Employee}, password: "god")
             };
 
             articles = new List<Article>() {
-                new Article(){Name="Article A", ArticleNumber=1, Description="This is the first article.", Height=100, Length=100, Width=100, Weight=1000},
-                new Article(){Name="Article B", ArticleNumber=2, Description="This is the second article.", Height=345, Length=134, Width=32, Weight=245},
-                new Article(){Name="Article C", ArticleNumber=3, Description="This is the third article.", Height=1234, Length=32, Width=6546, Weight=4678},
-                new Article(){Name="Article D", ArticleNumber=4, Description="This is the fourth article.", Height=345, Length=234, Width=354, Weight=567},
-                new Article(){Name="Article E", ArticleNumber=5, Description="This is the fivth article.", Height=456, Length=123, Width=234, Weight=434}
+                new Article(){Id=0, Name="Article A", ArticleNumber=1, Description="This is the first article.", Height=100, Length=100, Width=100, Weight=1000},
+                new Article(){Id=1,Name="Article B", ArticleNumber=2, Description="This is the second article.", Height=345, Length=134, Width=32, Weight=245},
+                new Article(){Id=2,Name="Article C", ArticleNumber=3, Description="This is the third article.", Height=1234, Length=32, Width=6546, Weight=4678},
+                new Article(){Id=3,Name="Article D", ArticleNumber=4, Description="This is the fourth article.", Height=345, Length=234, Width=354, Weight=567},
+                new Article(){Id=4,Name="Article E", ArticleNumber=5, Description="This is the fivth article.", Height=456, Length=123, Width=234, Weight=434}
             };
 
 
@@ -187,8 +187,8 @@ namespace DataRepoCore {
             };
 
             damageReports = new List<DamageReport>() {
-                new DamageReport(){Article=articles[0], Employee=employees[1].employee, Message="This article has been damaged."},
-                new DamageReport(){Article=articles[3], Employee=employees[2].employee, Message="This article has been damaged."}
+                new DamageReport(){Id=0,Article=articles[0], Employee=employees[1].employee, Message="This article has been damaged."},
+                new DamageReport(){Id=1,Article=articles[3], Employee=employees[2].employee, Message="This article has been damaged."}
             };
 
 

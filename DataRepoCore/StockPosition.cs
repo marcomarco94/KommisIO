@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The id of the stock-position.
         /// </summary>
-        public required int Id { get; init; }
+        public int Id { get; init; }
 
         /// <summary>
         /// The article stored at the stock-position
@@ -19,6 +20,7 @@ namespace DataRepoCore {
         /// <summary>
         /// The amount of the article stored at the position.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public required int Amount { get; init; }
 
         /// <summary>
