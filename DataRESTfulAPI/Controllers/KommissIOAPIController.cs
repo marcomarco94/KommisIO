@@ -14,8 +14,8 @@ namespace DataRESTfulAPI.Controllers {
     [ApiController]
     [Route("/api")]
     [Authorize]
-    public class KommissIOAPIControler : ControllerBase {
-        private readonly ILogger<KommissIOAPIControler> _logger;
+    public class KommissIOAPIController : ControllerBase {
+        private readonly ILogger<KommissIOAPIController> _logger;
         private readonly IDemoDataBuilder _demoDataBuilder;
         private readonly IPasswordHasher<EmployeeEntity> _passwordHasher;
         private readonly IRepository<PickingOrderEntity> _pickingOrderRepository;
@@ -26,7 +26,7 @@ namespace DataRESTfulAPI.Controllers {
         private readonly IRepository<PickingOrderPositionEntity> _pickingOrderPositionRepository;
         private readonly IConfiguration _configuration;
 
-        public KommissIOAPIControler(ILogger<KommissIOAPIControler> logger, IDemoDataBuilder demoDataBuilder,
+        public KommissIOAPIController(ILogger<KommissIOAPIController> logger, IDemoDataBuilder demoDataBuilder,
             IRepository<PickingOrderEntity> pickingOrderRepository, IRepository<PickingOrderPositionEntity> pickingOrderPositionRepository,
             IRepository<StockPositionEntity> stockPostitionRepository, IRepository<DamageReportEntity> damageReportRepository,
             IArticleRepository articleRepository, IEmployeeRepository employeeRepository, IPasswordHasher<EmployeeEntity> passwordHasher,
