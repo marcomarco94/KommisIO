@@ -8,5 +8,10 @@ namespace MauiClient.Views
             InitializeComponent();
             BindingContext = viewModel;
         }
+        
+        protected override void OnNavigatedTo(NavigatedToEventArgs args)
+        {
+            (BindingContext as LoginViewModel)?.LogOutCommand.Execute(null);
+        }
     }
 }

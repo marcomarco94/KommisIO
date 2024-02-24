@@ -47,7 +47,14 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185" />
+		<MauiImage Update="Resources\Images\incoming_goods.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\outgoing_goods.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\settings.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\order_picking.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\storage.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\inventory.png" Resize="True" BaseSize="80,80" />
+		<MauiImage Update="Resources\Images\info.png" Resize="True" BaseSize="40,40" />
+		
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -90,6 +97,19 @@
 	    <DependentUpon>MainMenuPage.xaml</DependentUpon>
 	    <SubType>Code</SubType>
 	  </Compile>
+	  <Compile Update="Views\CurrentUserPage.xaml.cs">
+	    <DependentUpon>CurrentUserPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
+	  <Compile Update="Views\UnderConstructionPage\.xaml.cs">
+	    <DependentUpon>.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	    <Link>Views\.xaml.cs</Link>
+	  </Compile>
+	  <Compile Update="Views\UnderConstructionPage.xaml.cs">
+	    <DependentUpon>UnderConstructionPage.xaml</DependentUpon>
+	    <SubType>Code</SubType>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -101,6 +121,16 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Views\MainMenuPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CurrentUserPage.xaml">
+	    <SubType>Designer</SubType>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UnderConstructionPage\.xaml">
+	    <SubType>Designer</SubType>
+	    <Link>Views\.xaml</Link>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UnderConstructionPage.xaml">
 	    <SubType>Designer</SubType>
 	  </MauiXaml>
 	</ItemGroup>

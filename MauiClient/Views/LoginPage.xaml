@@ -5,7 +5,10 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:LoginViewModel"
-             x:Class="MauiClient.Views.LoginPage">
+             x:Class="MauiClient.Views.LoginPage"
+             HideSoftInputOnTapped="True"
+             Shell.NavBarIsVisible="False"
+             >
 
     <ScrollView>
         <VerticalStackLayout
@@ -71,6 +74,7 @@
             <Button Text="{x:Static lang:AppResources.Login}" 
                     IsEnabled="{Binding IsEnabled}"
                     Command="{Binding LoginCommand}"
+                    
             />
 
         </VerticalStackLayout>
