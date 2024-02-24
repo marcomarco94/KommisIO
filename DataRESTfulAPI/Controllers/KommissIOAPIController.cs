@@ -55,7 +55,7 @@ namespace DataRESTfulAPI.Controllers {
         /// </summary>
         /// <param name="personnelNumber">The number identifying the employee.</param>
         /// <returns>Returns the employee if the personnel number exists, otherwise null.</returns>
-        [Route("identify/{personnelNumber}")]
+        [Route("identity/{personnelNumber}")]
         [HttpGet]
         [Authorize(Roles = nameof(Role.Administrator))]
         public async Task<Employee?> IdentifyEmployeeAysnc(short personnelNumber) {
@@ -85,6 +85,17 @@ namespace DataRESTfulAPI.Controllers {
             var token = GenerateNewJsonWebToken(authClaims);
 
             return Ok(token);
+        }
+
+        /// <summary>
+        /// Get the identity of the user that is identified and authroized.
+        /// </summary>
+        /// <returns>Returns the employee that is identified and authroized.</returns>
+        [Route("identity")]
+        [HttpGet]
+        [Authorize]
+        public async Task<Employee?> GetIdentity() {
+            return (await GetCurrentEmployeeAsync())?.MapToDataModel();
         }
 
         //Inspired by by Dev Empower (2023): https://www.youtube.com/watch?v=KRVjIgr-WOU 1:15:19
