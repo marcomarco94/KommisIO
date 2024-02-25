@@ -105,7 +105,7 @@ namespace DataRESTfulAPI.Controllers {
                     throw new NullReferenceException("Unable to find configured secret.")));
 #else
             var authSecret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("KommissIOJWTSecret") ??
-                                throw new NullReferenceException("Unable to find configured secret.")))
+                                throw new NullReferenceException("Unable to find configured secret.")));
 #endif
 
             var tokenObject = new JwtSecurityToken(
@@ -200,7 +200,7 @@ namespace DataRESTfulAPI.Controllers {
         /// Get all picking orders, even those which are allready assigned to an employee or completed. (role: manager, administrator)
         /// </summary>
         /// <returns>Return an enumerable of all picking-orders.</returns>
-        [Route("pickingorder")]
+        [Route("pickingorder/all")]
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Administrator)}, {nameof(Role.Manager)}")]
         public async Task<IEnumerable<PickingOrder>> GetPickingOrdersAsync() {
@@ -263,13 +263,13 @@ namespace DataRESTfulAPI.Controllers {
         [Route("report/damage/fileReport")]
         [HttpPost]
         [Authorize(Roles = nameof(Role.Employee))]
-        public async Task<bool> ReportDamagedArticleAsync(int articleNumber, string message) {
-            var article = await _articleRepository.GetArticleByArticleNumberAsync(articleNumber);
+        public async Task<bool> ReportDamagedArticleAsync(DamageReport report) {
+            var article = await _articleRepository.GetArticleByArticleNumberAsync(report.Article.Id);
 
             if (article is null)
                 return false;
 
-            var dmgReport = new DamageReportEntity(0, message);
+            var dmgReport = new DamageReportEntity(0, report.Message);
 
             dmgReport.Employee = await GetCurrentEmployeeAsync();
             dmgReport.Article = article;

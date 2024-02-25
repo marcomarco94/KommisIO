@@ -6,6 +6,9 @@ using DataRESTfulAPI;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,19 +17,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
 //Copied from https://learn.microsoft.com/de-at/azure/azure-sql/database/azure-sql-dotnet-entity-framework-core-quickstart?view=azuresql&tabs=visual-studio%2Cservice-connector%2Cportal
 var connection = String.Empty;
+builder.Configuration.AddEnvironmentVariables();
 if (builder.Environment.IsDevelopment()) {
     builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
-    connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
-}
-else {
-    connection = Environment.GetEnvironmentVariable("AZURE_SQL_CONNECTIONSTRING");
 }
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection));
+connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection, builder => {
+    builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+}));
 //End of copy
 
 builder.Services.AddScoped<DALDbContext, AppDbContext>();
