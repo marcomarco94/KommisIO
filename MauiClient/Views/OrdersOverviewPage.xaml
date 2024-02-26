@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:LocalizationsLibrary.Localizations;assembly=LocalizationsLibrary"
+             xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
+             x:DataType="viewmodel:OrdersOverviewViewModel"
+             x:Class="MauiClient.Views.OrdersOverviewPage"
+             xmlns:model="clr-namespace:DataRepoCore;assembly=DataRepoCore"
+             xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             HideSoftInputOnTapped="True"
+             Title="Übersicht Kommissionieraufträge">
+    
+    <Grid
+        ColumnDefinitions="* ,*"
+        RowDefinitions="Auto, Auto, *, 20, Auto" >
+        
+        <Button 
+            Grid.Row="0"
+            Grid.Column="0"
+            Margin="5"
+            Text="Picking Orders" 
+            Command="{Binding LoadPickingOrdersCommand}"
+            CommandParameter="{x:Static System:Boolean.TrueString}"
+            IsEnabled="{Binding IsEnabled}"/>
+        
+        <Button 
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="5"
+            Text="Orders in Progress" 
+            Command="{Binding LoadPickingOrdersCommand}" 
+            CommandParameter="{x:Static System:Boolean.FalseString}"
+            IsEnabled="{Binding IsEnabled}" />
+        
+        <SearchBar
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Placeholder="Auftrags Id"
+            Text="{Binding SearchText}"
+            SearchCommand="{Binding ValidateBarcodeCommand}"
+            IsEnabled="{Binding IsEnabled}">
+                <SearchBar.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GetBarcodeByScanCommand}" />
+                </SearchBar.GestureRecognizers>
+        </SearchBar>
+
+        <StackLayout
+            Grid.Row="2"
+            Grid.ColumnSpan="2">
+            <RefreshView 
+                Command="{Binding LoadPickingOrdersCommand}" 
+                IsRefreshing="{Binding IsNotEnabled}">
+                <ListView 
+                    ItemsSource="{Binding PickingOrders}" 
+                    HasUnevenRows="True" 
+                    SelectionMode="Single"
+                    SelectedItem="">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:PickingOrder">
+                            <ViewCell>
+                                <Border
+                                    Padding="15" 
+                                    Margin="5"   >
+                                    <StackLayout 
+                                        Orientation="Vertical" >
+                                        <Grid 
+                                            ColumnDefinitions="*,*">
+                                            <StackLayout 
+                                                Grid.Column="0"
+                                                Orientation="Horizontal" >
+                                                <Label 
+                                                    Text="Order Id: " 
+                                                    FontSize="Small" />
+                                                <Label 
+                                                    Text="{Binding Id}" 
+                                                    FontSize="Small" />
+                                            </StackLayout>
+                                                <StackLayout 
+                                                    Grid.Column="1"
+                                                    Orientation="Horizontal" >
+                                                    <Label 
+                                                        Text="Priorität: " 
+                                                        FontSize="Small"  />
+                                                    <Label 
+                                                        Text="{Binding Priority}"
+                                                        FontSize="Small" />
+                                                </StackLayout>
+                                        </Grid>
+                                        <StackLayout 
+                                            Orientation="Horizontal">
+                                            <Label 
+                                                Text="Notiz: "
+                                                FontSize="Small"  />
+                                            <Label 
+                                                Text="{Binding Note}" 
+                                                FontSize="Small" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Border>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </RefreshView>
+        </StackLayout>
+        
+
+        <Button 
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            MaximumHeightRequest="70"
+            Margin="5"
+            Text="Auftrag bearbeiten" 
+            Command="{Binding LoadPickingOrdersCommand}" 
+            IsEnabled="{Binding IsEnabled}" />
+        
+        <ActivityIndicator
+            IsRunning="{Binding IsNotEnabled}"
+            IsVisible="{Binding IsNotEnabled}"
+            Color="{StaticResource Primary}" />
+    </Grid>
+</ContentPage>
