@@ -106,14 +106,15 @@ namespace BackendDataAccessLayer {
 
         /// <inheritdoc/>
         public async Task<bool> BuildDemoDataAsync() {
+            bool success = true;
 
             //Remove the current data.
-            await _pickingOrderPositionRepository.ResetAsync();
-            await _pickingOrderRepository.ResetAsync();
-            await _damageReportRepository.ResetAsync();
-            await _stockPositonRepository.ResetAsync();
-            await _articleRepository.ResetAsync();
-            await _employeeRepository.ResetAsync();
+            success &= await _pickingOrderPositionRepository.ResetAsync();
+            success &= await _pickingOrderRepository.ResetAsync();
+            success &= await _damageReportRepository.ResetAsync();
+            success &= await _stockPositonRepository.ResetAsync();
+            success &= await _articleRepository.ResetAsync();
+            success &= await _employeeRepository.ResetAsync();
 
             //Convert the data to entities.
 
@@ -124,7 +125,7 @@ namespace BackendDataAccessLayer {
                 entityEmployees.Add(entity);
             }
 
-            await _employeeRepository.InsertRangeAsync(entityEmployees);
+            success &= await _employeeRepository.InsertRangeAsync(entityEmployees);
 
             var entityArticles = new List<ArticleEntity>();
             foreach (var article in articles) {
@@ -132,7 +133,7 @@ namespace BackendDataAccessLayer {
                 entityArticles.Add(entity);
             }
 
-            await _articleRepository.InsertRangeAsync(entityArticles);
+            success &= await _articleRepository.InsertRangeAsync(entityArticles);
 
             var entityStockPositons = new List<StockPositionEntity>();
             foreach (var stockPosition in stockPositions) {
@@ -141,7 +142,7 @@ namespace BackendDataAccessLayer {
                 entityStockPositons.Add(entity);
             }
 
-            await _stockPositonRepository.InsertRangeAsync(entityStockPositons);
+            success &= await _stockPositonRepository.InsertRangeAsync(entityStockPositons);
 
 
             var entityDamageReports = new List<DamageReportEntity>();
@@ -152,7 +153,7 @@ namespace BackendDataAccessLayer {
                 entityDamageReports.Add(entity);
             }
 
-            await _damageReportRepository.InsertRangeAsync(entityDamageReports);
+            success &= await _damageReportRepository.InsertRangeAsync(entityDamageReports);
 
             var entityPickingOrders = new List<PickingOrderEntity>();
             var entityPickingOrderPositions = new List<PickingOrderPositionEntity>();
@@ -173,10 +174,10 @@ namespace BackendDataAccessLayer {
                 entityPickingOrders.Add(entity);
             }
 
-            await _pickingOrderPositionRepository.InsertRangeAsync(entityPickingOrderPositions);
-            await _pickingOrderRepository.InsertRangeAsync(entityPickingOrders);
+            success &= await _pickingOrderPositionRepository.InsertRangeAsync(entityPickingOrderPositions);
+            success &= await _pickingOrderRepository.InsertRangeAsync(entityPickingOrders);
 
-            return false;
+            return success;
         }
     }
 }
