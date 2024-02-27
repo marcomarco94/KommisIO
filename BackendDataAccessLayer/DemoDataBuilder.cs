@@ -13,23 +13,11 @@ using System.Threading.Tasks;
 namespace BackendDataAccessLayer {
     public class DemoDataBuilder : IDemoDataBuilder {
         protected IPasswordHasher<EmployeeEntity> _passwordHasher;
-        protected IEmployeeRepository _employeeRepository;
-        protected IArticleRepository _articleRepository;
-        protected IRepository<StockPositionEntity> _stockPositonRepository;
-        protected IRepository<PickingOrderEntity> _pickingOrderRepository;
-        protected IRepository<PickingOrderPositionEntity> _pickingOrderPositionRepository;
-        protected IRepository<DamageReportEntity> _damageReportRepository;
+        private readonly IKommissIOUnitOfWork _unitOfWork;
 
-        public DemoDataBuilder(IEmployeeRepository employeeRepository, IPasswordHasher<EmployeeEntity> hasher, IArticleRepository articleRepository,
-            IRepository<StockPositionEntity> stockPositonRepository, IRepository<PickingOrderEntity> pickingOrderRepository, IRepository<PickingOrderPositionEntity> pickingOrderPositionRepository,
-            IRepository<DamageReportEntity> damageReportRepository) {
+        public DemoDataBuilder(IPasswordHasher<EmployeeEntity> hasher, IKommissIOUnitOfWork unitOfWork) {
             _passwordHasher = hasher;
-            _employeeRepository = employeeRepository;
-            _articleRepository = articleRepository;
-            _damageReportRepository = damageReportRepository;
-            _pickingOrderPositionRepository = pickingOrderPositionRepository;
-            _pickingOrderRepository = pickingOrderRepository;
-            _stockPositonRepository = stockPositonRepository;
+            _unitOfWork = unitOfWork;
         }
 
         protected static List<Article> articles = new List<Article>() {
@@ -106,15 +94,13 @@ namespace BackendDataAccessLayer {
 
         /// <inheritdoc/>
         public async Task<bool> BuildDemoDataAsync() {
-            bool success = true;
-
             //Remove the current data.
-            success &= await _pickingOrderPositionRepository.ResetAsync();
-            success &= await _pickingOrderRepository.ResetAsync();
-            success &= await _damageReportRepository.ResetAsync();
-            success &= await _stockPositonRepository.ResetAsync();
-            success &= await _articleRepository.ResetAsync();
-            success &= await _employeeRepository.ResetAsync();
+            await _unitOfWork.PickingOrderPositionRepository.ResetAsync();
+            await _unitOfWork.PickingOrderRepository.ResetAsync();
+            await _unitOfWork.DamageReportRepository.ResetAsync();
+            await _unitOfWork.StockPositionRepository.ResetAsync();
+            await _unitOfWork.ArticleRepository.ResetAsync();
+            await _unitOfWork.EmployeeRepository.ResetAsync();
 
             //Convert the data to entities.
 
@@ -125,7 +111,7 @@ namespace BackendDataAccessLayer {
                 entityEmployees.Add(entity);
             }
 
-            success &= await _employeeRepository.InsertRangeAsync(entityEmployees);
+            await _unitOfWork.EmployeeRepository.InsertRangeAsync(entityEmployees);
 
             var entityArticles = new List<ArticleEntity>();
             foreach (var article in articles) {
@@ -133,40 +119,39 @@ namespace BackendDataAccessLayer {
                 entityArticles.Add(entity);
             }
 
-            success &= await _articleRepository.InsertRangeAsync(entityArticles);
+            await _unitOfWork.ArticleRepository.InsertRangeAsync(entityArticles);
 
             var entityStockPositons = new List<StockPositionEntity>();
             foreach (var stockPosition in stockPositions) {
                 var entity = new StockPositionEntity(stockPosition);
-                entity.Article = await _articleRepository.FindAsync(a => a.ArticleId.Equals(stockPosition.Article.ArticleNumber));
+                entity.Article = entityArticles.First(a => a.ArticleId.Equals(stockPosition.Article.ArticleNumber));
                 entityStockPositons.Add(entity);
             }
 
-            success &= await _stockPositonRepository.InsertRangeAsync(entityStockPositons);
-
+            await _unitOfWork.StockPositionRepository.InsertRangeAsync(entityStockPositons);
 
             var entityDamageReports = new List<DamageReportEntity>();
             foreach (var damageReport in damageReports) {
                 var entity = new DamageReportEntity(damageReport);
-                entity.Article = await _articleRepository.FindAsync(entity => entity.ArticleId.Equals(damageReport.Article.ArticleNumber));
-                entity.Employee = await _employeeRepository.FindAsync(entity => entity.PersonnelNumber.Equals(damageReport.Employee.PersonnelNumber));
+                entity.Article = entityArticles.First(entity => entity.ArticleId.Equals(damageReport.Article.ArticleNumber));
+                entity.Employee = entityEmployees.First(entity => entity.PersonnelNumber.Equals(damageReport.Employee.PersonnelNumber));
                 entityDamageReports.Add(entity);
             }
 
-            success &= await _damageReportRepository.InsertRangeAsync(entityDamageReports);
+            await _unitOfWork.DamageReportRepository.InsertRangeAsync(entityDamageReports);
 
             var entityPickingOrders = new List<PickingOrderEntity>();
             var entityPickingOrderPositions = new List<PickingOrderPositionEntity>();
             foreach (var pickingOrder in pickingOrders) {
                 var entity = new PickingOrderEntity(pickingOrder);
                 if (pickingOrder.Assignee is not null)
-                    entity.Employee = await _employeeRepository.FindAsync(e => e.PersonnelNumber.Equals(pickingOrder.Assignee.PersonnelNumber));
+                    entity.Employee = entityEmployees.First(e => e.PersonnelNumber.Equals(pickingOrder.Assignee.PersonnelNumber));
                 var positions = new List<PickingOrderPositionEntity>();
                 entity.Positions = positions;
 
                 foreach (var position in pickingOrder.OrderPositions) {
                     var entity1 = new PickingOrderPositionEntity(position);
-                    entity1.Article = await _articleRepository.FindAsync(a => a.ArticleId.Equals(position.Article.ArticleNumber));
+                    entity1.Article = entityArticles.First(a => a.ArticleId.Equals(position.Article.ArticleNumber));
                     entityPickingOrderPositions.Add(entity1);
                     entity.Positions.Add(entity1);
                 }
@@ -174,10 +159,11 @@ namespace BackendDataAccessLayer {
                 entityPickingOrders.Add(entity);
             }
 
-            success &= await _pickingOrderPositionRepository.InsertRangeAsync(entityPickingOrderPositions);
-            success &= await _pickingOrderRepository.InsertRangeAsync(entityPickingOrders);
+            await _unitOfWork.PickingOrderPositionRepository.InsertRangeAsync(entityPickingOrderPositions);
+            await _unitOfWork.PickingOrderRepository.InsertRangeAsync(entityPickingOrders);
+            await _unitOfWork.CommitAsync();
 
-            return success;
+            return true;
         }
     }
 }

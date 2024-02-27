@@ -18,12 +18,11 @@ namespace BackendDataAccessLayer.Repository {
         }
 
         ///<inheritdoc/>
-        public virtual async Task<bool> DeleteAsync(int id) {
+        public virtual async Task DeleteAsync(int id) {
             var element = await _dbSet.FindAsync(id);
             if (element is null)
-                return false;
+                throw new ArgumentException(nameof(element));
             _dbSet.Remove(element);
-            return await _context.SaveChangesAsync() > 0;
         }
 
         ///<inheritdoc/>
@@ -37,22 +36,20 @@ namespace BackendDataAccessLayer.Repository {
         }
 
         ///<inheritdoc/>
-        public virtual async Task<bool> InsertAsync(T element) {
+        public virtual async Task InsertAsync(T element) {
             await _dbSet.AddAsync(element);
-            return await _context.SaveChangesAsync() > 0;
         }
 
         ///<inheritdoc/>
-        public virtual async Task<bool> InsertRangeAsync(IEnumerable<T> elements) {
+        public virtual async Task InsertRangeAsync(IEnumerable<T> elements) {
             foreach (var element in elements)
                 await _dbSet.AddAsync(element);
-            return await _context.SaveChangesAsync() > 0;
         }
 
         ///<inheritdoc/>
-        public async Task<bool> UpdateAsync(T element) {
+        public async Task UpdateAsync(T element) {
             _context.Update(element);
-            return await _context.SaveChangesAsync() > 0;
+            _context.Entry(element).State = EntityState.Modified;
         }
 
         ///<inheritdoc/>
@@ -69,10 +66,8 @@ namespace BackendDataAccessLayer.Repository {
             return await _dbSet.Where(selector).CountAsync();
         }
 
-        public virtual async Task<bool> ResetAsync() {
+        public virtual async Task ResetAsync() {
             _dbSet.RemoveRange(_dbSet);
-            await _context.SaveChangesAsync();
-            return (await CountAsync(a => true)) == 0;
         }
 
         public virtual void Dispose() {

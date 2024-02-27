@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BackendTests {
     public class KommissIOAPITests {
         //Test on your local server, start it and set the uri here.
-        readonly string uri = "https://localhost:7051/api/"; /*"https://kommissio.azurewebsites.net/api/";*/
+        readonly string uri = /*"https://localhost:7051/api/"; "https://kommissio.azurewebsites.net/api/"*/;
 
         [Fact]
         public async Task TestAuthentication() {
