@@ -1,0 +1,209 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiClient.Views.OrderPickingPage"
+             xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
+             x:DataType="viewmodel:OrderPickingViewModel"
+             xmlns:model="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:dataRepoCore="clr-namespace:DataRepoCore;assembly=DataRepoCore"
+             Title="Order Picking">
+    
+    <StackLayout>
+        <RefreshView 
+            Command="{Binding GetOrderPositionsCommand}" 
+            IsRefreshing="{Binding IsNotEnabled}"
+            >
+            <Grid
+                RowDefinitions="Auto,Auto">
+                <Grid
+                    RowDefinitions="Auto,Auto"
+                    ColumnDefinitions="90*,10*">
+                    <SearchBar
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Placeholder="Lagerplatz erfassen"/>
+                    <ImageButton
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5"
+                        HorizontalOptions="End"
+                        Source="qr_code_scan.png"
+                        IsEnabled="{Binding IsEnabled}"/>
+                    <SearchBar
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Placeholder="Artikel erfassen"/>
+                    <ImageButton
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="5"
+                        HorizontalOptions="End"
+                        Source="qr_code_scan.png"/>
+                </Grid>
+
+                <CollectionView 
+                    Grid.Row="2"
+                    ItemsSource="{Binding OrderPositions}" 
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedOrderPosition}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:ArticleStockPositions">
+                            <Frame
+                                InputTransparent="True"
+                                BackgroundColor="LightSteelBlue"
+                                BorderColor="Black"
+                                Padding="10" 
+                                Margin="5"  >
+                            <StackLayout 
+                                Orientation="Vertical" >
+                                <Grid 
+                                    RowSpacing="5"
+                                    ColumnDefinitions="*,*"
+                                    RowDefinitions="*,*,*,*,Auto" >
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="0" 
+                                        Orientation="Horizontal">
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="Artikelnummer: " />
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="{Binding OrderPosition.Article.ArticleNumber}" />
+                                    </StackLayout>
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Grid.Row="0" 
+                                        Orientation="Horizontal">
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="Bezeichnung: " />
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="{Binding OrderPosition.Article.Name}" />
+                                    </StackLayout>
+
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="1" 
+                                        Orientation="Horizontal">
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="Benötigte Menge: "/>
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="{Binding OrderPosition.DesiredAmount}" />
+                                        </StackLayout>
+                                    <StackLayout 
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        Orientation="Horizontal" >
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="Entnommene Menge: " />
+                                        <Label 
+                                            FontAttributes="Bold"
+                                            FontSize="14"
+                                            Text="{Binding OrderPosition.PickedAmount}" />
+                                    </StackLayout>
+                                    <StackLayout 
+                                        Grid.Column="0"
+                                        Grid.Row="2"
+                                        Orientation="Horizontal" >
+                                        <Label 
+                                            FontSize="14"
+                                            Text="Abmessungen (l, b, h) : " />
+                                        <Label>
+                                            <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding OrderPosition.Article.Length}" />
+                                                <Span Text="mm x " />
+                                                <Span Text="{Binding OrderPosition.Article.Width}" />
+                                                <Span Text="mm x " />
+                                                <Span Text="{Binding OrderPosition.Article.Height}" />
+                                                <Span Text="mm" />
+                                                </FormattedString>
+                                        </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+                                    <StackLayout 
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="3" 
+                                        Orientation="Horizontal">
+                                        <Label 
+                                            Text="Beschreibung: " />
+                                        <Label 
+                                            Text="{Binding OrderPosition.Article.Description}" />
+                                    </StackLayout>
+                                    <StackLayout
+                                        Grid.ColumnSpan="2"
+                                        Grid.Row="4">
+                                        <CollectionView 
+                                            ItemsSource="{Binding StockPosition}"
+                                            SelectionMode="Single"
+                                            SelectedItem="{Binding Source={RelativeSource  AncestorType={x:Type viewmodel:OrderPickingViewModel}}, Path=SelectedStockPosition}">
+                                            <CollectionView.ItemTemplate>
+                                                <DataTemplate x:DataType="dataRepoCore:StockPosition">
+                                                    <Frame
+                                                        InputTransparent="True"
+                                                        BorderColor="Black"
+                                                        Padding="10" 
+                                                        Margin="5"  >
+                                                        <StackLayout 
+                                                            Orientation="Vertical" >
+                                                            <Grid 
+                                                                RowSpacing="5"
+                                                                ColumnDefinitions="*,*"
+                                                                RowDefinitions="*, *" >
+                                                                <StackLayout 
+                                                                    Grid.ColumnSpan="2"
+                                                                    Grid.Row="0" 
+                                                                    Orientation="Horizontal">
+                                                                    <Label 
+                                                                        FontAttributes="Bold"
+                                                                        FontSize="14"
+                                                                        Text="Vorhandene Stk.: " />
+                                                                    <Label 
+                                                                        FontAttributes="Bold"
+                                                                        FontSize="14"
+                                                                        Text="{Binding Amount}" />
+                                                                </StackLayout>
+                                                                <StackLayout 
+                                                                    Grid.Column="0"
+                                                                    Grid.Row="1" 
+                                                                    Orientation="Horizontal">
+                                                                    <Label 
+                                                                        FontAttributes="Bold"
+                                                                        FontSize="14"
+                                                                        Text="Lagerplätze: " />
+                                                                    <Label 
+                                                                        FontAttributes="Bold"
+                                                                        FontSize="14"
+                                                                        Text="{Binding ShelfNumber}" />
+                                                                </StackLayout>
+                                                            </Grid>
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </CollectionView.ItemTemplate>
+                                        </CollectionView>
+                                    </StackLayout>
+                                </Grid>
+                            </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </Grid>
+        </RefreshView>
+    </StackLayout>
+</ContentPage>
