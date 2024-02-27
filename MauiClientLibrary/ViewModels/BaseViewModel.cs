@@ -22,6 +22,7 @@ public partial class BaseViewModel : ObservableValidator
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotConnected))]
     [NotifyPropertyChangedFor(nameof(IsEnabled))]
+    [NotifyPropertyChangedFor(nameof(IsNotEnabled))]
     bool _isConnected;
     
     public bool IsNotConnected => !IsConnected;
@@ -29,12 +30,17 @@ public partial class BaseViewModel : ObservableValidator
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsNotBusy))]
     [NotifyPropertyChangedFor(nameof(IsEnabled))]
+    [NotifyPropertyChangedFor(nameof(IsNotEnabled))]
     private bool _isBusy;
     
     public bool IsNotBusy => !IsBusy;
+    
     public bool IsEnabled => IsNotBusy && IsConnected;
+    public bool IsNotEnabled => !IsNotBusy && !IsConnected;
 
     [ObservableProperty] 
     bool _isLoggedIn;
     public bool IsLoggedOut => !IsLoggedIn;
+
+
 }

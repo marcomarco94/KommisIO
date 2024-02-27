@@ -6,4 +6,10 @@ public partial class OrdersOverviewPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        (BindingContext as OrdersOverviewViewModel)?.LoadPickingOrdersCommand.ExecuteAsync("false");
+    }
 }

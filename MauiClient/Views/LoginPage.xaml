@@ -74,7 +74,6 @@
             <Button Text="{x:Static lang:AppResources.Login}" 
                     IsEnabled="{Binding IsEnabled}"
                     Command="{Binding LoginCommand}"
-                    
             />
 
         </VerticalStackLayout>
