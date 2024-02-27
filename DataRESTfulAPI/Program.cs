@@ -26,7 +26,7 @@ if (builder.Environment.IsDevelopment()) {
     builder.Configuration.AddEnvironmentVariables().AddJsonFile("appsettings.Development.json");
 }
 
-connection = builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING");
+connection = builder.Configuration.GetConnectionString("SQL_CONNECTIONSTRING");
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connection, builder => {
     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);

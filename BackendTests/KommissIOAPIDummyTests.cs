@@ -141,24 +141,14 @@ namespace BackendTests {
             IKommissIOAPI rep = new KommissIOAPIDummy();
 
             //Check if auth is required.
-            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.ReportDamagedArticleAsync(new DamageReport() {
-                Id = 0,
-                Article = new Article() { Id = 0, ArticleNumber = 1, Name = "" },
-                Employee = new Employee() { Id = 0, FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
-                Message = ""
-            }));
+            await Assert.ThrowsAsync<UnauthorizedAccessException>(() => rep.ReportDamagedArticleAsync(new Article() { ArticleNumber=0, Name=""}, ""));
 
             var authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
 
             Assert.Equal(2, (await rep.GetArticleDamageReportsAsync())?.Count());
 
             authEmp = await rep.IdentifyAndAuthenticateAysnc(2, "employee");
-            await rep.ReportDamagedArticleAsync(new DamageReport() {
-                Id = 0,
-                Article = new Article() { Id = 0, ArticleNumber = 1, Name = "" },
-                Employee = new Employee() { Id = 0, FirstName = "", LastName = "", PersonnelNumber = 1, Role = Role.Employee },
-                Message = ""
-            });
+            await rep.ReportDamagedArticleAsync(new Article() { ArticleNumber = 0, Name = "" }, "");
 
             authEmp = await rep.IdentifyAndAuthenticateAysnc(3, "manager");
 
