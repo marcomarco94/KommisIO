@@ -5,52 +5,78 @@
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:OrderPickingViewModel"
              xmlns:model="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dataRepoCore="clr-namespace:DataRepoCore;assembly=DataRepoCore"
+             HideSoftInputOnTapped="True"
              Title="Order Picking">
     
     <StackLayout>
         <RefreshView 
             Command="{Binding GetOrderPositionsCommand}" 
-            IsRefreshing="{Binding IsNotEnabled}"
-            >
+            IsRefreshing="{Binding IsNotEnabled}" >
             <Grid
                 RowDefinitions="Auto,Auto">
+                <Frame
+                    Grid.Row="0"
+                    Margin="5"
+                    BorderColor="Black">
                 <Grid
-                    RowDefinitions="Auto,Auto"
+                    RowDefinitions="Auto,Auto,Auto, Auto"
                     ColumnDefinitions="90*,10*">
                     <SearchBar
                         Grid.Row="0"
                         Grid.Column="0"
-                        Placeholder="Lagerplatz erfassen"/>
+                        Placeholder="Lagerplatz erfassen"
+                        Text="{Binding CurrentShelfNumber}"
+                        IsEnabled="{Binding StockPositionEnabled}"/>
                     <ImageButton
                         Grid.Row="0"
                         Grid.Column="1"
                         Margin="5"
                         HorizontalOptions="End"
                         Source="qr_code_scan.png"
-                        IsEnabled="{Binding IsEnabled}"/>
+                        IsEnabled="{Binding StockPositionEnabled}"/>
                     <SearchBar
                         Grid.Column="0"
                         Grid.Row="1"
-                        Placeholder="Artikel erfassen"/>
+                        Placeholder="Artikel erfassen"
+                        Text="{Binding CurrentArticleNumber}"
+                        IsEnabled="{Binding ArticleEnabled}"/>
                     <ImageButton
                         Grid.Column="1"
                         Grid.Row="1"
                         Margin="5"
                         HorizontalOptions="End"
-                        Source="qr_code_scan.png"/>
-                </Grid>
-
+                        Source="qr_code_scan.png"
+                        IsEnabled="{Binding ArticleEnabled}"/>
+                    <SearchBar
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Placeholder="Menge: "
+                        Text="{Binding CurrentAmount}"
+                        IsEnabled="{Binding AmountEnabled}"/>
+                    <ImageButton
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Command="{Binding ClearSearchFrameCommand}"
+                        Margin="5"
+                        HorizontalOptions="End"
+                        Source="clear.png"
+                        IsEnabled="{Binding IsEnabled}"/>
+                        <Button
+                        Grid.Row="3"
+                        Grid.ColumnSpan="2"
+                        Text="Bestellung abschließen"
+                        Command="{Binding PickOrderCommand}"
+                        IsEnabled="{Binding IsEnabled}"/>
+                    </Grid>
+                </Frame>
                 <CollectionView 
                     Grid.Row="2"
                     ItemsSource="{Binding OrderPositions}" 
-                    SelectionMode="Single"
-                    SelectedItem="{Binding SelectedOrderPosition}">
+                    SelectionMode="None">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:ArticleStockPositions">
                             <Frame
-                                InputTransparent="True"
                                 BackgroundColor="LightSteelBlue"
                                 BorderColor="Black"
                                 Padding="10" 
@@ -87,7 +113,6 @@
                                             FontSize="14"
                                             Text="{Binding OrderPosition.Article.Name}" />
                                     </StackLayout>
-
                                     <StackLayout 
                                         Grid.Column="0"
                                         Grid.Row="1" 
@@ -148,8 +173,7 @@
                                         Grid.Row="4">
                                         <CollectionView 
                                             ItemsSource="{Binding StockPosition}"
-                                            SelectionMode="Single"
-                                            SelectedItem="{Binding Source={RelativeSource  AncestorType={x:Type viewmodel:OrderPickingViewModel}}, Path=SelectedStockPosition}">
+                                            SelectionMode="None">
                                             <CollectionView.ItemTemplate>
                                                 <DataTemplate x:DataType="dataRepoCore:StockPosition">
                                                     <Frame
@@ -202,7 +226,6 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
             </Grid>
         </RefreshView>
     </StackLayout>

@@ -8,13 +8,36 @@
              Title="Akueller Benutzer">
 
     <ScrollView>
-            <VerticalStackLayout 
-                VerticalOptions="Center">
-                <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Large" />
-                <Label Text="{Binding CurrentUser.FirstName}" FontSize="Large" />
-                <Label Text="{Binding CurrentUser.LastName}" FontSize="Large" />
-                <Label Text="{Binding CurrentUser.Role}" FontSize="Large" />
-            </VerticalStackLayout>
+        <Frame
+            Margin="10"
+            BorderColor="Black">
+        <VerticalStackLayout Padding="15" Spacing="10">
+            <Frame Padding="15">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Personalnummer" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+            </Frame>
+            <Frame Padding="15">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Vorname" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentUser.FirstName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+            </Frame>
+            <Frame Padding="15">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Nachname" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentUser.LastName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+            </Frame>
+            <Frame Padding="15">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Rolle" FontSize="Medium" FontAttributes="Bold" />
+                    <Label Text="{Binding CurrentUser.Role}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                </StackLayout>
+            </Frame>
+        </VerticalStackLayout>
+        </Frame>
     </ScrollView>
 
 </ContentPage>

@@ -10,7 +10,7 @@ public partial class MainMenuViewModel : BaseViewModel
     {
         _mainMenuStorage = mainMenuStorage;
         _localizationService = localizationService;
-         _mainMenu =_mainMenuStorage.GetMainMenu();
+        _mainMenu =_mainMenuStorage.GetMainMenu();
     }
         
     [ObservableProperty] 

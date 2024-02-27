@@ -38,13 +38,14 @@ public partial class LoginViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task LogOutAsync()
+    private Task LogOutAsync()
     {
             PersonnelNumber = string.Empty;
             Password = string.Empty;
             IsPersonnelNumberValid = false;
             IsPasswordValid = false;
              _kommissIoApi.CurrentEmployee = null;
+             return Task.CompletedTask;
     }
     
     [RelayCommand]
@@ -63,7 +64,7 @@ public partial class LoginViewModel : BaseViewModel
 
         short personnelNumberParsed = 0;
         bool canParse = short.TryParse(PersonnelNumber, out personnelNumberParsed);
-        var currentEmployee = await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
+        await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
         if (_kommissIoApi.CurrentEmployee != null)
         {
             await Shell.Current.GoToAsync("MainMenuPage", true);

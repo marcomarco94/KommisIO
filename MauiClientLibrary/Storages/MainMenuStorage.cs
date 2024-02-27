@@ -16,7 +16,6 @@ namespace MauiClientLibrary.Storages
         {
             var employeeRole = _kommissIoApi.CurrentEmployee!.Role;
             return new ObservableCollection<MenuItemModel>(_activeMenu.Where(r => Enum.Parse<Role>(r.RequiredRole.ToString()) >= employeeRole));
-            
         }
 
         private List<MenuItemModel> CreateMainMenu()
@@ -25,13 +24,13 @@ namespace MauiClientLibrary.Storages
             {
                 new MenuItemModel
                 {
-                    Title = "Wareneingang", Icon = "incoming_goods.png", Route = "IncomingGoods", RequiredRole = Role.Employee
+                    Title = "Wareneingang", Icon = "incoming_goods.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee
                 },
                 new MenuItemModel
                     { Title = "Einlagerung", Icon = "storage.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee },
                 new MenuItemModel
                 {
-                    Title = "Kommissionierung", Icon = "order_picking.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee
+                    Title = "Kommissionierung", Icon = "order_picking.png", Route = "OrdersOverviewPage", RequiredRole = Role.Employee
                 },
                 new MenuItemModel
                 {

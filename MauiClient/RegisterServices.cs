@@ -1,6 +1,7 @@
 ﻿
 
 
+using AppDataAccessCore;
 using CommunityToolkit.Maui;
 
 namespace MauiClient
@@ -11,8 +12,8 @@ namespace MauiClient
         {
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
             builder.Services.AddSingleton<IMainMenuStorage, MainMenuStorage>();
-            
-            builder.Services.AddTransient<UnderConstructionPage>();
+
+            builder.Services.AddSingleton<UnderConstructionPage>();
             builder.Services.AddSingleton<NavBarViewModel>();
             builder.Services.AddTransient<CurrentUserPage>();
             builder.Services.AddTransient<CurrentUserViewModel>();
@@ -20,7 +21,11 @@ namespace MauiClient
             builder.Services.AddTransient<LoginViewModel>();
             builder.Services.AddTransient<MainMenuPage>();
             builder.Services.AddTransient<MainMenuViewModel>();
-            
+            builder.Services.AddTransient<OrdersOverviewPage>();
+            builder.Services.AddTransient<OrdersOverviewViewModel>();
+            builder.Services.AddTransient<OrderPickingPage>();
+            builder.Services.AddTransient<OrderPickingViewModel>();
+            builder.Services.AddTransientPopup<ScanPopupPage, ScanPopupViewModel>();
 
             /*
              * Users: 
@@ -29,7 +34,7 @@ namespace MauiClient
              * PersonnelNumber = 3, Role = Role.Manager}, password: "manager",
              * PersonnelNumber=4, Role=Role.Manager | Role.Administrator | Role.Employee, password: "god
             */
-            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
+            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPI>();
         }
     }
 }

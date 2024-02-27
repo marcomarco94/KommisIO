@@ -38,7 +38,7 @@ public partial class OrdersOverviewViewModel : BaseViewModel
     PickingOrder? _selectedOrder;
     
     [ObservableProperty]  
-    ObservableCollection<PickingOrder> _pickingOrders = new();
+    ObservableCollection<PickingOrder>? _pickingOrders = new();
     
     [ObservableProperty]
     string _filterInProgress;
@@ -64,7 +64,7 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         CurrentOrder = SelectedOrder;
     }
 
-    public async void Property_Changed(object sender, PropertyChangedEventArgs e)
+    private async void Property_Changed(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(BarcodeValue))
         {
@@ -138,25 +138,26 @@ public partial class OrdersOverviewViewModel : BaseViewModel
     {
         IsBusy = true;
         FilterInProgress = inProgress;
+        PickingOrders?.Clear();
+        ObservableCollection<PickingOrder> orders = new ObservableCollection<PickingOrder>();
         try
         {
-            PickingOrders.Clear();
-            IEnumerable<PickingOrder> orders;
-            if (inProgress == "true") { 
-                orders = await _kommissIoapi.GetInProgressPickingOrdersAsync();
+            if (inProgress == "True")
+            {
+                orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetInProgressAssignedPickingOrdersAsync());
             }
-            else {
-                orders = await _kommissIoapi.GetOpenPickingOrdersAsync();
+            else 
+            {
+                orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetOpenPickingOrdersAsync());
             }
             foreach (var order in orders)
             {
-                PickingOrders.Add(order);
+                PickingOrders?.Add(order);
             }
         }
-        catch (Exception ex)
+        catch (System.NullReferenceException ex)
         {
-            Debug.WriteLine($"Unable to get orders: {ex.Message}");
-            await Shell.Current.DisplayAlert("Error!", ex.Message, "OK");
+            Console.WriteLine(ex.Message);
         }
         finally
         {

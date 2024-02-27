@@ -6,7 +6,6 @@ namespace MauiClient
         public App(NavBarViewModel navBarViewModel)
         {
             InitializeComponent();
-            
             MainPage = new AppShell(navBarViewModel);
         }
     }
