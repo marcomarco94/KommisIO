@@ -102,7 +102,7 @@ namespace AppDataAccessCore {
 
         /// <inheritdoc/>
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(Article article) {
-            HttpResponseMessage responseMessage = await _client.GetAsync($"stockposition/{article.Id}");
+            HttpResponseMessage responseMessage = await _client.GetAsync($"stockposition/{article.ArticleNumber}");
             responseMessage.EnsureSuccessStatusCode();
             return (await responseMessage.Content.ReadFromJsonAsync<IEnumerable<StockPosition>>())!;
         }
@@ -115,8 +115,10 @@ namespace AppDataAccessCore {
         }
 
         /// <inheritdoc/>
-        public async Task<bool> ReportDamagedArticleAsync(DamageReport report) {
-            HttpResponseMessage responseMessage = await _client.PostAsJsonAsync<DamageReport>($"report/damage/fileReport/", report);
+        public async Task<bool> ReportDamagedArticleAsync(Article article, string message) {
+            DamageReportFileRequest report = new() { ArticleNumber = article.ArticleNumber, Message = message };
+
+            HttpResponseMessage responseMessage = await _client.PostAsJsonAsync<DamageReportFileRequest>($"report/damage/fileReport/", report);
             responseMessage.EnsureSuccessStatusCode();
             return bool.TryParse((await responseMessage.Content.ReadAsStringAsync()), out bool response) && response;
         }

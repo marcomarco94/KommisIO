@@ -24,19 +24,19 @@ public partial class OrdersOverviewViewModel : BaseViewModel
     
     [ObservableProperty] 
     string? _barcodeValue;
-    
-    [ObservableProperty]
-    PickingOrder? _currentOrder;
 
+    [ObservableProperty]  
+    PickingOrder? _currentOrder;
+    
     [ObservableProperty] 
     bool _hasErrors = true;
-    
-    [ObservableProperty] 
-    string? _searchId;
 
     [ObservableProperty] 
-    PickingOrder? _selectedOrder;
+    string? _searchId;
     
+    [ObservableProperty]
+    PickingOrder? _selectedOrder;
+
     [ObservableProperty]  
     ObservableCollection<PickingOrder>? _pickingOrders = new();
     
@@ -52,9 +52,9 @@ public partial class OrdersOverviewViewModel : BaseViewModel
 
     [RelayCommand]
     private void  GetBarcodeBySearch(string search)
-    {
+        {
         BarcodeValue = search;
-    }
+            }
     
     [RelayCommand]
     private void GetOrderBySelection()
@@ -62,14 +62,14 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         if (SelectedOrder is null)
             return;
         CurrentOrder = SelectedOrder;
-    }
+            }
 
     private async void Property_Changed(object sender, PropertyChangedEventArgs e)
-    {
+            {
         if (e.PropertyName == nameof(BarcodeValue))
         {
             await BarcodeValueChanged(BarcodeValue);
-        }
+            }
         if (e.PropertyName == nameof(CurrentOrder))
         {
             await CurrentOrderChanged(CurrentOrder);
@@ -85,17 +85,25 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         SelectedOrder = null;
         bool hasError = !int.TryParse(value, out int id);
         PickingOrder? foundOrder = null;
-
+    
         if (hasError)
-        {
+    {
             HasErrors = true;
             await Shell.Current.DisplayAlert("Error!", "Invalid barcode", "OK");
             return;
-        }
-
-        var orders = await _kommissIoapi.GetOpenPickingOrdersAsync();
-        List<PickingOrder> orderList = orders.ToList();
-        foundOrder = orderList.Find(po => po.Id == id);
+    }
+    
+    [RelayCommand]
+    private async Task  ValidateBarcodeAsync(string barcode)
+    {
+        bool canParse = int.TryParse(barcode, out int id);
+        PickingOrder? foundOrder = null;
+        
+        if (canParse)
+        {
+            var orders = await _kommissIoapi.GetOpenPickingOrdersAsync();
+            List<PickingOrder> orderList = orders.ToList();
+            foundOrder = orderList.Find(po => po.Id == id);
         if (foundOrder is null)
         {
             HasErrors = true;
@@ -117,13 +125,13 @@ public partial class OrdersOverviewViewModel : BaseViewModel
             await  LoadPickingOrdersAsync(FilterInProgress);
             return;
         }
-        
+
         await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
         {
             {"PickingOrder", value}
         });
-    }
-
+        }
+        
     private async Task  ErrorChanged(bool value)
     {
         if (value)
@@ -132,7 +140,7 @@ public partial class OrdersOverviewViewModel : BaseViewModel
             HasErrors = false;
         }
     }
-
+        
     [RelayCommand]
     private async Task LoadPickingOrdersAsync(string inProgress)
     {

@@ -13,7 +13,7 @@
       "secretStore": "AzureAppSettings",
       "resourceId": null,
       "type": "mssql.onprem",
-      "connectionId": "DBKommissIO"
+      "connectionId": "SQL_CONNECTIONSTRING"
     }
   }
 }

@@ -8,7 +8,7 @@
              xmlns:dataRepoCore="clr-namespace:DataRepoCore;assembly=DataRepoCore"
              HideSoftInputOnTapped="True"
              Title="Order Picking">
-    
+
     <StackLayout>
         <RefreshView 
             Command="{Binding GetOrderPositionsCommand}" 

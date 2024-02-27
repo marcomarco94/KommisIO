@@ -43,6 +43,19 @@
             CommandParameter="{x:Static System:Boolean.TrueString}"
             IsEnabled="{Binding IsEnabled}" />
         
+        <SearchBar
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Placeholder="Auftrags Id"
+            Text="{Binding SearchText}"
+            SearchCommand="{Binding ValidateBarcodeCommand}"
+            IsEnabled="{Binding IsEnabled}">
+                <SearchBar.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding GetBarcodeByScanCommand}" />
+                </SearchBar.GestureRecognizers>
+        </SearchBar>
+
         <StackLayout
             Grid.Row="2"
             Grid.ColumnSpan="2">
@@ -51,6 +64,7 @@
                 IsRefreshing="{Binding IsNotEnabled}">
                 <CollectionView 
                     ItemsSource="{Binding PickingOrders}" 
+                    HasUnevenRows="True" 
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedOrder}">
                     <CollectionView.ItemTemplate>
@@ -112,7 +126,7 @@
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-            
+
         <Button 
             Grid.Column="0"
             MaximumHeightRequest="70"

@@ -22,7 +22,7 @@ namespace DataRepoCore {
         public Task<Employee?> IdentifyAndAuthenticateAysnc(short personnelNumber, string password);
 
         /// <summary>
-        /// Get all currently open picking orders. (role: employee)
+        /// Get all currently open picking orders. (role: employee, manager)
         /// </summary>
         /// <returns>Return an enumerable of picking orders.</returns>
         public Task<IEnumerable<PickingOrder>> GetOpenPickingOrdersAsync();
@@ -51,19 +51,19 @@ namespace DataRepoCore {
         public Task<bool> AssignToPickingOrderAsync(PickingOrder order);
 
         /// <summary>
-        /// Get all picking orders, even those which are allready assigned to an employee or completed. (role: manager, administrator)
+        /// Get all picking orders, even those which are allready assigned to an employee or completed. (role: manager)
         /// </summary>
         /// <returns>Return an enumerable of all picking-orders.</returns>
         public Task<IEnumerable<PickingOrder>> GetPickingOrdersAsync();
 
         /// <summary>
-        /// Get all picking orders that are finished. (role: manager, administrator)
+        /// Get all picking orders that are finished. (role: manager)
         /// </summary>
         /// <returns>Return an enumerable of all finished picking orders.</returns>
         public Task<IEnumerable<PickingOrder>> GetFinishedPickingOrdersAsync();
 
         /// <summary>
-        /// Get all picking orders that are in progress, a employee is assigned but items are still to be picked. (role: manager, administrator)
+        /// Get all picking orders that are in progress, a employee is assigned but items are still to be picked. (role: manager)
         /// </summary>
         /// <returns>Return an enumerable of all in progress picking orders.</returns>
         public Task<IEnumerable<PickingOrder>> GetInProgressPickingOrdersAsync();
@@ -83,9 +83,10 @@ namespace DataRepoCore {
         /// <summary>
         /// Report a damaged article. (role: employee)
         /// </summary>
-        /// <param name="report">The report to file.</param>
+        /// <param name="article">The article to file.</param>
+        /// <param name="message">The message to include in the fileing.</param>
         /// <returns>True if the report was successfully filed.</returns>
-        public Task<bool> ReportDamagedArticleAsync(DamageReport report);
+        public Task<bool> ReportDamagedArticleAsync(Article article, string message);
 
         /// <summary>
         /// Get all damage reports. (role: manager)

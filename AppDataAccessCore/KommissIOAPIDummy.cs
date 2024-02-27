@@ -204,7 +204,8 @@ namespace DataRepoCore {
         }
 
         ///<inheritdoc/>
-        public async Task<bool> ReportDamagedArticleAsync(DamageReport report) {
+        public async Task<bool> ReportDamagedArticleAsync(Article article, string message) {
+            DamageReport report = new DamageReport() { Article=article, Employee=CurrentEmployee!, Message=message};
             if (CurrentEmployee is null || (!CurrentEmployee.Role.HasFlag(Role.Employee) && !CurrentEmployee.Role.HasFlag(Role.Administrator)))
                 throw new UnauthorizedAccessException();
             await locker.WaitAsync();

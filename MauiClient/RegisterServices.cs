@@ -27,14 +27,7 @@ namespace MauiClient
             builder.Services.AddTransient<OrderPickingViewModel>();
             builder.Services.AddTransientPopup<ScanPopupPage, ScanPopupViewModel>();
 
-            /*
-             * Users: 
-             * PersonnelNumber = 1, Role = Role.Administrator, password: "admin",
-             * PersonnelNumber = 2, Role = Role.Employee password: "employee",
-             * PersonnelNumber = 3, Role = Role.Manager}, password: "manager",
-             * PersonnelNumber=4, Role=Role.Manager | Role.Administrator | Role.Employee, password: "god
-            */
-            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPI>();
+            builder.Services.AddSingleton<IKommissIOAPI>(x=>new KommissIOAPI("https://kommissio.azurewebsites.net/api/"));
         }
     }
 }

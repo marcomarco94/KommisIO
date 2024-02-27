@@ -117,7 +117,7 @@ public partial class OrderPickingViewModel : BaseViewModel
 
     [RelayCommand]
     private void GetAnmountbySearch(string amount)
-    {
+{
         CurrentAmount = amount;
     }
     
