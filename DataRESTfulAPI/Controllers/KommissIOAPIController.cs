@@ -160,6 +160,7 @@ namespace DataRESTfulAPI.Controllers {
             //the entity framework / databse check is performed.
             if (stock.Amount < amount || stock.Article?.ArticleId != (orderPositionEntity.Article?.ArticleId ?? 0))
                 return false;
+
             orderPositionEntity.PickedAmount += amount;
             stock.Amount -= amount;
 
@@ -189,7 +190,7 @@ namespace DataRESTfulAPI.Controllers {
         [Authorize(Roles = nameof(Role.Employee))]
         public async Task<bool> AssignToPickingOrderAsync(int order) {
             var pickingOrder = await _pickingOrderRepository.GetElementByIDAsync(order);
-            if (pickingOrder == null)
+            if (pickingOrder == null || pickingOrder.Employee != null)
                 return false;
 
             //Assign the current employee registered.
