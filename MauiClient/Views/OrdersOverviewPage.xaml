@@ -7,16 +7,17 @@
              x:Class="MauiClient.Views.OrdersOverviewPage"
              xmlns:model="clr-namespace:DataRepoCore;assembly=DataRepoCore"
              xmlns:System="clr-namespace:System;assembly=System.Runtime"
+             xmlns:models="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
              HideSoftInputOnTapped="True"
              Title="Übersicht Kommissionieraufträge">
     
     <Grid
-        ColumnDefinitions="* ,*"
+        ColumnDefinitions="*"
         RowDefinitions="Auto, Auto, *, 20, Auto" >
         
         <SearchBar
             Grid.Row="0"
-            Grid.ColumnSpan="2"
+            Grid.Column="0"
             Margin="5"
             Placeholder="Auftrags Id"
             Text="{Binding SearchId}"
@@ -25,53 +26,45 @@
             IsEnabled="{Binding IsEnabled}">
         </SearchBar>
         
-        <Button 
+        <!--<Button 
             Grid.Row="1"
             Grid.Column="0"
             Margin="5"
             Text="Picking Orders" 
             Command="{Binding LoadPickingOrdersCommand}"
             CommandParameter="{x:Static System:Boolean.FalseString}"
-            IsEnabled="{Binding IsEnabled}"/>
-        
-        <Button 
+            IsEnabled="{Binding IsEnabled}"/>-->
+
+        <CollectionView
             Grid.Row="1"
-            Grid.Column="1"
-            Margin="5"
-            Text="Orders in Progress" 
-            Command="{Binding LoadPickingOrdersCommand}" 
-            CommandParameter="{x:Static System:Boolean.TrueString}"
-            IsEnabled="{Binding IsEnabled}" />
-        
-        <SearchBar
-            Grid.Row="1"
-            Grid.ColumnSpan="2"
-            Placeholder="Auftrags Id"
-            Text="{Binding SearchText}"
-            SearchCommand="{Binding ValidateBarcodeCommand}"
-            IsEnabled="{Binding IsEnabled}">
-                <SearchBar.GestureRecognizers>
-                    <TapGestureRecognizer
-                        Command="{Binding GetBarcodeByScanCommand}" />
-                </SearchBar.GestureRecognizers>
-        </SearchBar>
+            Grid.Column="0"
+            ItemsSource="{Binding ActiveMenu}" 
+            ItemsLayout="HorizontalList"
+            SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:OrderOverviewModel">
+                    <Button
+                        Margin="5"
+                        Text="{Binding Title}" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <StackLayout
             Grid.Row="2"
-            Grid.ColumnSpan="2">
+            Grid.Column="0">
             <RefreshView 
                 Command="{Binding LoadPickingOrdersCommand}" 
                 IsRefreshing="{Binding IsNotEnabled}">
                 <CollectionView 
                     ItemsSource="{Binding PickingOrders}" 
-                    HasUnevenRows="True" 
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedOrder}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:PickingOrder">
                                 <Frame
                                     InputTransparent="True"
-                                    BackgroundColor="LightSteelBlue"
+                                    BackgroundColor="LightGray"
                                     BorderColor="Black"
                                     Padding="10" 
                                     Margin="5"  >
@@ -84,34 +77,30 @@
                                                 Orientation="Horizontal" >
                                                 <Label 
                                                     Text="Order Id: " 
-                                                    FontSize="14" 
-                                                    FontAttributes="Bold"/>
+                                                    FontSize="Small" />
                                                 <Label 
                                                     Text="{Binding Id}" 
-                                                    FontSize="14" 
-                                                    FontAttributes="Bold"/>
+                                                    FontSize="Small" />
                                             </StackLayout>
                                                 <StackLayout 
                                                     Grid.Column="1"
                                                     Orientation="Horizontal" >
                                                     <Label 
                                                         Text="Priorität: " 
-                                                        FontSize="14" 
-                                                        FontAttributes="Bold"/>
+                                                        FontSize="Small"  />
                                                     <Label 
                                                         Text="{Binding Priority}"
-                                                        FontSize="14" 
-                                                        FontAttributes="Bold"/>
+                                                        FontSize="Small" />
                                                 </StackLayout>
                                         </Grid>
                                         <StackLayout 
                                             Orientation="Horizontal">
                                             <Label 
                                                 Text="Notiz: "
-                                                FontSize="14"  />
+                                                FontSize="Small"  />
                                             <Label 
                                                 Text="{Binding Note}" 
-                                                FontSize="14" />
+                                                FontSize="Small" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>
@@ -126,7 +115,7 @@
             Grid.Row="4"
             Grid.Column="0"
             Grid.ColumnSpan="2">
-
+            
         <Button 
             Grid.Column="0"
             MaximumHeightRequest="70"
@@ -144,6 +133,10 @@
             IsEnabled="{Binding IsEnabled}"
             Command="{Binding GetBarcodeByScanCommand}" />
         </Grid>
+        <ActivityIndicator
+            IsRunning="{Binding IsNotEnabled}"
+            IsVisible="{Binding IsNotEnabled}"
+            Color="{StaticResource Primary}" />
         
     </Grid>
 </ContentPage>

@@ -5,38 +5,42 @@
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:CurrentUserViewModel"
              x:Class="MauiClient.Views.CurrentUserPage"
-             Title="Akueller Benutzer">
+             Title="Aktueller Benutzer">
 
     <ScrollView>
         <Frame
             Margin="10"
             BorderColor="Black">
-        <VerticalStackLayout Padding="15" Spacing="10">
-            <Frame Padding="15">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Personalnummer" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-            <Frame Padding="15">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Vorname" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Text="{Binding CurrentUser.FirstName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-            <Frame Padding="15">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Nachname" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Text="{Binding CurrentUser.LastName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-            <Frame Padding="15">
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="Rolle" FontSize="Medium" FontAttributes="Bold" />
-                    <Label Text="{Binding CurrentUser.Role}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
-                </StackLayout>
-            </Frame>
-        </VerticalStackLayout>
+            <VerticalStackLayout Padding="15" Spacing="10">
+                <Frame Padding="15">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Personalnummer" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                </Frame>
+                <Frame Padding="15">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Vorname" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentUser.FirstName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                </Frame>
+                <Frame Padding="15">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Nachname" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentUser.LastName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                </Frame>
+                <Frame Padding="15">
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Rolle" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{Binding CurrentUser.Role}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                    </StackLayout>
+                </Frame>
+                <Button
+                    Text="Demodaten zurücksetzen"
+                    IsVisible="{Binding IsAdmin}"
+                    Command="{Binding ResetDataCommand}"/>
+            </VerticalStackLayout>
         </Frame>
     </ScrollView>
 

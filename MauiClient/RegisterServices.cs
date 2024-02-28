@@ -12,6 +12,7 @@ namespace MauiClient
         {
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
             builder.Services.AddSingleton<IMainMenuStorage, MainMenuStorage>();
+            builder.Services.AddSingleton<IOrderOverviewStorage, OrderOverviewStorage>();
 
             builder.Services.AddSingleton<UnderConstructionPage>();
             builder.Services.AddSingleton<NavBarViewModel>();
@@ -27,7 +28,10 @@ namespace MauiClient
             builder.Services.AddTransient<OrderPickingViewModel>();
             builder.Services.AddTransientPopup<ScanPopupPage, ScanPopupViewModel>();
 
-            builder.Services.AddSingleton<IKommissIOAPI>(x=>new KommissIOAPI("https://kommissio.azurewebsites.net/api/"));
+            
+            //builder.Services.AddSingleton<IKommissIOAPI>(x=>new KommissIOAPI("https://kommissio.azurewebsites.net/api/"));
+
+            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
         }
     }
 }

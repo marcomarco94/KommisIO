@@ -64,6 +64,7 @@ public partial class LoginViewModel : BaseViewModel
 
         short personnelNumberParsed = 0;
         bool canParse = short.TryParse(PersonnelNumber, out personnelNumberParsed);
+        IsBusy = true;
         await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
         if (_kommissIoApi.CurrentEmployee != null)
         {
@@ -76,5 +77,7 @@ public partial class LoginViewModel : BaseViewModel
             string alertConfirm = _localizationService.GetResourceValue("Ok");
             await Shell.Current.DisplayAlert(alertTitle, alertMessage, alertConfirm);
         }
+
+        IsBusy = false;
     }
 }

@@ -5,10 +5,10 @@
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:OrderPickingViewModel"
              xmlns:model="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dataRepoCore="clr-namespace:DataRepoCore;assembly=DataRepoCore"
-             HideSoftInputOnTapped="True"
              Title="Order Picking">
-
+    
     <StackLayout>
         <RefreshView 
             Command="{Binding GetOrderPositionsCommand}" 
@@ -20,40 +20,37 @@
                     Margin="5"
                     BorderColor="Black">
                 <Grid
-                    RowDefinitions="Auto,Auto,Auto, Auto"
+                    RowDefinitions="Auto,Auto,Auto"
                     ColumnDefinitions="90*,10*">
                     <SearchBar
                         Grid.Row="0"
                         Grid.Column="0"
                         Placeholder="Lagerplatz erfassen"
-                        Text="{Binding CurrentShelfNumber}"
-                        IsEnabled="{Binding StockPositionEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Row="0"
                         Grid.Column="1"
                         Margin="5"
                         HorizontalOptions="End"
                         Source="qr_code_scan.png"
-                        IsEnabled="{Binding StockPositionEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"/>
                     <SearchBar
                         Grid.Column="0"
                         Grid.Row="1"
                         Placeholder="Artikel erfassen"
-                        Text="{Binding CurrentArticleNumber}"
-                        IsEnabled="{Binding ArticleEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Column="1"
                         Grid.Row="1"
                         Margin="5"
                         HorizontalOptions="End"
                         Source="qr_code_scan.png"
-                        IsEnabled="{Binding ArticleEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"/>
                     <SearchBar
                         Grid.Column="0"
                         Grid.Row="2"
                         Placeholder="Menge: "
-                        Text="{Binding CurrentAmount}"
-                        IsEnabled="{Binding AmountEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Row="2"
                         Grid.Column="1"
@@ -62,13 +59,7 @@
                         HorizontalOptions="End"
                         Source="clear.png"
                         IsEnabled="{Binding IsEnabled}"/>
-                        <Button
-                        Grid.Row="3"
-                        Grid.ColumnSpan="2"
-                        Text="Bestellung abschließen"
-                        Command="{Binding PickOrderCommand}"
-                        IsEnabled="{Binding IsEnabled}"/>
-                    </Grid>
+                </Grid>
                 </Frame>
                 <CollectionView 
                     Grid.Row="2"
