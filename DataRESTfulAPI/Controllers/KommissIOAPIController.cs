@@ -18,36 +18,23 @@ namespace DataRESTfulAPI.Controllers {
         private readonly ILogger<KommissIOAPIController> _logger;
         private readonly IDemoDataBuilder _demoDataBuilder;
         private readonly IPasswordHasher<EmployeeEntity> _passwordHasher;
-        private readonly IRepository<PickingOrderEntity> _pickingOrderRepository;
-        private readonly IRepository<DamageReportEntity> _damageReportRepository;
-        private readonly IRepository<StockPositionEntity> _stockPostitionRepository;
-        private readonly IArticleRepository _articleRepository;
-        private readonly IEmployeeRepository _employeeRepository;
-        private readonly IRepository<PickingOrderPositionEntity> _pickingOrderPositionRepository;
         private readonly IConfiguration _configuration;
+        private readonly IKommissIOUnitOfWork _unitOfWork;
 
         public KommissIOAPIController(ILogger<KommissIOAPIController> logger, IDemoDataBuilder demoDataBuilder,
-            IRepository<PickingOrderEntity> pickingOrderRepository, IRepository<PickingOrderPositionEntity> pickingOrderPositionRepository,
-            IRepository<StockPositionEntity> stockPostitionRepository, IRepository<DamageReportEntity> damageReportRepository,
-            IArticleRepository articleRepository, IEmployeeRepository employeeRepository, IPasswordHasher<EmployeeEntity> passwordHasher,
-            IConfiguration configuration) {
+            IPasswordHasher<EmployeeEntity> passwordHasher, IConfiguration configuration, IKommissIOUnitOfWork unitOfWork) {
             _logger = logger;
             _demoDataBuilder = demoDataBuilder;
-            _pickingOrderRepository = pickingOrderRepository;
-            _stockPostitionRepository = stockPostitionRepository;
-            _damageReportRepository = damageReportRepository;
-            _articleRepository = articleRepository;
-            _employeeRepository = employeeRepository;
-            _passwordHasher = passwordHasher;
-            _pickingOrderPositionRepository = pickingOrderPositionRepository;
             _configuration = configuration;
+            _passwordHasher = passwordHasher;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
         /// Get the user that is currently loggedIn.
         /// </summary>
         /// <returns>The employee or null if not able to determine.</returns>
-        protected async Task<EmployeeEntity?> GetCurrentEmployeeAsync() => await _employeeRepository.GetEmployeeByPersonnelNumberAsync(short.Parse(
+        protected async Task<EmployeeEntity?> GetCurrentEmployeeAsync() => await _unitOfWork.EmployeeRepository.GetEmployeeByPersonnelNumberAsync(short.Parse(
             User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value));
 
         /// <summary>
@@ -60,7 +47,7 @@ namespace DataRESTfulAPI.Controllers {
         [Authorize(Roles = nameof(Role.Administrator))]
         //[AllowAnonymous]
         public async Task<Employee?> IdentifyEmployeeAysnc(short personnelNumber) {
-            return (await _employeeRepository.GetEmployeeByPersonnelNumberAsync(personnelNumber))?.MapToDataModel();
+            return (await _unitOfWork.EmployeeRepository.GetEmployeeByPersonnelNumberAsync(personnelNumber))?.MapToDataModel();
         }
 
         //Inspired by: https://www.youtube.com/watch?v=KRVjIgr-WOU 1:0:5
@@ -68,7 +55,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> AquireTokenAsync(AuthenticationRequestInformation ari) {
-            EmployeeEntity? employee = await _employeeRepository.GetEmployeeByPersonnelNumberAsync(ari.PersonnelNumber);
+            EmployeeEntity? employee = await _unitOfWork.EmployeeRepository.GetEmployeeByPersonnelNumberAsync(ari.PersonnelNumber);
             var unauthResponse = Unauthorized("Invalid Credentials");
 
             if (employee is null || !employee.Authenticate(ari.Password, _passwordHasher))
@@ -128,7 +115,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}")]
         public async Task<IEnumerable<PickingOrder>> GetOpenPickingOrdersAsync() {
-            return (await _pickingOrderRepository.WhereAsync(po => po.Employee == null &&
+            return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee == null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) > 0)).Select(po => po.MapToDataModel());
         }
 
@@ -142,29 +129,31 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Employee))]
         public async Task<bool> PickAsync(int orderPosition, int stockPosition, int amount) {
-            var orderPositionEntity = await _pickingOrderPositionRepository.GetElementByIDAsync(orderPosition);
+            var orderPositionEntity = await _unitOfWork.PickingOrderPositionRepository.GetElementByIDAsync(orderPosition);
             if (orderPositionEntity is null) return false;
 
-            var order = await _pickingOrderRepository.FindAsync(o => o.Positions!.Any(op => op.Id == orderPosition));
+            var order = await _unitOfWork.PickingOrderRepository.FindAsync(o => o.Positions!.Any(op => op.Id == orderPosition));
             if (order is null) return false;
 
-            var stock = await _stockPostitionRepository.GetElementByIDAsync(stockPosition);
+            var stock = await _unitOfWork.StockPositionRepository.GetElementByIDAsync(stockPosition);
             if (stock is null) return false;
 
             //Check if the user that is picking the item is assigned.
             var currentEmpPnr = (await GetCurrentEmployeeAsync())?.PersonnelNumber ?? 0;
             if (order.Employee?.PersonnelNumber != currentEmpPnr) return false;
 
-            //make shure that not more objects are pick then in stock.
-            //This check is not thread-safe, it does not need to be. The Range Condition is set, but it is better to just check not thread-safe before 
-            //the entity framework / databse check is performed.
+            //make shure that not more objects are picked then in stock.
             if (stock.Amount < amount || stock.Article?.ArticleId != (orderPositionEntity.Article?.ArticleId ?? 0))
                 return false;
+
             orderPositionEntity.PickedAmount += amount;
             stock.Amount -= amount;
 
-            return await _stockPostitionRepository.UpdateAsync(stock) &&
-                await _pickingOrderPositionRepository.UpdateAsync(orderPositionEntity);
+            await _unitOfWork.StockPositionRepository.UpdateAsync(stock);
+            await _unitOfWork.PickingOrderPositionRepository.UpdateAsync(orderPositionEntity);
+
+            await _unitOfWork.CommitAsync();
+            return true;
         }
 
         /// <summary>
@@ -176,7 +165,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}")]
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(int article) {
-            return (await _stockPostitionRepository.WhereAsync(sp => sp.Article!.ArticleId.Equals(article))).Select(article => article.MapToDataModel());
+            return (await _unitOfWork.StockPositionRepository.WhereAsync(sp => sp.Article!.ArticleId.Equals(article))).Select(article => article.MapToDataModel());
         }
 
         /// <summary>
@@ -188,13 +177,15 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Employee))]
         public async Task<bool> AssignToPickingOrderAsync(int order) {
-            var pickingOrder = await _pickingOrderRepository.GetElementByIDAsync(order);
-            if (pickingOrder == null)
+            var pickingOrder = await _unitOfWork.PickingOrderRepository.GetElementByIDAsync(order);
+            if (pickingOrder == null || pickingOrder.Employee != null)
                 return false;
 
             //Assign the current employee registered.
             pickingOrder.Employee = await GetCurrentEmployeeAsync();
-            return await _pickingOrderRepository.UpdateAsync(pickingOrder);
+            await _unitOfWork.PickingOrderRepository.UpdateAsync(pickingOrder);
+            await _unitOfWork.CommitAsync();
+            return true;
         }
 
         /// <summary>
@@ -205,7 +196,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Manager))]
         public async Task<IEnumerable<PickingOrder>> GetPickingOrdersAsync() {
-            return (await _pickingOrderRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
+            return (await _unitOfWork.PickingOrderRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
         }
 
         /// <summary>
@@ -216,7 +207,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Manager))]
         public async Task<IEnumerable<PickingOrder>> GetFinishedPickingOrdersAsync() {
-            return (await _pickingOrderRepository.WhereAsync(po => po.Employee != null &&
+            return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) == 0)).Select(e => e.MapToDataModel());
         }
 
@@ -228,7 +219,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Manager))]
         public async Task<IEnumerable<PickingOrder>> GetInProgressPickingOrdersAsync() {
-            return (await _pickingOrderRepository.WhereAsync(po => po.Employee != null &&
+            return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) > 0)).Select(e => e.MapToDataModel());
         }
 
@@ -241,7 +232,7 @@ namespace DataRESTfulAPI.Controllers {
         [Authorize(Roles = nameof(Role.Employee))]
         public async Task<IEnumerable<PickingOrder>> GetInProgressAssignedPickingOrdersAsync() {
             var currentEmp = await GetCurrentEmployeeAsync();
-            return (await _pickingOrderRepository.WhereAsync(po => po.Employee != null && po.Employee.PersonnelNumber == currentEmp!.PersonnelNumber &&
+            return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null && po.Employee.PersonnelNumber == currentEmp!.PersonnelNumber &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) > 0)).Select(e => e.MapToDataModel());
         }
 
@@ -266,7 +257,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpPost]
         [Authorize(Roles = nameof(Role.Employee))]
         public async Task<bool> ReportDamagedArticleAsync(DamageReportFileRequest report) {
-            var article = await _articleRepository.GetArticleByArticleNumberAsync(report.ArticleNumber);
+            var article = await _unitOfWork.ArticleRepository.GetArticleByArticleNumberAsync(report.ArticleNumber);
 
             if (article is null)
                 return false;
@@ -276,7 +267,10 @@ namespace DataRESTfulAPI.Controllers {
             dmgReport.Employee = await GetCurrentEmployeeAsync();
             dmgReport.Article = article;
 
-            return await _damageReportRepository.InsertAsync(dmgReport);
+            await _unitOfWork.DamageReportRepository.InsertAsync(dmgReport);
+            await _unitOfWork.CommitAsync();
+
+            return true;
         }
 
         /// <summary>
@@ -287,7 +281,7 @@ namespace DataRESTfulAPI.Controllers {
         [HttpGet]
         [Authorize(Roles = nameof(Role.Manager))]
         public async Task<IEnumerable<DamageReport>> GetArticleDamageReportsAsync() {
-            return (await _damageReportRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
+            return (await _unitOfWork.DamageReportRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
         }
     }
 }

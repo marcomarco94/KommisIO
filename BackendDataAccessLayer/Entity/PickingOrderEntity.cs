@@ -1,6 +1,7 @@
 ﻿using DataRepoCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,13 @@ namespace BackendDataAccessLayer.Entity {
         /// The positions of the order.
         /// </summary>
         public ICollection<PickingOrderPositionEntity>? Positions { get; set; }
+
+        /// <summary>
+        /// The version for Optimistic Concurrency as inspried by: 
+        /// https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=data-annotations
+        /// </summary>
+        [Timestamp]
+        public byte[] Version { get; set; }
 
         public PickingOrderEntity(int id, byte priority, string note) {
             Id = id;

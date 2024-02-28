@@ -1,6 +1,7 @@
 ﻿using DataRepoCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -18,17 +19,26 @@ namespace BackendDataAccessLayer.Entity {
         /// <summary>
         /// The amount of the article that is to be picked.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public int DesiredAmount { get; set; }
 
         /// <summary>
         /// The amount that was already picked.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public int PickedAmount { get; set; }
 
         /// <summary>
         /// The article that should be picked.
         /// </summary>
         public ArticleEntity? Article { get; set; }
+
+        /// <summary>
+        /// The version for Optimistic Concurrency as inspried by: 
+        /// https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=data-annotations
+        /// </summary>
+        [Timestamp]
+        public byte[] Version { get; set; }
 
         public PickingOrderPositionEntity(int id, int desiredAmount, int pickedAmount) {
             Id = id;

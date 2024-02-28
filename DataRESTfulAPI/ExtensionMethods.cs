@@ -21,6 +21,7 @@ namespace DataRESTfulAPI {
             builder.Services.AddScoped<IRepository<StockPositionEntity>, StockPositionRepository>();
             builder.Services.AddScoped<IRepository<PickingOrderPositionEntity>, PickingOrderPositionRepository>();
 
+            builder.Services.AddTransient<IKommissIOUnitOfWork, KommissIOUnitOfWork>();
             builder.Services.AddScoped<IDemoDataBuilder, DemoDataBuilder>();
 
             //Inspired by Jesse (2019): https://stackoverflow.com/questions/58179180/jwt-authentication-and-swagger-with-net-core-3-0

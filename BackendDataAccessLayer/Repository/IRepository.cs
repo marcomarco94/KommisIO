@@ -28,29 +28,25 @@ namespace BackendDataAccessLayer.Repository {
         /// Insert an element into the repository.
         /// </summary>
         /// <param name="element">The element to insert.</param>
-        /// <returns>Returns true if the operation completes successfully.</returns>
-        Task<bool> InsertAsync(T element);
+        Task InsertAsync(T element);
 
         /// <summary>
         /// Insert elements into the repository.
         /// </summary>
         /// <param name="elements">The elements to insert.</param>
-        /// <returns>Returns true if the operation completes successfully.</returns>
-        Task<bool> InsertRangeAsync(IEnumerable<T> elements);
+        Task InsertRangeAsync(IEnumerable<T> elements);
 
         /// <summary>
         /// Delete an element using its id.
         /// </summary>
         /// <param name="id">The id of the element to remove from the repository.</param>
-        /// <returns>Returns true if the operation completes successfully.</returns>
-        Task<bool> DeleteAsync(int id);
+        Task DeleteAsync(int id);
 
         /// <summary>
         /// Update a given element.
         /// </summary>
         /// <param name="element">The element to update</param>
-        /// <returns>Returns true if the operation completes successfully.</returns>
-        Task<bool> UpdateAsync(T element);
+        Task UpdateAsync(T element);
 
         /// <summary>
         /// Select entities from the repository.
@@ -76,7 +72,6 @@ namespace BackendDataAccessLayer.Repository {
         /// <summary>
         /// Reset the data to some default data.
         /// </summary>
-        /// <returns>Returns true if successful</returns>
-        Task<bool> ResetAsync();
+        Task ResetAsync();
     }
 }

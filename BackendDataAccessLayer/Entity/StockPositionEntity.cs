@@ -1,6 +1,7 @@
 ﻿using DataRepoCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,7 @@ namespace BackendDataAccessLayer.Entity {
         /// <summary>
         /// The amount of items stored.
         /// </summary>
+        [Range(0, int.MaxValue)]
         public int Amount { get; set; }
 
         /// <summary>
@@ -28,6 +30,13 @@ namespace BackendDataAccessLayer.Entity {
         /// The article in the stock position.
         /// </summary>
         public ArticleEntity? Article { get; set; }
+
+        /// <summary>
+        /// The version for Optimistic Concurrency as inspried by: 
+        /// https://learn.microsoft.com/en-us/ef/core/saving/concurrency?tabs=data-annotations
+        /// </summary>
+        [Timestamp]
+        public byte[] Version { get; set; }
 
         public StockPositionEntity(int id, int amount, int shelfNumber) { 
             Id = id;
