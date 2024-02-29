@@ -31,16 +31,6 @@ public partial class OrderPickingViewModel : BaseViewModel
     [ObservableProperty]
     string? _currentAmount;
 
-    [ObservableProperty] 
-    bool _stockPositionEnabled;
-    
-    [ObservableProperty]
-    bool _articleEnabled;
-
-    [ObservableProperty] 
-    bool _amountEnabled;
-
-
     [RelayCommand]
     private async Task PickOrderAsync()
     {
