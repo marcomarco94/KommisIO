@@ -1,21 +1,17 @@
-using System.ComponentModel;
 
 namespace MauiClientLibrary.ViewModels;
 
 [QueryProperty(nameof(PickingOrder), "PickingOrder")]
-public partial class OrderPickingViewModel : BaseViewModel
+public partial class OrderPickingViewModel(
+    ILocalizationService localizationService,
+    IKommissIOAPI kommissIoApi,
+    IPopupService popupService)
+    : BaseViewModel
 {
-    private readonly ILocalizationService _localizationService;
-    private readonly IKommissIOAPI _kommissIoApi;
-    private readonly IPopupService _popupService;
+    private readonly ILocalizationService _localizationService = localizationService;
+    private readonly IKommissIOAPI _kommissIoApi = kommissIoApi;
+    private readonly IPopupService _popupService = popupService;
 
-    public OrderPickingViewModel(ILocalizationService localizationService, IKommissIOAPI kommissIoApi, IPopupService popupService)
-    {
-        _localizationService = localizationService;
-        _kommissIoApi = kommissIoApi;
-        _popupService = popupService;
-    }
-    
     [ObservableProperty] 
     PickingOrder? _pickingOrder;
 
@@ -57,7 +53,7 @@ public partial class OrderPickingViewModel : BaseViewModel
 
         }
         else {
-            Shell.Current.DisplayAlert("Error", "Fehler", "OK");
+            await Shell.Current.DisplayAlert("Error", "Fehler", "OK");
         }
     }
     

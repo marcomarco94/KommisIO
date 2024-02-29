@@ -15,6 +15,6 @@ public class LocalizationService : ILocalizationService
 
     public string GetResourceValue(string key)
     {
-        return _resourceManager.GetString(key, CultureInfo.CurrentCulture);
+        return _resourceManager.GetString(key, CultureInfo.CurrentCulture) ?? string.Empty;
     }
 }

@@ -25,15 +25,6 @@
             SearchCommandParameter="{Binding SearchId}"
             IsEnabled="{Binding IsEnabled}">
         </SearchBar>
-        
-        <!--<Button 
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="5"
-            Text="Picking Orders" 
-            Command="{Binding LoadPickingOrdersCommand}"
-            CommandParameter="{x:Static System:Boolean.FalseString}"
-            IsEnabled="{Binding IsEnabled}"/>-->
 
         <CollectionView
             Grid.Row="1"
@@ -45,7 +36,9 @@
                 <DataTemplate x:DataType="models:OrderOverviewModel">
                     <Button
                         Margin="5"
-                        Text="{Binding Title}" />
+                        Text="{Binding Title}"
+                        Command="{Binding  Source={RelativeSource AncestorType={x:Type viewmodel:OrdersOverviewViewModel}} , Path=GetPickingOrdersCommand}"
+                        CommandParameter="{Binding .}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -137,6 +130,5 @@
             IsRunning="{Binding IsNotEnabled}"
             IsVisible="{Binding IsNotEnabled}"
             Color="{StaticResource Primary}" />
-        
     </Grid>
 </ContentPage>

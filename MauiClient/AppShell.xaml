@@ -8,8 +8,8 @@
     xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
     
     Shell.FlyoutBehavior="Disabled"
-    Title="MauiClient">
-    <Shell.BackgroundColor>LightBlue</Shell.BackgroundColor>
+    Title="MauiClient"
+    BackgroundColor="{AppThemeBinding Light=LightBlue, Dark=DarkGray}">
     <Shell.ToolbarItems>
         <ToolbarItem
             IconImageSource="info.png"

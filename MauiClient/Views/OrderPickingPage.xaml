@@ -14,13 +14,13 @@
             Command="{Binding GetOrderPositionsCommand}" 
             IsRefreshing="{Binding IsNotEnabled}" >
             <Grid
-                RowDefinitions="Auto,Auto">
+                RowDefinitions="Auto,*">
                 <Frame
                     Grid.Row="0"
                     Margin="5"
                     BorderColor="Black">
                 <Grid
-                    RowDefinitions="Auto,Auto,Auto"
+                    RowDefinitions="Auto,Auto,*"
                     ColumnDefinitions="90*,10*">
                     <SearchBar
                         Grid.Row="0"
@@ -198,7 +198,7 @@
                                                                     <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"
-                                                                        Text="Lagerplätze: " />
+                                                                        Text="Lagerplatz: " />
                                                                     <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"

@@ -5,7 +5,6 @@ namespace MauiClientLibrary.ViewModels;
 public partial class OrdersOverviewViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
-    private readonly IOrderOverviewStorage _orderOverviewStorage;
     private readonly IKommissIOAPI _kommissIoapi;
     private readonly IPopupService _popupService;
 
@@ -19,16 +18,13 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         _kommissIoapi = kommissIoApi;
         _popupService = popupService;
 
-        _orderOverviewStorage = orderOverviewStorage;
-        _activeMenu = _orderOverviewStorage.GetActiveMenu();
-        PropertyChanged += Property_Changed;
-
-
+        _activeMenu = orderOverviewStorage.GetActiveMenu();
+        PropertyChanged += Property_Changed!;
     }
 
     ~OrdersOverviewViewModel()
     {
-        PropertyChanged -= Property_Changed;
+        PropertyChanged -= Property_Changed!;
     }
 
     [ObservableProperty]
@@ -51,12 +47,40 @@ public partial class OrdersOverviewViewModel : BaseViewModel
     
     [ObservableProperty]  
     ObservableCollection<PickingOrder>? _pickingOrders = new();
+
+    [ObservableProperty]  
+    OrderOverviewModel? _selectedView;
+
+    [RelayCommand]
+    private async Task GetPickingOrdersAsync(OrderOverviewModel selectedView)
+    {
+        SelectedView = selectedView;
+        await LoadPickingOrdersAsync();
+    }
     
-    [ObservableProperty]
-    string _filterInProgress;
+    [RelayCommand]
+    private async Task LoadPickingOrdersAsync()
+    {
+        IsBusy = true;
+        PickingOrders?.Clear();
+        ObservableCollection<PickingOrder> orders;
+        
+        if (SelectedView is null)
+        {
+            orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetInProgressAssignedPickingOrdersAsync());
+        }
+        else
+        {
+            orders = new ObservableCollection<PickingOrder>(await SelectedView.Function());
+        }
 
-
-
+        foreach (var order in orders)
+        {
+            PickingOrders?.Add(order);
+        }
+        IsBusy = false;
+    }
+    
     [RelayCommand]
     private async Task  GetBarcodeByScanAsync()
     {
@@ -98,7 +122,6 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         SearchId = String.Empty;
         SelectedOrder = null;
         bool hasError = !int.TryParse(value, out int id);
-        PickingOrder? foundOrder = null;
 
         if (hasError)
         {
@@ -109,7 +132,7 @@ public partial class OrdersOverviewViewModel : BaseViewModel
 
         var orders = await _kommissIoapi.GetOpenPickingOrdersAsync();
         List<PickingOrder> orderList = orders.ToList();
-        foundOrder = orderList.Find(po => po.Id == id);
+        var foundOrder = orderList.Find(po => po.Id == id);
         if (foundOrder is null)
         {
             HasErrors = true;
@@ -124,48 +147,31 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         if (value is null) 
             return;
 
-        var canAssign = await _kommissIoapi.AssignToPickingOrderAsync(value);
-        if (!canAssign) {
-            HasErrors = true;
-            await Shell.Current.DisplayAlert("Error!", "Order could not be assigned", "OK");
-            await  LoadPickingOrdersAsync(FilterInProgress);
-            return;
-        }
-        
-        await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
+        IsBusy = true;
+        if (_kommissIoapi.CurrentEmployee != value.Assignee)
         {
-            {"PickingOrder", value}
-        });
+            var canAssign = await _kommissIoapi.AssignToPickingOrderAsync(value);
+            if (!canAssign) {
+                await Shell.Current.DisplayAlert("Error!", "Order could not be assigned", "OK");
+                return;
+            }
+        }
+        else {
+            await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
+            {
+                {"PickingOrder", value}
+            });
+        }
+        IsBusy = false;
     }
 
     private async Task  ErrorChanged(bool value)
     {
         if (value)
         {
-            await LoadPickingOrdersAsync(FilterInProgress);
+            await LoadPickingOrdersAsync();
             HasErrors = false;
         }
-    }
-
-    [RelayCommand]
-    private async Task LoadPickingOrdersAsync(string inProgress)
-    {
-        IsBusy = true;
-        FilterInProgress = inProgress;
-        PickingOrders?.Clear();
-        ObservableCollection<PickingOrder> orders;
-        if (inProgress == "True")
-        {
-            orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetInProgressAssignedPickingOrdersAsync());
-        }
-        else {
-            orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetOpenPickingOrdersAsync());
-        }
-        foreach (var order in orders)
-        {
-            PickingOrders?.Add(order);
-        }
-        IsBusy = false;
     }
     
 }

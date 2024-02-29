@@ -16,6 +16,7 @@ namespace MauiClientLibrary.Storages
         {
             var employeeRole = _kommissIoApi.CurrentEmployee!.Role;
             return new ObservableCollection<MenuItemModel>(_activeMenu.Where(r => Enum.Parse<Role>(r.RequiredRole.ToString()) >= employeeRole));
+            
         }
 
         private List<MenuItemModel> CreateMainMenu()

@@ -2,15 +2,12 @@
 namespace MauiClientLibrary.ViewModels;
 
 public partial class MainMenuViewModel : BaseViewModel
-{ 
-    private readonly IKommissIOAPI _kommissIoApi;
-    private readonly IMainMenuStorage _mainMenuStorage;
+{
     private readonly ILocalizationService _localizationService;
     public MainMenuViewModel(IMainMenuStorage mainMenuStorage, ILocalizationService localizationService)
     {
-        _mainMenuStorage = mainMenuStorage;
         _localizationService = localizationService;
-        _mainMenu =_mainMenuStorage.GetMainMenu();
+        _mainMenu =mainMenuStorage.GetMainMenu();
     }
         
     [ObservableProperty] 

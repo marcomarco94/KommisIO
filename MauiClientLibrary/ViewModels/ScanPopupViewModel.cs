@@ -5,7 +5,7 @@ namespace MauiClientLibrary.ViewModels;
 
 public partial class ScanPopupViewModel : BaseViewModel
 {
-    public BarcodeReaderOptions GetBarcodeReaderOptions()
+    public static BarcodeReaderOptions GetBarcodeReaderOptions()
     {
         return new BarcodeReaderOptions
         {

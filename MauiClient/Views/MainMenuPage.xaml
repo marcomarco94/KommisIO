@@ -11,26 +11,24 @@
     <ScrollView>
           
             <FlexLayout
-                Margin="0,10,0,0"
                 Direction="Row"
                 Wrap="Wrap"
-                JustifyContent="SpaceAround"
-                VerticalOptions="FillAndExpand"
+                JustifyContent="SpaceEvenly"
+                AlignItems="Stretch"
                 AlignContent="Start"
-            BindableLayout.ItemsSource="{Binding MainMenu}">
+                BindableLayout.ItemsSource="{Binding MainMenu}">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="model:MenuItemModel">
                     <Button 
                         Text="{Binding Title}"
                         ContentLayout="Bottom, 10"
-                        FontSize="8"
+                        FontSize="12"
                         FontAttributes="Bold"
                         HorizontalOptions="Fill"
-                        Margin="5"
-                        MinimumWidthRequest="120"
-                        MaximumWidthRequest="150"
-                        MinimumHeightRequest="130"
-                        MaximumHeightRequest="180"
+                        Margin="5, 10"
+                        FlexLayout.Basis="160"
+                        FlexLayout.Grow="0.75"
+                        FlexLayout.Shrink="0.5"
                         HeightRequest="130" 
                         ImageSource="{Binding Icon}"
                         TextTransform="Uppercase"

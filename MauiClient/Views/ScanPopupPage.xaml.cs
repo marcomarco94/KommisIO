@@ -7,7 +7,7 @@ public partial class  ScanPopupPage : Popup
     {
         InitializeComponent();
         BindingContext = viewModel;
-        barcodeReader.Options = viewModel.GetBarcodeReaderOptions();
+        barcodeReader.Options = ScanPopupViewModel.GetBarcodeReaderOptions();
     }
     
     private void BarcodeReader_BarcodesDetected(object sender, ZXing.Net.Maui.BarcodeDetectionEventArgs e)

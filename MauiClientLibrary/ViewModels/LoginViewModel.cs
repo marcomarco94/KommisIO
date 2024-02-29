@@ -62,22 +62,39 @@ public partial class LoginViewModel : BaseViewModel
             return;
         }
 
-        short personnelNumberParsed = 0;
-        bool canParse = short.TryParse(PersonnelNumber, out personnelNumberParsed);
-        IsBusy = true;
-        await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
-        if (_kommissIoApi.CurrentEmployee != null)
+        bool canParse = short.TryParse(PersonnelNumber, out var personnelNumberParsed);
+        if (!canParse)
         {
+         await  DisplayInvalidLoginAlert();
+         return;
+        }
+        IsBusy = true;
+
+        try
+        {
+            await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
+            if (_kommissIoApi.CurrentEmployee == null)
+            {
+                await DisplayInvalidLoginAlert();
+                return;
+            }
             await Shell.Current.GoToAsync("MainMenuPage", true);
         }
-        else 
+        catch (HttpRequestException ex)
         {
-            string alertTitle = _localizationService.GetResourceValue("InvalidLogin");
-            string alertMessage = _localizationService.GetResourceValue("InvalidLoginMessage");
-            string alertConfirm = _localizationService.GetResourceValue("Ok");
-            await Shell.Current.DisplayAlert(alertTitle, alertMessage, alertConfirm);
+           await  DisplayInvalidLoginAlert();
         }
-
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+    
+    private async Task DisplayInvalidLoginAlert()
+    {
+        string alertTitle = _localizationService.GetResourceValue("InvalidLogin");
+        string alertMessage = _localizationService.GetResourceValue("InvalidLoginMessage");
+        string alertConfirm = _localizationService.GetResourceValue("Ok");
+        await Shell.Current.DisplayAlert(alertTitle, alertMessage, alertConfirm);
     }
 }
