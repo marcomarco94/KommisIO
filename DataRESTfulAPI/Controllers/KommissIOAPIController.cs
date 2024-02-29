@@ -108,26 +108,26 @@ namespace DataRESTfulAPI.Controllers {
         }
 
         /// <summary>
-        /// Get all currently open picking orders. (role: employee)
+        /// Get all currently open picking orders. (role: employee, manager, administrator)
         /// </summary>
         /// <returns>Return an enumerable of picking orders.</returns>
         [Route("pickingorder/open")]
         [HttpGet]
-        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}")]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<PickingOrder>> GetOpenPickingOrdersAsync() {
             return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee == null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) > 0)).Select(po => po.MapToDataModel());
         }
 
         /// <summary>
-        /// Pick an item from a stock position. (role: employee)
+        /// Pick an item from a stock position. (role: employee, administrator)
         /// </summary>
         /// <param name="position">The stock-position from which to pick.</param>
         /// <param name="amount">The amount to pick.</param>
         /// <returns>Return true if the item can be picked.</returns>
         [Route("pick/{orderPosition}/{stockPosition}/{amount}")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Employee))]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Administrator)}")]
         public async Task<bool> PickAsync(int orderPosition, int stockPosition, int amount) {
             var orderPositionEntity = await _unitOfWork.PickingOrderPositionRepository.GetElementByIDAsync(orderPosition);
             if (orderPositionEntity is null) return false;
@@ -157,25 +157,25 @@ namespace DataRESTfulAPI.Controllers {
         }
 
         /// <summary>
-        /// Get all stock positions of an given article (role: employee, manager)
+        /// Get all stock positions of an given article (role: employee, manager, administrator)
         /// </summary>
         /// <param name="article">The article for which all its stock positions are requested.</param>
         /// <returns>Returns all stock positons for the article.</returns>
         [Route("stockposition/{article}")]
         [HttpGet]
-        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}")]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(int article) {
             return (await _unitOfWork.StockPositionRepository.WhereAsync(sp => sp.Article!.ArticleId.Equals(article))).Select(article => article.MapToDataModel());
         }
 
         /// <summary>
-        /// Assign the employee to a picking order. (role: employee)
+        /// Assign the employee to a picking order. (role: employee, administrator)
         /// </summary>
         /// <param name="order">The order to which an employee should be assigned</param>
         /// <returns>True if the employee was successfully assigned.</returns>
         [Route("pickingorder/assign/{order}")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Employee))]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Administrator)}")]
         public async Task<bool> AssignToPickingOrderAsync(int order) {
             var pickingOrder = await _unitOfWork.PickingOrderRepository.GetElementByIDAsync(order);
             if (pickingOrder == null || pickingOrder.Employee != null)
@@ -194,7 +194,7 @@ namespace DataRESTfulAPI.Controllers {
         /// <returns>Return an enumerable of all picking-orders.</returns>
         [Route("pickingorder/all")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Manager))]
+        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<PickingOrder>> GetPickingOrdersAsync() {
             return (await _unitOfWork.PickingOrderRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
         }
@@ -205,7 +205,7 @@ namespace DataRESTfulAPI.Controllers {
         /// <returns>Return an enumerable of all finished picking orders.</returns>
         [Route("pickingorder/finished")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Manager))]
+        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<PickingOrder>> GetFinishedPickingOrdersAsync() {
             return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) == 0)).Select(e => e.MapToDataModel());
@@ -217,19 +217,19 @@ namespace DataRESTfulAPI.Controllers {
         /// <returns>Return an enumerable of all in progress picking orders.</returns>
         [Route("pickingorder/progress")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Manager))]
+        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<PickingOrder>> GetInProgressPickingOrdersAsync() {
             return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null &&
             po.Positions!.Count(pop => (pop.DesiredAmount - pop.PickedAmount) > 0) > 0)).Select(e => e.MapToDataModel());
         }
 
         /// <summary>
-        /// Get all picking orders that are in progress and assigned to the current user. (role: employee)
+        /// Get all picking orders that are in progress and assigned to the current user. (role: employee, administrator)
         /// </summary>
         /// <returns>Return an enumerable of all in progress picking orders.</returns>
         [Route("pickingorder/assigned/progress")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Employee))]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<PickingOrder>> GetInProgressAssignedPickingOrdersAsync() {
             var currentEmp = await GetCurrentEmployeeAsync();
             return (await _unitOfWork.PickingOrderRepository.WhereAsync(po => po.Employee != null && po.Employee.PersonnelNumber == currentEmp!.PersonnelNumber &&
@@ -249,13 +249,13 @@ namespace DataRESTfulAPI.Controllers {
         }
 
         /// <summary>
-        /// Report a damaged article. (role: employee)
+        /// Report a damaged article. (role: employee, administrator)
         /// </summary>
         /// <param name="report">The report to file.</param>
         /// <returns>True if the report was successfully filed.</returns>
         [Route("report/damage/fileReport")]
         [HttpPost]
-        [Authorize(Roles = nameof(Role.Employee))]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Administrator)}")]
         public async Task<bool> ReportDamagedArticleAsync(DamageReportFileRequest report) {
             var article = await _unitOfWork.ArticleRepository.GetArticleByArticleNumberAsync(report.ArticleNumber);
 
@@ -274,12 +274,12 @@ namespace DataRESTfulAPI.Controllers {
         }
 
         /// <summary>
-        /// Get all damage reports. (role: manager)
+        /// Get all damage reports. (role: manager, administrator)
         /// </summary>
         /// <returns>Return an enumerable of all damage-reports.</returns>
         [Route("report/damage/all")]
         [HttpGet]
-        [Authorize(Roles = nameof(Role.Manager))]
+        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<DamageReport>> GetArticleDamageReportsAsync() {
             return (await _unitOfWork.DamageReportRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
         }

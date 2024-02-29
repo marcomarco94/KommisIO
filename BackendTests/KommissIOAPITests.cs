@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace BackendTests {
     public class KommissIOAPITests {
         //Test on your local server, start it and set the uri here.
-        readonly string uri = /*"https://localhost:7051/api/"; "https://kommissio.azurewebsites.net/api/"*/;
+        readonly string uri = "https://localhost:7051/api/"; /*"https://kommissio.azurewebsites.net/api/";*/
 
         [Fact]
         public async Task TestAuthentication() {
@@ -155,26 +155,26 @@ namespace BackendTests {
 
             if (!role.HasFlag(Role.Administrator)) {
                 Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.ResetToDefaultAsync())).StatusCode);
-            }
 
-            if (!role.HasFlag(Role.Manager)) {
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetArticleDamageReportsAsync())).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetFinishedPickingOrdersAsync())).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetInProgressPickingOrdersAsync())).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetPickingOrdersAsync())).StatusCode);
-            }
+                if (!role.HasFlag(Role.Manager)) {
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetArticleDamageReportsAsync())).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetFinishedPickingOrdersAsync())).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetInProgressPickingOrdersAsync())).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetPickingOrdersAsync())).StatusCode);
+                }
 
-            if (!role.HasFlag(Role.Employee) && !role.HasFlag(Role.Manager)) {
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetStockPositionsForArticleAsync(new Article() { ArticleNumber = 1, Name = "" }))).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetOpenPickingOrdersAsync())).StatusCode);
-            }
+                if (!role.HasFlag(Role.Employee) && !role.HasFlag(Role.Manager)) {
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetStockPositionsForArticleAsync(new Article() { ArticleNumber = 1, Name = "" }))).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetOpenPickingOrdersAsync())).StatusCode);
+                }
 
-            if (!role.HasFlag(Role.Employee)) {
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetInProgressAssignedPickingOrdersAsync())).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.AssignToPickingOrderAsync(new PickingOrder() { Note = "", OrderPositions = new List<PickingOrderPosition>(), Priority = 1 }))).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.ReportDamagedArticleAsync(new Article() { ArticleNumber = 1, Name = "" }, ""))).StatusCode);
-                Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.PickAsync(new PickingOrderPosition() { Article = new Article() { ArticleNumber = 1, Name = "" }, DesiredAmount = 1, PickedAmount = 0 },
-                new StockPosition() { Amount = 10, Article = new Article() { ArticleNumber = 1, Name = "" }, ShelfNumber = 10 }))).StatusCode);
+                if (!role.HasFlag(Role.Employee)) {
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetInProgressAssignedPickingOrdersAsync())).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.AssignToPickingOrderAsync(new PickingOrder() { Note = "", OrderPositions = new List<PickingOrderPosition>(), Priority = 1 }))).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.ReportDamagedArticleAsync(new Article() { ArticleNumber = 1, Name = "" }, ""))).StatusCode);
+                    Assert.Equal(System.Net.HttpStatusCode.Forbidden, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.PickAsync(new PickingOrderPosition() { Article = new Article() { ArticleNumber = 1, Name = "" }, DesiredAmount = 1, PickedAmount = 0 },
+                    new StockPosition() { Amount = 10, Article = new Article() { ArticleNumber = 1, Name = "" }, ShelfNumber = 10 }))).StatusCode);
+                }
             }
         }
 
