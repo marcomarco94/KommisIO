@@ -126,7 +126,9 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         if (hasError)
         {
             HasErrors = true;
-            await Shell.Current.DisplayAlert("Error!", "Invalid barcode", "OK");
+            await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError"), 
+                _localizationService.GetResourceValue("OrdersOverviewViewModel_InvalidBarcode"),
+                _localizationService.GetResourceValue("GeneralOK"));
             return;
         }
 
@@ -136,7 +138,9 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         if (foundOrder is null)
         {
             HasErrors = true;
-            await Shell.Current.DisplayAlert("Error!", "Order not found", "OK");
+            await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError"),
+                _localizationService.GetResourceValue("OrdersOverviewViewModel_OrderNotFound"),
+                _localizationService.GetResourceValue("GeneralOK"));
             return;
         }
         CurrentOrder = foundOrder;
@@ -148,20 +152,23 @@ public partial class OrdersOverviewViewModel : BaseViewModel
             return;
 
         IsBusy = true;
-        if (_kommissIoapi.CurrentEmployee != value.Assignee)
+        
+        bool isAssigned = _kommissIoapi.CurrentEmployee == value.Assignee;
+        
+        if (!isAssigned)
         {
-            var canAssign = await _kommissIoapi.AssignToPickingOrderAsync(value);
-            if (!canAssign) {
-                await Shell.Current.DisplayAlert("Error!", "Order could not be assigned", "OK");
-                return;
-            }
+            isAssigned = await _kommissIoapi.AssignToPickingOrderAsync(value);
         }
-        else {
-            await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
-            {
-                {"PickingOrder", value}
-            });
+        if (!isAssigned) {
+            await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError"),
+                _localizationService.GetResourceValue("OrdersOverviewViewModel_CantAssign"),
+                _localizationService.GetResourceValue("GeneralOK"));
+            return;
         }
+        await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
+        {
+            {"PickingOrder", value}
+        });
         IsBusy = false;
     }
 

@@ -61,74 +61,434 @@ namespace LocalizationsLibrary.Localizations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to First name.
         /// </summary>
-        public static string HelloWorld {
+        public static string CurrentUserPage_FirstName {
             get {
-                return ResourceManager.GetString("HelloWorld", resourceCulture);
+                return ResourceManager.GetString("CurrentUserPage_FirstName", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Login.
+        ///   Looks up a localized string similar to Last name.
         /// </summary>
-        public static string Login {
+        public static string CurrentUserPage_LastName {
             get {
-                return ResourceManager.GetString("Login", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Welcome, please login.
-        /// </summary>
-        public static string LoginIntro {
-            get {
-                return ResourceManager.GetString("LoginIntro", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PlaceHolder.
-        /// </summary>
-        public static string MessageInvalidInput {
-            get {
-                return ResourceManager.GetString("MessageInvalidInput", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to OK.
-        /// </summary>
-        public static string Ok {
-            get {
-                return ResourceManager.GetString("Ok", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Password.
-        /// </summary>
-        public static string Password {
-            get {
-                return ResourceManager.GetString("Password", resourceCulture);
+                return ResourceManager.GetString("CurrentUserPage_LastName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Personnel Number.
         /// </summary>
-        public static string PersonnelNumber {
+        public static string CurrentUserPage_PersonnelNumber {
             get {
-                return ResourceManager.GetString("PersonnelNumber", resourceCulture);
+                return ResourceManager.GetString("CurrentUserPage_PersonnelNumber", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid Input.
+        ///   Looks up a localized string similar to Sample data reset.
         /// </summary>
-        public static string TitleInvalidInput {
+        public static string CurrentUserPage_Reset {
             get {
-                return ResourceManager.GetString("TitleInvalidInput", resourceCulture);
+                return ResourceManager.GetString("CurrentUserPage_Reset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        public static string CurrentUserPage_Role {
+            get {
+                return ResourceManager.GetString("CurrentUserPage_Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current User.
+        /// </summary>
+        public static string CurrentUserPage_Title {
+            get {
+                return ResourceManager.GetString("CurrentUserPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        public static string GeneralError {
+            get {
+                return ResourceManager.GetString("GeneralError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string GeneralOK {
+            get {
+                return ResourceManager.GetString("GeneralOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CommissIO.
+        /// </summary>
+        public static string LoginPage_AppName {
+            get {
+                return ResourceManager.GetString("LoginPage_AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Login.
+        /// </summary>
+        public static string LoginPage_Login {
+            get {
+                return ResourceManager.GetString("LoginPage_Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome, please login.
+        /// </summary>
+        public static string LoginPage_LoginIntro {
+            get {
+                return ResourceManager.GetString("LoginPage_LoginIntro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password.
+        /// </summary>
+        public static string LoginPage_Password {
+            get {
+                return ResourceManager.GetString("LoginPage_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Personnel Number.
+        /// </summary>
+        public static string LoginPage_PersonnelNumber {
+            get {
+                return ResourceManager.GetString("LoginPage_PersonnelNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid Login.
+        /// </summary>
+        public static string LoginViewModel_InvalidLogin {
+            get {
+                return ResourceManager.GetString("LoginViewModel_InvalidLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incorrect credentials.
+        /// </summary>
+        public static string LoginViewModel_InvalidLoginMessage {
+            get {
+                return ResourceManager.GetString("LoginViewModel_InvalidLoginMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Menu.
+        /// </summary>
+        public static string MainMenuPage_Title {
+            get {
+                return ResourceManager.GetString("MainMenuPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incoming Goods.
+        /// </summary>
+        public static string MainMenuSotrage_IncomingGoods {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_IncomingGoods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inventory.
+        /// </summary>
+        public static string MainMenuSotrage_Inventory {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_Inventory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Picking.
+        /// </summary>
+        public static string MainMenuSotrage_OrderPicking {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_OrderPicking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outgoing Goods.
+        /// </summary>
+        public static string MainMenuSotrage_OutgoingGoods {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_OutgoingGoods", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MainMenuSotrage_Settings {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Storage.
+        /// </summary>
+        public static string MainMenuSotrage_Storage {
+            get {
+                return ResourceManager.GetString("MainMenuSotrage_Storage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Order.
+        /// </summary>
+        public static string OrderOverviewPage_EditOrder {
+            get {
+                return ResourceManager.GetString("OrderOverviewPage_EditOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Note: .
+        /// </summary>
+        public static string OrderOverviewPage_Note {
+            get {
+                return ResourceManager.GetString("OrderOverviewPage_Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Id: .
+        /// </summary>
+        public static string OrderOverviewPage_OrderId {
+            get {
+                return ResourceManager.GetString("OrderOverviewPage_OrderId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Priority: .
+        /// </summary>
+        public static string OrderOverviewPage_Priority {
+            get {
+                return ResourceManager.GetString("OrderOverviewPage_Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picking Orders.
+        /// </summary>
+        public static string OrderOverviewPage_Title {
+            get {
+                return ResourceManager.GetString("OrderOverviewPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All Orders.
+        /// </summary>
+        public static string OrderOverviewStorage_AllOrders {
+            get {
+                return ResourceManager.GetString("OrderOverviewStorage_AllOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigned in Progress.
+        /// </summary>
+        public static string OrderOverviewStorage_AssignedInProgress {
+            get {
+                return ResourceManager.GetString("OrderOverviewStorage_AssignedInProgress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed Orders.
+        /// </summary>
+        public static string OrderOverviewStorage_CompletedOrders {
+            get {
+                return ResourceManager.GetString("OrderOverviewStorage_CompletedOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open Orders.
+        /// </summary>
+        public static string OrderOverviewStorage_OpenOrders {
+            get {
+                return ResourceManager.GetString("OrderOverviewStorage_OpenOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amount: .
+        /// </summary>
+        public static string OrderPickingPage_Amount {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_Amount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Article number: .
+        /// </summary>
+        public static string OrderPickingPage_ArticleNumber {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_ArticleNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Available Pcs.: .
+        /// </summary>
+        public static string OrderPickingPage_AvailablePcs {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_AvailablePcs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description: .
+        /// </summary>
+        public static string OrderPickingPage_Description {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Desired Amount: .
+        /// </summary>
+        public static string OrderPickingPage_DesiredAmount {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_DesiredAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dimensions (l, b, h) : .
+        /// </summary>
+        public static string OrderPickingPage_Dimensions {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_Dimensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Article.
+        /// </summary>
+        public static string OrderPickingPage_EnterArticle {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_EnterArticle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter Storage Location.
+        /// </summary>
+        public static string OrderPickingPage_EnterStorageLocation {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_EnterStorageLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Picked Amount: .
+        /// </summary>
+        public static string OrderPickingPage_PickedAmount {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_PickedAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pick order.
+        /// </summary>
+        public static string OrderPickingPage_PickOrder {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_PickOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shelf Number:.
+        /// </summary>
+        public static string OrderPickingPage_ShelfNumber {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_ShelfNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order Picking.
+        /// </summary>
+        public static string OrderPickingPage_Title {
+            get {
+                return ResourceManager.GetString("OrderPickingPage_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Success!.
+        /// </summary>
+        public static string OrderPickingViewModel_Success {
+            get {
+                return ResourceManager.GetString("OrderPickingViewModel_Success", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order could not be assigned.
+        /// </summary>
+        public static string OrdersOverviewViewModel_CantAssign {
+            get {
+                return ResourceManager.GetString("OrdersOverviewViewModel_CantAssign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order not found.
+        /// </summary>
+        public static string OrdersOverviewViewModel_InvalidBarcode {
+            get {
+                return ResourceManager.GetString("OrdersOverviewViewModel_InvalidBarcode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid barcode.
+        /// </summary>
+        public static string OrdersOverviewViewModel_OrderNotFound {
+            get {
+                return ResourceManager.GetString("OrdersOverviewViewModel_OrderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string PLACEHOLDER {
+            get {
+                return ResourceManager.GetString("PLACEHOLDER", resourceCulture);
             }
         }
     }

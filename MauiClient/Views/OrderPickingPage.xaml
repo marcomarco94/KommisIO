@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lang="clr-namespace:LocalizationsLibrary.Localizations;assembly=LocalizationsLibrary"
              x:Class="MauiClient.Views.OrderPickingPage"
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:OrderPickingViewModel"
              xmlns:model="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:dataRepoCore="clr-namespace:DataRepoCore;assembly=DataRepoCore"
-             Title="Order Picking">
+             Title="{x:Static lang:AppResources.OrderPickingPage_Title}"
+             HideSoftInputOnTapped="True">
     
     <StackLayout>
         <RefreshView 
@@ -25,7 +26,8 @@
                     <SearchBar
                         Grid.Row="0"
                         Grid.Column="0"
-                        Placeholder="Lagerplatz erfassen"
+                        Placeholder="{x:Static lang:AppResources.OrderPickingPage_EnterStorageLocation}"
+                        Text="{Binding CurrentShelfNumber}"
                         IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Row="0"
@@ -37,7 +39,8 @@
                     <SearchBar
                         Grid.Column="0"
                         Grid.Row="1"
-                        Placeholder="Artikel erfassen"
+                        Placeholder="{x:Static lang:AppResources.OrderPickingPage_EnterArticle}"
+                        Text="{Binding CurrentArticleNumber}"
                         IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Column="1"
@@ -49,7 +52,8 @@
                     <SearchBar
                         Grid.Column="0"
                         Grid.Row="2"
-                        Placeholder="Menge: "
+                        Placeholder="{x:Static lang:AppResources.OrderPickingPage_Amount}"
+                        Text="{Binding CurrentAmount}"
                         IsEnabled="{Binding IsEnabled}"/>
                     <ImageButton
                         Grid.Row="2"
@@ -85,7 +89,7 @@
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
-                                            Text="Artikelnummer: " />
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_ArticleNumber}" />
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
@@ -98,7 +102,7 @@
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
-                                            Text="Bezeichnung: " />
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_Description}" />
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
@@ -111,7 +115,7 @@
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
-                                            Text="Benötigte Menge: "/>
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_DesiredAmount}"/>
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
@@ -124,7 +128,7 @@
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
-                                            Text="Entnommene Menge: " />
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_PickedAmount}" />
                                         <Label 
                                             FontAttributes="Bold"
                                             FontSize="14"
@@ -136,7 +140,7 @@
                                         Orientation="Horizontal" >
                                         <Label 
                                             FontSize="14"
-                                            Text="Abmessungen (l, b, h) : " />
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_Dimensions}" />
                                         <Label>
                                             <Label.FormattedText>
                                             <FormattedString>
@@ -155,7 +159,7 @@
                                         Grid.Row="3" 
                                         Orientation="Horizontal">
                                         <Label 
-                                            Text="Beschreibung: " />
+                                            Text="{x:Static lang:AppResources.OrderPickingPage_Description}"  />
                                         <Label 
                                             Text="{Binding OrderPosition.Article.Description}" />
                                     </StackLayout>
@@ -185,12 +189,12 @@
                                                                     <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"
-                                                                        Text="Vorhandene Stk.: " />
-                                                                    <Label 
+                                                                        Text="{x:Static lang:AppResources.OrderPickingPage_AvailablePcs}" />
+                                                                        <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"
                                                                         Text="{Binding Amount}" />
-                                                                </StackLayout>
+                                                                    </StackLayout>
                                                                 <StackLayout 
                                                                     Grid.Column="0"
                                                                     Grid.Row="1" 
@@ -198,7 +202,7 @@
                                                                     <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"
-                                                                        Text="Lagerplatz: " />
+                                                                        Text="{x:Static lang:AppResources.OrderPickingPage_ShelfNumber}" />
                                                                     <Label 
                                                                         FontAttributes="Bold"
                                                                         FontSize="14"
@@ -219,5 +223,8 @@
                 </CollectionView>
             </Grid>
         </RefreshView>
+        <Button Text="{x:Static lang:AppResources.OrderPickingPage_PickOrder}" 
+                VerticalOptions="End"
+                Command="{Binding PickOrderCommand}"/>
     </StackLayout>
 </ContentPage>

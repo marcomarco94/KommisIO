@@ -39,6 +39,5 @@ public partial class BaseViewModel : ObservableValidator
 
     [ObservableProperty] 
     bool _isLoggedIn;
-    public bool IsLoggedOut => !IsLoggedIn;
     
 }

@@ -6,7 +6,7 @@
              xmlns:model="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
              x:DataType="viewmodel:MainMenuViewModel"
              x:Class="MauiClient.Views.MainMenuPage"
-             Title="Hauptmenü">
+             Title="{x:Static lang:AppResources.MainMenuPage_Title}">
 
     <ScrollView>
           
