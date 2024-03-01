@@ -145,10 +145,10 @@
     <value>KommissIO</value>
   </data>
   <data name="LoginPage_Login" xml:space="preserve">
-    <value>Willkommen, bitte Einloggen</value>
+    <value>Login</value>
   </data>
   <data name="LoginPage_LoginIntro" xml:space="preserve">
-    <value>Login</value>
+    <value>Willkommen, bitte Einloggen</value>
   </data>
   <data name="LoginPage_Password" xml:space="preserve">
     <value>Passwort</value>
