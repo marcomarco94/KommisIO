@@ -102,7 +102,7 @@ namespace AppDataAccessCore {
 
         /// <inheritdoc/>
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(Article article) {
-            HttpResponseMessage responseMessage = await _client.GetAsync($"stockposition/{article.ArticleNumber}");
+            HttpResponseMessage responseMessage = await _client.GetAsync($"stockposition/article/{article.ArticleNumber}");
             responseMessage.EnsureSuccessStatusCode();
             return (await responseMessage.Content.ReadFromJsonAsync<IEnumerable<StockPosition>>())!;
         }
@@ -134,6 +134,34 @@ namespace AppDataAccessCore {
         public void Dispose() {
             _client.Dispose();
             Token = null;
+        }
+
+        /// <inheritdoc/>
+        public async Task<PickingOrder?> GetPickingOrderByIdAsync(int id) {
+            HttpResponseMessage responseMessage = await _client.GetAsync($"pickingorder/{id}");
+            responseMessage.EnsureSuccessStatusCode();
+            return (await responseMessage.Content.ReadFromJsonAsync<PickingOrder?>())!;
+        }
+
+        /// <inheritdoc/>
+        public async Task<PickingOrderPosition?> GetPickingOrderPositionByIdAsync(int id) {
+            HttpResponseMessage responseMessage = await _client.GetAsync($"pickingorder/position/{id}");
+            responseMessage.EnsureSuccessStatusCode();
+            return (await responseMessage.Content.ReadFromJsonAsync<PickingOrderPosition?>())!;
+        }
+
+        /// <inheritdoc/>
+        public async Task<Article?> GetArticleByArticleNumberAsync(int id) {
+            HttpResponseMessage responseMessage = await _client.GetAsync($"article/{id}");
+            responseMessage.EnsureSuccessStatusCode();
+            return (await responseMessage.Content.ReadFromJsonAsync<Article?>())!;
+        }
+
+        /// <inheritdoc/>
+        public async Task<StockPosition?> GetStockPositionByIdAsync(int id) {
+            HttpResponseMessage responseMessage = await _client.GetAsync($"stockposition/{id}");
+            responseMessage.EnsureSuccessStatusCode();
+            return (await responseMessage.Content.ReadFromJsonAsync<StockPosition?>())!;
         }
     }
 }

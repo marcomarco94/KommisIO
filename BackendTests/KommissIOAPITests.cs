@@ -195,5 +195,82 @@ namespace BackendTests {
             Assert.Equal(System.Net.HttpStatusCode.Unauthorized, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetInProgressPickingOrdersAsync())).StatusCode);
             Assert.Equal(System.Net.HttpStatusCode.Unauthorized, (await Assert.ThrowsAsync<HttpRequestException>(async () => await api.GetPickingOrdersAsync())).StatusCode);
         }
+
+        [Fact]
+        public async Task TestGetArticleByArticleNumber() {
+            IKommissIOAPI api = await SetupKommissIOAPI();
+
+            var pos = await api.GetOpenPickingOrdersAsync();
+            Assert.NotNull(pos);
+            Assert.NotEmpty(pos);
+
+            var po = pos.First();
+            Assert.NotNull(po);
+
+            var pop = po.OrderPositions.First();
+            Assert.NotNull(pop);
+
+            var article = await api.GetArticleByArticleNumberAsync(pop.Article.ArticleNumber);
+            Assert.NotNull(article);
+            Assert.Equal(pop.Article.ArticleNumber, article.ArticleNumber);
+        }
+
+
+        [Fact]
+        public async Task TestGetStockPositionById() {
+            IKommissIOAPI api = await SetupKommissIOAPI();
+
+            var pos = await api.GetOpenPickingOrdersAsync();
+            Assert.NotNull(pos);
+            Assert.NotEmpty(pos);
+
+            var po = pos.First();
+            Assert.NotNull(po);
+
+            var pop = po.OrderPositions.First();
+            Assert.NotNull(pop);
+
+            var spos = await api.GetStockPositionsForArticleAsync(pop.Article);
+            var spo = spos.First();
+
+            var stockPos = await api.GetStockPositionByIdAsync(spo.Id);
+            Assert.NotNull(stockPos);
+            Assert.Equal(spo.Id, stockPos.Id);
+        }
+
+        [Fact]
+        public async Task TestGetOrderById() {
+            IKommissIOAPI api = await SetupKommissIOAPI();
+
+            var pos = await api.GetOpenPickingOrdersAsync();
+            Assert.NotNull(pos);
+            Assert.NotEmpty(pos);
+
+            var po = pos.First();
+            Assert.NotNull(po);
+
+            var orderPOs = await api.GetPickingOrderByIdAsync(po.Id);
+            Assert.NotNull(orderPOs);
+            Assert.Equal(po.Id, orderPOs.Id);
+        }
+
+        [Fact]
+        public async Task TestGetOrderPositionById() {
+            IKommissIOAPI api = await SetupKommissIOAPI();
+
+            var pos = await api.GetOpenPickingOrdersAsync();
+            Assert.NotNull(pos);
+            Assert.NotEmpty(pos);
+
+            var po = pos.First();
+            Assert.NotNull(po);
+
+            var pop = po.OrderPositions.First();
+            Assert.NotNull(pop);
+
+            var orderPOs = await api.GetPickingOrderPositionByIdAsync(pop.Id);
+            Assert.NotNull(orderPOs);
+            Assert.Equal(pop.Id, orderPOs.Id);
+        }
     }
 }
