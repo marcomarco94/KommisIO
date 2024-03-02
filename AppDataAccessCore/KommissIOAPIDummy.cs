@@ -257,5 +257,33 @@ namespace DataRepoCore {
             locker.Release();
             return li;
         }
+
+        public async Task<PickingOrder?> GetPickingOrderByIdAsync(int id) {
+            await locker.WaitAsync();
+            var po = pickingOrders.First(o=>o.Id == id);
+            locker.Release();
+            return po;
+        }
+
+        public async Task<PickingOrderPosition?> GetPickingOrderPositionByIdAsync(int id) {
+            await locker.WaitAsync();
+            var pop = pickingOrders.Select(po=>po.OrderPositions).Aggregate((o,p)=>o.Union(p)).First(o => o.Id == id);
+            locker.Release();
+            return pop;
+        }
+
+        public async Task<Article?> GetArticleByArticleNumberAsync(int id) {
+            await locker.WaitAsync();
+            var art = articles.First(a => a.Id == id);
+            locker.Release();
+            return art;
+        }
+
+        public async Task<StockPosition?> GetStockPositionByIdAsync(int id) {
+            await locker.WaitAsync();
+            var sp = stockPosition.First(a => a.Id == id);
+            locker.Release();
+            return sp;
+        }
     }
 }

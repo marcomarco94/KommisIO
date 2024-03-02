@@ -161,7 +161,7 @@ namespace DataRESTfulAPI.Controllers {
         /// </summary>
         /// <param name="article">The article for which all its stock positions are requested.</param>
         /// <returns>Returns all stock positons for the article.</returns>
-        [Route("stockposition/{article}")]
+        [Route("stockposition/article/{article}")]
         [HttpGet]
         [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IEnumerable<StockPosition>> GetStockPositionsForArticleAsync(int article) {
@@ -283,5 +283,66 @@ namespace DataRESTfulAPI.Controllers {
         public async Task<IEnumerable<DamageReport>> GetArticleDamageReportsAsync() {
             return (await _unitOfWork.DamageReportRepository.GetElementsAsync()).Select(e => e.MapToDataModel());
         }
+
+        /// <summary>
+        /// Get the article with the given id. (role:employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id to search for.</param>
+        /// <returns>Return the article with the given id.</returns>
+        [Route("article/{id}")]
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(Role.Employee)},{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        public async Task<Article?> GetArticleByArticleIdAsync(int id) {
+            return (await _unitOfWork.ArticleRepository.FindAsync(a => a.ArticleId == id))?.MapToDataModel();
+        }
+
+        /// <summary>
+        /// Get the PickingOrder with the given id. (role:employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id to search for.</param>
+        /// <returns>Return the PickingOrder with the given id.</returns>
+        [Route("pickingorder/{id}")]
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(Role.Employee)},{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        public async Task<IActionResult> GetPickingOrderByIdAsync(int id) {
+            var po = (await _unitOfWork.PickingOrderRepository.FindAsync(a => a.Id == id))?.MapToDataModel();
+            if (po is null)
+                return NotFound();
+            var emp = await GetCurrentEmployeeAsync();
+            if (emp?.Role == (byte)Role.Employee && po?.Assignee?.PersonnelNumber != emp?.PersonnelNumber)
+                return Unauthorized();
+            return Ok(po);
+        }
+
+        /// <summary>
+        /// Get the PickingOrderPosition with the given id. (role:employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id to search for.</param>
+        /// <returns>Return the PickingOrderPosition with the given id.</returns>
+        [Route("pickingorder/position/{id}")]
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        public async Task<IActionResult> GetPickingOrderPositionByIdAsync(int id) {
+            var po = (await _unitOfWork.PickingOrderRepository.FindAsync(a => a.Positions!.Any(pop=>pop.Id == id)))?.MapToDataModel();
+            if(po is null)
+                return NotFound();
+            var emp = await GetCurrentEmployeeAsync();
+            if (emp?.Role == (byte)Role.Employee && po?.Assignee?.PersonnelNumber != emp?.PersonnelNumber)
+                return Unauthorized();
+            return Ok(po?.OrderPositions.First(pop=>pop.Id == id));
+        }
+
+        /// <summary>
+        /// Get the article with the given id. (role:employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id to search for.</param>
+        /// <returns>Return the article with the given id.</returns>
+        [Route("stockposition/{id}")]
+        [HttpGet]
+        [Authorize(Roles = $"{nameof(Role.Employee)},{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        public async Task<StockPosition?> GetStockPositionByIdAsync(int id) {
+            return (await _unitOfWork.StockPositionRepository.FindAsync(a => a.Id == id))?.MapToDataModel();
+        }
+
     }
 }

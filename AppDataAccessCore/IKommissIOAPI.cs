@@ -93,5 +93,33 @@ namespace DataRepoCore {
         /// </summary>
         /// <returns>Return an enumerable of all damage-reports.</returns>
         public Task<IEnumerable<DamageReport>> GetArticleDamageReportsAsync();
+
+        /// <summary>
+        /// Get a PickingOrder by its id. (role: employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id of the pickingOrder.</param>
+        /// <returns>Returns the PickingOrder with the given id.</returns>
+        public Task<PickingOrder?> GetPickingOrderByIdAsync(int id);
+
+        /// <summary>
+        /// Get a PickingOrderPosition by its id. (role: employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id of the pickingOrderPosition.</param>
+        /// <returns>Returns the PickingOrderPosition with the given id.</returns>
+        public Task<PickingOrderPosition?> GetPickingOrderPositionByIdAsync(int id);
+
+        /// <summary>
+        /// Get a Article by its id. (role: employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id of the article.</param>
+        /// <returns>Returns the Article with the given id.</returns>
+        public Task<Article?> GetArticleByArticleNumberAsync(int id);
+
+        /// <summary>
+        /// Get a StockPosition by its id. (role: employee, manager, administrator)
+        /// </summary>
+        /// <param name="id">The id of the stock.</param>
+        /// <returns>Returns the StockPosition with the given id.</returns>
+        public Task<StockPosition?> GetStockPositionByIdAsync(int id);
     }
 }
