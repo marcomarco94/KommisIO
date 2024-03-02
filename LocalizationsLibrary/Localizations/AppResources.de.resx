@@ -187,10 +187,10 @@
     <value>Auftrag bearbeiten</value>
   </data>
   <data name="OrderOverviewPage_Note" xml:space="preserve">
-    <value>Notiz:</value>
+    <value>Notiz: </value>
   </data>
   <data name="OrderOverviewPage_OrderId" xml:space="preserve">
-    <value>Auftrag Id:</value>
+    <value>Auftrag Id: </value>
   </data>
   <data name="OrderOverviewPage_Priority" xml:space="preserve">
     <value>Priorität: </value>
@@ -226,7 +226,7 @@
     <value>Benötige Menge: </value>
   </data>
   <data name="OrderPickingPage_Dimensions" xml:space="preserve">
-    <value>Abmessungen (l, b, h) :</value>
+    <value>Abmessungen (l, b, h): </value>
   </data>
   <data name="OrderPickingPage_EnterArticle" xml:space="preserve">
     <value>Artikel</value>
@@ -245,6 +245,9 @@
   </data>
   <data name="OrderPickingPage_Title" xml:space="preserve">
     <value>Kommissionierung: </value>
+  </data>
+  <data name="OrderPickingViewModel_IncompleteInput" xml:space="preserve">
+    <value>Unvollständige Eingabe</value>
   </data>
   <data name="OrderPickingViewModel_Success" xml:space="preserve">
     <value>Erfolg!</value>

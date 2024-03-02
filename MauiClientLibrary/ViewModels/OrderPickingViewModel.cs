@@ -15,17 +15,23 @@ public partial class OrderPickingViewModel(
     ObservableCollection<ArticleStockPositions>? _orderPositions = new();
     
     [ObservableProperty]
+    [Required]
     string? _currentShelfNumber;
     
     [ObservableProperty]
+    [Required]
     string? _currentArticleNumber;
     
     [ObservableProperty]
+    [Required]
     string? _currentAmount;
 
     [RelayCommand]
     private async Task PickOrderAsync()
     {
+        if (await ValidateSearchFrame() == false)
+            return;
+        
         bool pickingResult = false;
         if (OrderPositions != null)
         {
@@ -52,15 +58,26 @@ public partial class OrderPickingViewModel(
                 ,localizationService.GetResourceValue("GeneralError"), 
                 localizationService.GetResourceValue("GeneralOK"));
         }
+
         ClearSearchFrame();
         IsBusy = false;
+    }
+
+    private async Task<bool> ValidateSearchFrame()
+    {
+        if (!HasErrors)
+            return true;
+
+        await Shell.Current.DisplayAlert(localizationService.GetResourceValue("GeneralError")
+            , localizationService.GetResourceValue("OrderPickingViewModel_IncompleteInput"),
+            localizationService.GetResourceValue("GeneralOK"));
+        return false;
     }
     
     
     [RelayCommand]
     private async Task GetOrderPositionsAsync()
     {
-       
         if (PickingOrder?.OrderPositions != null)
         {
             IsBusy = true;
@@ -101,7 +118,7 @@ public partial class OrderPickingViewModel(
     }
 
     [RelayCommand]
-    private void GetAnmountbySearch(string amount)
+    private void GetAmountbySearch(string amount)
 {
         CurrentAmount = amount;
     }

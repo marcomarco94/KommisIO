@@ -54,7 +54,8 @@
                         Grid.Row="2"
                         Placeholder="{x:Static lang:AppResources.OrderPickingPage_Amount}"
                         Text="{Binding CurrentAmount}"
-                        IsEnabled="{Binding IsEnabled}"/>
+                        IsEnabled="{Binding IsEnabled}"
+                        SearchCommand="{Binding PickOrderCommand}"/>
                     <ImageButton
                         Grid.Row="2"
                         Grid.Column="1"
@@ -225,6 +226,7 @@
         </RefreshView>
         <Button Text="{x:Static lang:AppResources.OrderPickingPage_PickOrder}" 
                 VerticalOptions="End"
+                Margin="5"
                 Command="{Binding PickOrderCommand}"/>
     </StackLayout>
 </ContentPage>

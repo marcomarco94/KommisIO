@@ -21,7 +21,7 @@ namespace MauiClientLibrary.Storages
         }
         private bool HasAnyRole(Role requiredRoles, Role employeeRole)
         {
-            return requiredRoles.HasFlag(employeeRole);
+            return requiredRoles.HasFlag(employeeRole) || employeeRole.HasFlag(requiredRoles);
         }
 
         private List<MenuItemModel> CreateMainMenu()

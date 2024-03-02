@@ -226,7 +226,7 @@
     <value>Desired Amount: </value>
   </data>
   <data name="OrderPickingPage_Dimensions" xml:space="preserve">
-    <value>Dimensions (l, b, h) : </value>
+    <value>Dimensions (l, b, h):  </value>
   </data>
   <data name="OrderPickingPage_EnterArticle" xml:space="preserve">
     <value>Enter Article</value>
@@ -260,5 +260,8 @@
   </data>
   <data name="OrdersOverviewViewModel_PermissionError" xml:space="preserve">
     <value>No authorization to execute</value>
+  </data>
+  <data name="OrderPickingViewModel_IncompleteInput" xml:space="preserve">
+    <value>Incomplete Input</value>
   </data>
 </root>
