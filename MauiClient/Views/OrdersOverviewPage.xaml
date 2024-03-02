@@ -9,7 +9,7 @@
              xmlns:System="clr-namespace:System;assembly=System.Runtime"
              xmlns:models="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
              HideSoftInputOnTapped="True"
-             Title="Übersicht Kommissionieraufträge">
+             Title="{x:Static lang:AppResources.OrderOverviewPage_Title}">
     
     <Grid
         ColumnDefinitions="*"
@@ -19,21 +19,12 @@
             Grid.Row="0"
             Grid.Column="0"
             Margin="5"
-            Placeholder="Auftrags Id"
+            Placeholder="{x:Static lang:AppResources.OrderOverviewPage_OrderId}"
             Text="{Binding SearchId}"
             SearchCommand="{Binding GetBarcodeBySearchCommand}"
             SearchCommandParameter="{Binding SearchId}"
             IsEnabled="{Binding IsEnabled}">
         </SearchBar>
-        
-        <!--<Button 
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="5"
-            Text="Picking Orders" 
-            Command="{Binding LoadPickingOrdersCommand}"
-            CommandParameter="{x:Static System:Boolean.FalseString}"
-            IsEnabled="{Binding IsEnabled}"/>-->
 
         <CollectionView
             Grid.Row="1"
@@ -45,7 +36,9 @@
                 <DataTemplate x:DataType="models:OrderOverviewModel">
                     <Button
                         Margin="5"
-                        Text="{Binding Title}" />
+                        Text="{Binding Title}"
+                        Command="{Binding  Source={RelativeSource AncestorType={x:Type viewmodel:OrdersOverviewViewModel}} , Path=GetPickingOrdersCommand}"
+                        CommandParameter="{Binding .}"/>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
@@ -76,7 +69,7 @@
                                                 Grid.Column="0"
                                                 Orientation="Horizontal" >
                                                 <Label 
-                                                    Text="Order Id: " 
+                                                    Text="{x:Static lang:AppResources.OrderOverviewPage_OrderId}"
                                                     FontSize="Small" />
                                                 <Label 
                                                     Text="{Binding Id}" 
@@ -86,7 +79,7 @@
                                                     Grid.Column="1"
                                                     Orientation="Horizontal" >
                                                     <Label 
-                                                        Text="Priorität: " 
+                                                        Text="{x:Static lang:AppResources.OrderOverviewPage_Priority}"
                                                         FontSize="Small"  />
                                                     <Label 
                                                         Text="{Binding Priority}"
@@ -96,7 +89,7 @@
                                         <StackLayout 
                                             Orientation="Horizontal">
                                             <Label 
-                                                Text="Notiz: "
+                                                Text="{x:Static lang:AppResources.OrderOverviewPage_Note}"
                                                 FontSize="Small"  />
                                             <Label 
                                                 Text="{Binding Note}" 
@@ -120,7 +113,7 @@
             Grid.Column="0"
             MaximumHeightRequest="70"
             Margin="5"
-            Text="Auftrag bearbeiten" 
+            Text="{x:Static lang:AppResources.OrderOverviewPage_EditOrder}"
             Command="{Binding GetOrderBySelectionCommand}" 
             CommandParameter="{Binding SelectedOrder}"
             IsEnabled="{Binding IsEnabled}" />
@@ -137,6 +130,5 @@
             IsRunning="{Binding IsNotEnabled}"
             IsVisible="{Binding IsNotEnabled}"
             Color="{StaticResource Primary}" />
-        
     </Grid>
 </ContentPage>

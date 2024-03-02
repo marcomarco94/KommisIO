@@ -117,28 +117,148 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TitleInvalidInput" xml:space="preserve">
-    <value>Invalid Input</value>
+  <data name="CurrentUserPage_LastName" xml:space="preserve">
+    <value>Last name</value>
   </data>
-  <data name="MessageInvalidInput" xml:space="preserve">
-    <value>PlaceHolder</value>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Login</value>
-  </data>
-  <data name="LoginIntro" xml:space="preserve">
-    <value>Welcome, please login</value>
-  </data>
-  <data name="Ok" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="Password" xml:space="preserve">
+  <data name="LoginPage_Password" xml:space="preserve">
     <value>Password</value>
   </data>
-  <data name="PersonnelNumber" xml:space="preserve">
+  <data name="LoginPage_LoginIntro" xml:space="preserve">
+    <value>Welcome, please login</value>
+  </data>
+  <data name="LoginPage_PersonnelNumber" xml:space="preserve">
     <value>Personnel Number</value>
   </data>
-  <data name="HelloWorld" xml:space="preserve">
-    <value />
+  <data name="LoginPage_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="CurrentUserPage_PersonnelNumber" xml:space="preserve">
+    <value>Personnel Number</value>
+  </data>
+  <data name="CurrentUserPage_FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LoginPage_AppName" xml:space="preserve">
+    <value>CommissIO</value>
+  </data>
+  <data name="CurrentUserPage_Reset" xml:space="preserve">
+    <value>Sample data reset</value>
+  </data>
+  <data name="CurrentUserPage_Role" xml:space="preserve">
+    <value>Role(s):</value>
+  </data>
+  <data name="CurrentUserPage_Title" xml:space="preserve">
+    <value>Current User</value>
+  </data>
+  <data name="GeneralError" xml:space="preserve">
+    <value>Error!</value>
+  </data>
+  <data name="GeneralOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LoginViewModel_InvalidLogin" xml:space="preserve">
+    <value>Invalid Login</value>
+  </data>
+  <data name="LoginViewModel_InvalidLoginMessage" xml:space="preserve">
+    <value>Incorrect credentials</value>
+  </data>
+  <data name="MainMenuPage_Title" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="MainMenuSotrage_IncomingGoods" xml:space="preserve">
+    <value>Incoming Goods</value>
+  </data>
+  <data name="MainMenuSotrage_Inventory" xml:space="preserve">
+    <value>Inventory</value>
+  </data>
+  <data name="MainMenuSotrage_OrderPicking" xml:space="preserve">
+    <value>Order Picking</value>
+  </data>
+  <data name="MainMenuSotrage_OutgoingGoods" xml:space="preserve">
+    <value>Outgoing Goods</value>
+  </data>
+  <data name="MainMenuSotrage_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="MainMenuSotrage_Storage" xml:space="preserve">
+    <value>Storage</value>
+  </data>
+  <data name="OrderOverviewPage_EditOrder" xml:space="preserve">
+    <value>Edit Order</value>
+  </data>
+  <data name="OrderOverviewPage_Note" xml:space="preserve">
+    <value>Note: </value>
+  </data>
+  <data name="OrderOverviewPage_OrderId" xml:space="preserve">
+    <value>Order Id: </value>
+  </data>
+  <data name="OrderOverviewPage_Priority" xml:space="preserve">
+    <value>Priority: </value>
+  </data>
+  <data name="OrderOverviewPage_Title" xml:space="preserve">
+    <value>Picking Orders</value>
+  </data>
+  <data name="OrderOverviewStorage_AllOrders" xml:space="preserve">
+    <value>All Orders</value>
+  </data>
+  <data name="OrderOverviewStorage_AssignedInProgress" xml:space="preserve">
+    <value>Assigned in Progress</value>
+  </data>
+  <data name="OrderOverviewStorage_CompletedOrders" xml:space="preserve">
+    <value>Completed Orders</value>
+  </data>
+  <data name="OrderOverviewStorage_OpenOrders" xml:space="preserve">
+    <value>Open Orders</value>
+  </data>
+  <data name="OrderPickingPage_Amount" xml:space="preserve">
+    <value>Amount: </value>
+  </data>
+  <data name="OrderPickingPage_ArticleNumber" xml:space="preserve">
+    <value>Article number: </value>
+  </data>
+  <data name="OrderPickingPage_AvailablePcs" xml:space="preserve">
+    <value>Available Pcs.: </value>
+  </data>
+  <data name="OrderPickingPage_Description" xml:space="preserve">
+    <value>Description: </value>
+  </data>
+  <data name="OrderPickingPage_DesiredAmount" xml:space="preserve">
+    <value>Desired Amount: </value>
+  </data>
+  <data name="OrderPickingPage_Dimensions" xml:space="preserve">
+    <value>Dimensions (l, b, h) : </value>
+  </data>
+  <data name="OrderPickingPage_EnterArticle" xml:space="preserve">
+    <value>Enter Article</value>
+  </data>
+  <data name="OrderPickingPage_EnterStorageLocation" xml:space="preserve">
+    <value>Enter Storage Location</value>
+  </data>
+  <data name="OrderPickingPage_PickedAmount" xml:space="preserve">
+    <value>Picked Amount: </value>
+  </data>
+  <data name="OrderPickingPage_ShelfNumber" xml:space="preserve">
+    <value>Shelf Number:</value>
+  </data>
+  <data name="OrderPickingPage_Title" xml:space="preserve">
+    <value>Order Picking</value>
+  </data>
+  <data name="OrderPickingViewModel_Success" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="OrdersOverviewViewModel_CantAssign" xml:space="preserve">
+    <value>Order could not be assigned</value>
+  </data>
+  <data name="OrdersOverviewViewModel_InvalidBarcode" xml:space="preserve">
+    <value>Order not found</value>
+  </data>
+  <data name="OrdersOverviewViewModel_OrderNotFound" xml:space="preserve">
+    <value>Invalid barcode</value>
+  </data>
+  <data name="OrderPickingPage_PickOrder" xml:space="preserve">
+    <value>Pick order</value>
+  </data>
+  <data name="OrdersOverviewViewModel_PermissionError" xml:space="preserve">
+    <value>No authorization to execute</value>
   </data>
 </root>

@@ -8,13 +8,14 @@
     xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
     
     Shell.FlyoutBehavior="Disabled"
-    Title="MauiClient">
-    <Shell.BackgroundColor>LightBlue</Shell.BackgroundColor>
+    Shell.BackButtonBehavior="{Binding IsEnabled}"
+    Title="MauiClient"
+    BackgroundColor="{AppThemeBinding Light=LightBlue, Dark=DarkGray}">
     <Shell.ToolbarItems>
         <ToolbarItem
             IconImageSource="info.png"
-            Command="{Binding ShowUserPageCommand}" />
-    
+            Command="{Binding ShowUserPageCommand}" 
+            IsEnabled="{Binding IsEnabled}" />
     </Shell.ToolbarItems>
     
     <ShellContent

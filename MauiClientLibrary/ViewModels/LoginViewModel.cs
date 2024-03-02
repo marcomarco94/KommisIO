@@ -55,29 +55,43 @@ public partial class LoginViewModel : BaseViewModel
         if (HasErrors)
         {
             var validationResults = GetErrors();
-            string errorMessages = string.Join(Environment.NewLine, validationResults);
-            string alertTitle = _localizationService.GetResourceValue("InvalidInput");
-            string alertConfirm = _localizationService.GetResourceValue("Ok");
-            await Shell.Current.DisplayAlert(alertTitle, errorMessages, alertConfirm);
+            await DisplayInvalidLoginAlert();
             return;
         }
 
-        short personnelNumberParsed = 0;
-        bool canParse = short.TryParse(PersonnelNumber, out personnelNumberParsed);
-        IsBusy = true;
-        await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
-        if (_kommissIoApi.CurrentEmployee != null)
+        bool canParse = short.TryParse(PersonnelNumber, out var personnelNumberParsed);
+        if (!canParse)
         {
+         await  DisplayInvalidLoginAlert();
+         return;
+        }
+        IsBusy = true;
+
+        try
+        {
+            await _kommissIoApi.IdentifyAndAuthenticateAysnc(personnelNumberParsed, Password);
+            if (_kommissIoApi.CurrentEmployee == null)
+            {
+                await DisplayInvalidLoginAlert();
+                return;
+            }
             await Shell.Current.GoToAsync("MainMenuPage", true);
         }
-        else 
+        catch (HttpRequestException ex)
         {
-            string alertTitle = _localizationService.GetResourceValue("InvalidLogin");
-            string alertMessage = _localizationService.GetResourceValue("InvalidLoginMessage");
-            string alertConfirm = _localizationService.GetResourceValue("Ok");
-            await Shell.Current.DisplayAlert(alertTitle, alertMessage, alertConfirm);
+           await  DisplayInvalidLoginAlert();
         }
-
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+    
+    private async Task DisplayInvalidLoginAlert()
+    {
+        string alertTitle = _localizationService.GetResourceValue("LoginViewModel_InvalidLogin");
+        string alertMessage = _localizationService.GetResourceValue("LoginViewModel_InvalidLoginMessage");
+        string alertConfirm = _localizationService.GetResourceValue("GeneralOK");
+        await Shell.Current.DisplayAlert(alertTitle, alertMessage, alertConfirm);
     }
 }

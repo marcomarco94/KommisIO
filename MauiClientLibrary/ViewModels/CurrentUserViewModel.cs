@@ -11,8 +11,24 @@ public partial class CurrentUserViewModel : BaseViewModel
         _localizationService = localizationService;
         _kommissIoApi = kommissIoApi;
         CurrentUser = _kommissIoApi.CurrentEmployee!;
-        IsAdmin = CurrentUser?.Role == Role.Administrator;
+        IsAdmin = CurrentUser.Role.HasFlag(Role.Administrator);
+        GetUserRoles();
     }
+    
+    private void GetUserRoles()
+    {
+        CurrentUserRoles.Clear();
+        foreach (Role role in Enum.GetValues(typeof(Role)))
+        {
+            if (CurrentUser.Role.HasFlag(role))
+            {
+                CurrentUserRoles.Add(role.ToString());
+            }
+        }
+    }
+    
+    [ObservableProperty]
+    ObservableCollection<String> _currentUserRoles = new ();
 
     [ObservableProperty]
     private Employee _currentUser;

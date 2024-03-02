@@ -1,6 +1,4 @@
 ﻿
-
-
 using AppDataAccessCore;
 using CommunityToolkit.Maui;
 
@@ -29,9 +27,8 @@ namespace MauiClient
             builder.Services.AddTransientPopup<ScanPopupPage, ScanPopupViewModel>();
 
             
-            //builder.Services.AddSingleton<IKommissIOAPI>(x=>new KommissIOAPI("https://kommissio.azurewebsites.net/api/"));
-
-            builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
+            builder.Services.AddSingleton<IKommissIOAPI>(x=>new KommissIOAPI("https://kommissio.azurewebsites.net/api/"));
+            //builder.Services.AddSingleton<IKommissIOAPI, KommissIOAPIDummy>();
         }
     }
 }

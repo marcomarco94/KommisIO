@@ -15,18 +15,18 @@
             Padding="50"
             Spacing="25">
 
-            <Label Text="KommisIO" 
+            <Label Text="{x:Static lang:AppResources.LoginPage_AppName}" 
                    HorizontalOptions="CenterAndExpand" 
                    Style="{StaticResource Headline}"
             />
 
-            <Label Text="{x:Static lang:AppResources.LoginIntro}" 
+            <Label Text="{x:Static lang:AppResources.LoginPage_LoginIntro}" 
                    HorizontalOptions="CenterAndExpand" 
                    Style="{StaticResource SubHeadline}" 
             />
 
 
-            <Entry Placeholder="{x:Static lang:AppResources.PersonnelNumber}"
+            <Entry Placeholder="{x:Static lang:AppResources.LoginPage_PersonnelNumber}"
                    Text="{Binding PersonnelNumber}">
                 <Entry.Behaviors>
                     <toolkit:EventToCommandBehavior
@@ -48,7 +48,7 @@
                 </Entry.Triggers>
             </Entry>
 
-            <Entry Placeholder="{x:Static lang:AppResources.Password}" 
+            <Entry Placeholder="{x:Static lang:AppResources.LoginPage_Password}" 
                    IsPassword="True" 
                    Text="{Binding Password}">
                 <Entry.Behaviors>
@@ -71,7 +71,7 @@
                 </Entry.Triggers>
             </Entry>
 
-            <Button Text="{x:Static lang:AppResources.Login}" 
+            <Button Text="{x:Static lang:AppResources.LoginPage_Login}" 
                     IsEnabled="{Binding IsEnabled}"
                     Command="{Binding LoginCommand}"
             />

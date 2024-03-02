@@ -1,21 +1,13 @@
-using System.ComponentModel;
 
 namespace MauiClientLibrary.ViewModels;
 
 [QueryProperty(nameof(PickingOrder), "PickingOrder")]
-public partial class OrderPickingViewModel : BaseViewModel
+public partial class OrderPickingViewModel(
+    ILocalizationService localizationService,
+    IKommissIOAPI kommissIoApi,
+    IPopupService popupService)
+    : BaseViewModel
 {
-    private readonly ILocalizationService _localizationService;
-    private readonly IKommissIOAPI _kommissIoApi;
-    private readonly IPopupService _popupService;
-
-    public OrderPickingViewModel(ILocalizationService localizationService, IKommissIOAPI kommissIoApi, IPopupService popupService)
-    {
-        _localizationService = localizationService;
-        _kommissIoApi = kommissIoApi;
-        _popupService = popupService;
-    }
-    
     [ObservableProperty] 
     PickingOrder? _pickingOrder;
 
@@ -44,21 +36,24 @@ public partial class OrderPickingViewModel : BaseViewModel
             var stockPosToPick = orderToPick?.StockPosition.FirstOrDefault(x => x.ShelfNumber.ToString() == CurrentShelfNumber);
             int.TryParse(CurrentAmount, out var amount);
             if (articleToPick is not null && stockPosToPick is not null  && amount > 0) {
-                pickingResult = await _kommissIoApi.PickAsync(articleToPick, stockPosToPick, amount);
+                pickingResult = await kommissIoApi.PickAsync(articleToPick, stockPosToPick, amount);
             }
         }
         if (pickingResult)
         {
             IsBusy = true;
-            await Shell.Current.DisplayAlert("Success", "Erfolgreichl", "OK");
+            await Shell.Current.DisplayAlert(localizationService.GetResourceValue("OrderPickingViewModel_Success")
+                ,localizationService.GetResourceValue("OrderPickingViewModel_Success"), 
+                localizationService.GetResourceValue("GeneralOK"));
             await GetOrderPositionsAsync();
-            ClearSearchFrame();
-            IsBusy = false;
-
         }
         else {
-            Shell.Current.DisplayAlert("Error", "Fehler", "OK");
+            await Shell.Current.DisplayAlert(localizationService.GetResourceValue("GeneralError")
+                ,localizationService.GetResourceValue("GeneralError"), 
+                localizationService.GetResourceValue("GeneralOK"));
         }
+        ClearSearchFrame();
+        IsBusy = false;
     }
     
     
@@ -79,7 +74,7 @@ public partial class OrderPickingViewModel : BaseViewModel
                         OrderPosition = pos,
                         StockPosition =
                             new ObservableCollection<StockPosition>(
-                                await _kommissIoApi.GetStockPositionsForArticleAsync(pos.Article))
+                                await kommissIoApi.GetStockPositionsForArticleAsync(pos.Article))
                     });
                 }
             }
@@ -94,14 +89,14 @@ public partial class OrderPickingViewModel : BaseViewModel
     [RelayCommand]
     private async Task GetArticleByScanAsync()
     {
-        var scannedBarcode = await _popupService.ShowPopupAsync<ScanPopupViewModel>();
+        var scannedBarcode = await popupService.ShowPopupAsync<ScanPopupViewModel>();
         CurrentArticleNumber = scannedBarcode?.ToString();
     }
     
     [RelayCommand]
     private async Task GetStockPositionByScanAsync()
     {
-        var scannedBarcode = await _popupService.ShowPopupAsync<ScanPopupViewModel>();
+        var scannedBarcode = await popupService.ShowPopupAsync<ScanPopupViewModel>();
         CurrentShelfNumber = scannedBarcode?.ToString();
     }
 

@@ -117,7 +117,148 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="HelloWorld" xml:space="preserve">
-    <value>Hallo Welt</value>
+  <data name="CurrentUserPage_FirstName" xml:space="preserve">
+    <value>Vorname</value>
+  </data>
+  <data name="CurrentUserPage_LastName" xml:space="preserve">
+    <value>Nachname</value>
+  </data>
+  <data name="CurrentUserPage_PersonnelNumber" xml:space="preserve">
+    <value>Personalnummer</value>
+  </data>
+  <data name="CurrentUserPage_Reset" xml:space="preserve">
+    <value>Beispieldaten zurücksetzen</value>
+  </data>
+  <data name="CurrentUserPage_Role" xml:space="preserve">
+    <value>Rolle(n):</value>
+  </data>
+  <data name="CurrentUserPage_Title" xml:space="preserve">
+    <value>Aktueller Benutzer</value>
+  </data>
+  <data name="GeneralError" xml:space="preserve">
+    <value>Fehler!</value>
+  </data>
+  <data name="GeneralOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LoginPage_AppName" xml:space="preserve">
+    <value>KommissIO</value>
+  </data>
+  <data name="LoginPage_Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="LoginPage_LoginIntro" xml:space="preserve">
+    <value>Willkommen, bitte Einloggen</value>
+  </data>
+  <data name="LoginPage_Password" xml:space="preserve">
+    <value>Passwort</value>
+  </data>
+  <data name="LoginPage_PersonnelNumber" xml:space="preserve">
+    <value>Personalnummer</value>
+  </data>
+  <data name="LoginViewModel_InvalidLogin" xml:space="preserve">
+    <value>Ungültiger Login</value>
+  </data>
+  <data name="LoginViewModel_InvalidLoginMessage" xml:space="preserve">
+    <value>Ungültige Anmeldedaten</value>
+  </data>
+  <data name="MainMenuPage_Title" xml:space="preserve">
+    <value>Hauptmenü</value>
+  </data>
+  <data name="MainMenuSotrage_IncomingGoods" xml:space="preserve">
+    <value>Wareneingang</value>
+  </data>
+  <data name="MainMenuSotrage_Inventory" xml:space="preserve">
+    <value>Inventur</value>
+  </data>
+  <data name="MainMenuSotrage_OrderPicking" xml:space="preserve">
+    <value>Kommissionierung</value>
+  </data>
+  <data name="MainMenuSotrage_OutgoingGoods" xml:space="preserve">
+    <value>Warenausgang</value>
+  </data>
+  <data name="MainMenuSotrage_Settings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="MainMenuSotrage_Storage" xml:space="preserve">
+    <value>Einlagerung</value>
+  </data>
+  <data name="OrderOverviewPage_EditOrder" xml:space="preserve">
+    <value>Auftrag bearbeiten</value>
+  </data>
+  <data name="OrderOverviewPage_Note" xml:space="preserve">
+    <value>Notiz:</value>
+  </data>
+  <data name="OrderOverviewPage_OrderId" xml:space="preserve">
+    <value>Auftrag Id:</value>
+  </data>
+  <data name="OrderOverviewPage_Priority" xml:space="preserve">
+    <value>Priorität: </value>
+  </data>
+  <data name="OrderOverviewPage_Title" xml:space="preserve">
+    <value>Titel: </value>
+  </data>
+  <data name="OrderOverviewStorage_AllOrders" xml:space="preserve">
+    <value>Alle Aufträge</value>
+  </data>
+  <data name="OrderOverviewStorage_AssignedInProgress" xml:space="preserve">
+    <value>Zugeordnet in Bearbeitung</value>
+  </data>
+  <data name="OrderOverviewStorage_CompletedOrders" xml:space="preserve">
+    <value>Abgeschlossen</value>
+  </data>
+  <data name="OrderOverviewStorage_OpenOrders" xml:space="preserve">
+    <value>Offen</value>
+  </data>
+  <data name="OrderPickingPage_Amount" xml:space="preserve">
+    <value>Menge: </value>
+  </data>
+  <data name="OrderPickingPage_ArticleNumber" xml:space="preserve">
+    <value>Artikelnummer: </value>
+  </data>
+  <data name="OrderPickingPage_AvailablePcs" xml:space="preserve">
+    <value>Vorhandene Stk.: </value>
+  </data>
+  <data name="OrderPickingPage_Description" xml:space="preserve">
+    <value>Beschreibung: </value>
+  </data>
+  <data name="OrderPickingPage_DesiredAmount" xml:space="preserve">
+    <value>Benötige Menge: </value>
+  </data>
+  <data name="OrderPickingPage_Dimensions" xml:space="preserve">
+    <value>Abmessungen (l, b, h) :</value>
+  </data>
+  <data name="OrderPickingPage_EnterArticle" xml:space="preserve">
+    <value>Artikel</value>
+  </data>
+  <data name="OrderPickingPage_EnterStorageLocation" xml:space="preserve">
+    <value>Lagerplatz</value>
+  </data>
+  <data name="OrderPickingPage_PickedAmount" xml:space="preserve">
+    <value>Entnommene Menge: </value>
+  </data>
+  <data name="OrderPickingPage_PickOrder" xml:space="preserve">
+    <value>Auftrag entnehmen</value>
+  </data>
+  <data name="OrderPickingPage_ShelfNumber" xml:space="preserve">
+    <value>Lagerplatz: </value>
+  </data>
+  <data name="OrderPickingPage_Title" xml:space="preserve">
+    <value>Kommissionierung: </value>
+  </data>
+  <data name="OrderPickingViewModel_Success" xml:space="preserve">
+    <value>Erfolg!</value>
+  </data>
+  <data name="OrdersOverviewViewModel_CantAssign" xml:space="preserve">
+    <value>Auftrag konnte nicht zugeordnet werden</value>
+  </data>
+  <data name="OrdersOverviewViewModel_InvalidBarcode" xml:space="preserve">
+    <value>Ungültiger Barcode</value>
+  </data>
+  <data name="OrdersOverviewViewModel_OrderNotFound" xml:space="preserve">
+    <value>Auftrag nicht gefunden</value>
+  </data>
+  <data name="OrdersOverviewViewModel_PermissionError" xml:space="preserve">
+    <value>Keine Berechtigung zum Ausführen</value>
   </data>
 </root>

@@ -13,7 +13,6 @@ public partial class BaseViewModel : ObservableValidator
     {
         Connectivity.ConnectivityChanged -= Connectivity_ConnectivityChanged;
     }
-
     void Connectivity_ConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
     {
         IsConnected = e.NetworkAccess == NetworkAccess.Internet;
@@ -40,7 +39,5 @@ public partial class BaseViewModel : ObservableValidator
 
     [ObservableProperty] 
     bool _isLoggedIn;
-    public bool IsLoggedOut => !IsLoggedIn;
-
-
+    
 }

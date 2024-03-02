@@ -5,39 +5,45 @@ namespace MauiClientLibrary.Storages
     {
         private readonly List<OrderOverviewModel> _activeMenu;
         private readonly IKommissIOAPI _kommissIoApi;
+        private readonly ILocalizationService _localizationService;
 
-        public OrderOverviewStorage(IKommissIOAPI kommissIoApi)
+        public OrderOverviewStorage(IKommissIOAPI kommissIoApi, ILocalizationService localizationService)
         {
             _kommissIoApi = kommissIoApi;
+            _localizationService = localizationService;
             _activeMenu = CreateMenuList();
         }
 
         public ObservableCollection<OrderOverviewModel> GetActiveMenu()
         {
             var employeeRole = _kommissIoApi.CurrentEmployee!.Role;
-            return new ObservableCollection<OrderOverviewModel>(_activeMenu.Where(r => Enum.Parse<Role>(r.RequiredRole.ToString()) >= employeeRole));
+            return new ObservableCollection<OrderOverviewModel>(_activeMenu.Where(r => HasAnyRole(r.RequiredRole, employeeRole)));
+        }
+
+        private bool HasAnyRole(Role requiredRoles, Role employeeRole)
+        {
+            return requiredRoles.HasFlag(employeeRole);
         }
 
         public List<OrderOverviewModel> CreateMenuList()
         {
             return new List<OrderOverviewModel>
             {
-  
                 new OrderOverviewModel
                 {
-                    Title = "Alle Aufträge", RequiredRole = Role.Manager
+                    Title = _localizationService.GetResourceValue("OrderOverviewStorage_AllOrders"), RequiredRole = Role.Manager | Role.Administrator, Function = () => _kommissIoApi.GetPickingOrdersAsync()
                 },
                 new OrderOverviewModel
                 {
-                    Title = "Offene Aufträge", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("OrderOverviewStorage_OpenOrders"), RequiredRole = Role.Employee | Role.Manager | Role.Administrator, Function = () => _kommissIoApi.GetOpenPickingOrdersAsync()
                 },
                 new OrderOverviewModel
                 {
-                    Title = "Zugeordnet in Bearbeitung", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("OrderOverviewStorage_AssignedInProgress"), RequiredRole =  Role.Manager | Role.Administrator, Function = () => _kommissIoApi.GetInProgressAssignedPickingOrdersAsync()
                 },
                 new OrderOverviewModel
                 {
-                    Title = "Abgeschlossene Aufträge", RequiredRole = Role.Manager
+                    Title = _localizationService.GetResourceValue("OrderOverviewStorage_CompletedOrders"), RequiredRole = Role.Employee | Role.Administrator, Function = () => _kommissIoApi.GetInProgressAssignedPickingOrdersAsync()
                 }
             };
         }

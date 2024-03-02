@@ -5,7 +5,7 @@
              xmlns:viewmodel="clr-namespace:MauiClientLibrary.ViewModels;assembly=MauiClientLibrary"
              x:DataType="viewmodel:CurrentUserViewModel"
              x:Class="MauiClient.Views.CurrentUserPage"
-             Title="Aktueller Benutzer">
+             Title="{x:Static lang:AppResources.CurrentUserPage_Title}">
 
     <ScrollView>
         <Frame
@@ -14,30 +14,39 @@
             <VerticalStackLayout Padding="15" Spacing="10">
                 <Frame Padding="15">
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Personalnummer" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{x:Static lang:AppResources.CurrentUserPage_PersonnelNumber}" FontSize="Medium" FontAttributes="Bold" />
                         <Label Text="{Binding CurrentUser.PersonnelNumber}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
                     </StackLayout>
                 </Frame>
                 <Frame Padding="15">
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Vorname" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{x:Static lang:AppResources.CurrentUserPage_FirstName}" FontSize="Medium" FontAttributes="Bold" />
                         <Label Text="{Binding CurrentUser.FirstName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
                     </StackLayout>
                 </Frame>
                 <Frame Padding="15">
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Nachname" FontSize="Medium" FontAttributes="Bold" />
+                        <Label Text="{x:Static lang:AppResources.CurrentUserPage_LastName}" FontSize="Medium" FontAttributes="Bold" />
                         <Label Text="{Binding CurrentUser.LastName}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
                     </StackLayout>
                 </Frame>
                 <Frame Padding="15">
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Rolle" FontSize="Medium" FontAttributes="Bold" />
-                        <Label Text="{Binding CurrentUser.Role}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="{x:Static lang:AppResources.CurrentUserPage_Role}" FontSize="Medium" FontAttributes="Bold" />
+                        <CollectionView ItemsSource="{Binding CurrentUserRoles}" HorizontalOptions="EndAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Margin="5"
+                                        FontSize="Medium"
+                                        Text="{Binding .}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </StackLayout>
                 </Frame>
                 <Button
-                    Text="Demodaten zurücksetzen"
+                    Text="{x:Static lang:AppResources.CurrentUserPage_Reset}"
                     IsVisible="{Binding IsAdmin}"
                     Command="{Binding ResetDataCommand}"/>
             </VerticalStackLayout>
