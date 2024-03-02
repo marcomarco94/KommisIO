@@ -31,9 +31,18 @@
                     </StackLayout>
                 </Frame>
                 <Frame Padding="15">
-                    <StackLayout Orientation="Horizontal">
+                    <StackLayout Orientation="Vertical">
                         <Label Text="{x:Static lang:AppResources.CurrentUserPage_Role}" FontSize="Medium" FontAttributes="Bold" />
-                        <Label Text="{Binding CurrentUser.Role}" FontSize="Medium" HorizontalOptions="EndAndExpand" />
+                        <CollectionView ItemsSource="{Binding CurrentUserRoles}" HorizontalOptions="EndAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label 
+                                        Margin="5"
+                                        FontSize="Medium"
+                                        Text="{Binding .}" />
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
                     </StackLayout>
                 </Frame>
                 <Button

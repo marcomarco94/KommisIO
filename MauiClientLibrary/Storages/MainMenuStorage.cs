@@ -17,8 +17,11 @@ namespace MauiClientLibrary.Storages
         public ObservableCollection<MenuItemModel> GetMainMenu()
         {
             var employeeRole = _kommissIoApi.CurrentEmployee!.Role;
-            return new ObservableCollection<MenuItemModel>(_activeMenu.Where(r => Enum.Parse<Role>(r.RequiredRole.ToString()) >= employeeRole));
-            
+            return new ObservableCollection<MenuItemModel>(_activeMenu.Where(r => HasAnyRole(r.RequiredRole, employeeRole)));
+        }
+        private bool HasAnyRole(Role requiredRoles, Role employeeRole)
+        {
+            return requiredRoles.HasFlag(employeeRole);
         }
 
         private List<MenuItemModel> CreateMainMenu()
@@ -27,23 +30,23 @@ namespace MauiClientLibrary.Storages
             {
                 new MenuItemModel
                 {
-                    Title = _localizationService.GetResourceValue("MainMenuSotrage_IncomingGoods"), Icon = "incoming_goods.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("MainMenuSotrage_IncomingGoods"), Icon = "incoming_goods.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee | Role.Manager | Role.Administrator
                 },
                 new MenuItemModel
                 {
-                    Title = _localizationService.GetResourceValue("MainMenuSotrage_Storage"), Icon = "storage.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("MainMenuSotrage_Storage"), Icon = "storage.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee | Role.Manager | Role.Administrator
                 },
                 new MenuItemModel
                 {
-                    Title = _localizationService.GetResourceValue("MainMenuSotrage_OrderPicking"), Icon = "order_picking.png", Route = "OrdersOverviewPage", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("MainMenuSotrage_OrderPicking"), Icon = "order_picking.png", Route = "OrdersOverviewPage", RequiredRole = Role.Employee | Role.Manager | Role.Administrator
                 },
                 new MenuItemModel
                 {
-                    Title = _localizationService.GetResourceValue("MainMenuSotrage_OutgoingGoods"), Icon = "outgoing_goods.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee
+                    Title = _localizationService.GetResourceValue("MainMenuSotrage_OutgoingGoods"), Icon = "outgoing_goods.png", Route = "UnderConstructionPage", RequiredRole = Role.Employee | Role.Manager | Role.Administrator
                 },
                 new MenuItemModel
                 {
-                    Title = _localizationService.GetResourceValue("MainMenuSotrage_Inventory"), Icon = "inventory.png", Route = "UnderConstructionPage", RequiredRole = Role.Manager
+                    Title = _localizationService.GetResourceValue("MainMenuSotrage_Inventory"), Icon = "inventory.png", Route = "UnderConstructionPage", RequiredRole = Role.Manager | Role.Administrator
                 },
                 new MenuItemModel
                 {

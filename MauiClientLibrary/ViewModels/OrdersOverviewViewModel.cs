@@ -17,7 +17,6 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         _localizationService = localizationService;
         _kommissIoapi = kommissIoApi;
         _popupService = popupService;
-
         _activeMenu = orderOverviewStorage.GetActiveMenu();
         PropertyChanged += Property_Changed!;
     }
@@ -64,21 +63,34 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         IsBusy = true;
         PickingOrders?.Clear();
         ObservableCollection<PickingOrder> orders;
-        
-        if (SelectedView is null)
+
+        try
         {
-            orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetInProgressAssignedPickingOrdersAsync());
+            if (SelectedView is null)
+            {
+                orders = new ObservableCollection<PickingOrder>(await _kommissIoapi.GetOpenPickingOrdersAsync());
+            }
+            else
+            {
+                orders = new ObservableCollection<PickingOrder>(await SelectedView.Function());
+            }
+
+            foreach (var order in orders)
+            {
+                PickingOrders?.Add(order);
+            }
         }
-        else
+        catch (HttpRequestException ex)
         {
-            orders = new ObservableCollection<PickingOrder>(await SelectedView.Function());
+                await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError"),
+                    _localizationService.GetResourceValue("OrdersOverviewViewModel_PermissionError"),
+                    _localizationService.GetResourceValue("GeneralOK"));
+        }
+        finally
+        {
+            IsBusy = false;
         }
 
-        foreach (var order in orders)
-        {
-            PickingOrders?.Add(order);
-        }
-        IsBusy = false;
     }
     
     [RelayCommand]

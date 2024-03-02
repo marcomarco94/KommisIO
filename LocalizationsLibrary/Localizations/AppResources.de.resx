@@ -130,7 +130,7 @@
     <value>Beispieldaten zurücksetzen</value>
   </data>
   <data name="CurrentUserPage_Role" xml:space="preserve">
-    <value>Rolle</value>
+    <value>Rolle(n):</value>
   </data>
   <data name="CurrentUserPage_Title" xml:space="preserve">
     <value>Aktueller Benutzer</value>
@@ -257,5 +257,8 @@
   </data>
   <data name="OrdersOverviewViewModel_OrderNotFound" xml:space="preserve">
     <value>Auftrag nicht gefunden</value>
+  </data>
+  <data name="OrdersOverviewViewModel_PermissionError" xml:space="preserve">
+    <value>Keine Berechtigung zum Ausführen</value>
   </data>
 </root>

@@ -8,8 +8,6 @@ public partial class OrderPickingViewModel(
     IPopupService popupService)
     : BaseViewModel
 {
-    private readonly ILocalizationService _localizationService = localizationService;
-
     [ObservableProperty] 
     PickingOrder? _pickingOrder;
 
@@ -44,15 +42,15 @@ public partial class OrderPickingViewModel(
         if (pickingResult)
         {
             IsBusy = true;
-            await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("OrderPickingViewModel_Success")
-                ,_localizationService.GetResourceValue("OrderPickingViewModel_Success"), 
-                _localizationService.GetResourceValue("GeneralOK"));
+            await Shell.Current.DisplayAlert(localizationService.GetResourceValue("OrderPickingViewModel_Success")
+                ,localizationService.GetResourceValue("OrderPickingViewModel_Success"), 
+                localizationService.GetResourceValue("GeneralOK"));
             await GetOrderPositionsAsync();
         }
         else {
-            await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError")
-                ,_localizationService.GetResourceValue("GeneralError"), 
-                _localizationService.GetResourceValue("GeneralOK"));
+            await Shell.Current.DisplayAlert(localizationService.GetResourceValue("GeneralError")
+                ,localizationService.GetResourceValue("GeneralError"), 
+                localizationService.GetResourceValue("GeneralOK"));
         }
         ClearSearchFrame();
         IsBusy = false;
