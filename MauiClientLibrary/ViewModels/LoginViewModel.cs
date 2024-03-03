@@ -44,8 +44,8 @@ public partial class LoginViewModel : BaseViewModel
             Password = string.Empty;
             IsPersonnelNumberValid = false;
             IsPasswordValid = false;
-             _kommissIoApi.CurrentEmployee = null;
-             return Task.CompletedTask;
+            _kommissIoApi.CurrentEmployee = null;
+            return Task.CompletedTask;
     }
     
     [RelayCommand]

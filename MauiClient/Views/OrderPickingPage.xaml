@@ -23,39 +23,43 @@
                 <Grid
                     RowDefinitions="Auto,Auto,*"
                     ColumnDefinitions="90*,10*">
-                    <SearchBar
+                    <Entry
                         Grid.Row="0"
                         Grid.Column="0"
                         Placeholder="{x:Static lang:AppResources.OrderPickingPage_EnterStorageLocation}"
                         Text="{Binding CurrentShelfNumber}"
-                        IsEnabled="{Binding IsEnabled}"/>
+                        IsEnabled="{Binding StockEnabledView}"
+                        ReturnCommand="{Binding ValidateStockInputCommand}"/>
                     <ImageButton
                         Grid.Row="0"
                         Grid.Column="1"
                         Margin="5"
                         HorizontalOptions="End"
                         Source="qr_code_scan.png"
-                        IsEnabled="{Binding IsEnabled}"/>
-                    <SearchBar
+                        IsEnabled="{Binding StockEnabledView}"
+                        Command="{Binding GetStockPositionByScanCommand}"/>
+                    <Entry
                         Grid.Column="0"
                         Grid.Row="1"
                         Placeholder="{x:Static lang:AppResources.OrderPickingPage_EnterArticle}"
                         Text="{Binding CurrentArticleNumber}"
-                        IsEnabled="{Binding IsEnabled}"/>
+                        IsEnabled="{Binding ArticleEnabledView}"
+                        ReturnCommand="{Binding ValidateArticleNumberCommand}"/>
                     <ImageButton
                         Grid.Column="1"
                         Grid.Row="1"
                         Margin="5"
                         HorizontalOptions="End"
                         Source="qr_code_scan.png"
-                        IsEnabled="{Binding IsEnabled}"/>
-                    <SearchBar
+                        IsEnabled="{Binding ArticleEnabledView}"
+                        Command="{Binding GetArticleByScanCommand}"/>
+                    <Entry
                         Grid.Column="0"
                         Grid.Row="2"
                         Placeholder="{x:Static lang:AppResources.OrderPickingPage_Amount}"
                         Text="{Binding CurrentAmount}"
-                        IsEnabled="{Binding IsEnabled}"
-                        SearchCommand="{Binding PickOrderCommand}"/>
+                        IsEnabled="{Binding AmountEnabledView}"
+                        ReturnCommand="{Binding PickOrderCommand}"/>
                     <ImageButton
                         Grid.Row="2"
                         Grid.Column="1"

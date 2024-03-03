@@ -196,7 +196,7 @@
     <value>Priorität: </value>
   </data>
   <data name="OrderOverviewPage_Title" xml:space="preserve">
-    <value>Titel: </value>
+    <value>Übersicht Aufträge</value>
   </data>
   <data name="OrderOverviewStorage_AllOrders" xml:space="preserve">
     <value>Alle Aufträge</value>
@@ -244,7 +244,7 @@
     <value>Lagerplatz: </value>
   </data>
   <data name="OrderPickingPage_Title" xml:space="preserve">
-    <value>Kommissionierung: </value>
+    <value>Kommissionierung</value>
   </data>
   <data name="OrderPickingViewModel_IncompleteInput" xml:space="preserve">
     <value>Unvollständige Eingabe</value>
