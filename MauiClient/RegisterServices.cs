@@ -4,13 +4,16 @@ using CommunityToolkit.Maui;
 
 namespace MauiClient
 {
+    /// <summary>
+    /// Register the services for the application
+    /// </summary>
     public static class RegisterServices
     {
         public static void ConfigureService(this MauiAppBuilder builder)
         {
             builder.Services.AddSingleton<ILocalizationService, LocalizationService>();
-            builder.Services.AddSingleton<IMainMenuStorage, MainMenuStorage>();
-            builder.Services.AddSingleton<IOrderOverviewStorage, OrderOverviewStorage>();
+            builder.Services.AddSingleton<IMainMenuService, MainMenuService>();
+            builder.Services.AddSingleton<IOrderOverviewService, OrderOverviewService>();
 
             builder.Services.AddSingleton<UnderConstructionPage>();
             builder.Services.AddSingleton<NavBarViewModel>();

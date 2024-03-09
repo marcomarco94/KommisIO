@@ -264,4 +264,7 @@
   <data name="OrdersOverviewViewModel_PermissionError" xml:space="preserve">
     <value>Keine Berechtigung zum Ausführen</value>
   </data>
+  <data name="OrderOverviewStorage_InProgress" xml:space="preserve">
+    <value>In Bearbeitung</value>
+  </data>
 </root>

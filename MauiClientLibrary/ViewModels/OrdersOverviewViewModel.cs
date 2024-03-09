@@ -2,54 +2,95 @@
 
 namespace MauiClientLibrary.ViewModels;
 
+/// <summary>
+/// OrdersOverviewViewModel provides the overview of the orders
+/// </summary>
 public partial class OrdersOverviewViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IKommissIOAPI _kommissIoapi;
     private readonly IPopupService _popupService;
 
+    /// <summary>
+    /// Constructor for the OrdersOverviewViewModel sets up the necessary services
+    /// </summary>
+    /// <param name="localizationService"></param>
+    /// <param name="orderOverviewService"></param>
+    /// <param name="kommissIoApi"></param>
+    /// <param name="popupService"></param>
     public OrdersOverviewViewModel(
         ILocalizationService localizationService, 
-        IOrderOverviewStorage orderOverviewStorage,
+        IOrderOverviewService orderOverviewService,
         IKommissIOAPI kommissIoApi, 
         IPopupService popupService)
     {
         _localizationService = localizationService;
         _kommissIoapi = kommissIoApi;
         _popupService = popupService;
-        _activeMenu = orderOverviewStorage.GetActiveMenu();
+        _activeMenu = orderOverviewService.GetActiveMenu();
         PropertyChanged += Property_Changed!;
     }
 
+    /// <summary>
+    /// Destructor for the OrdersOverviewViewModel disposes the event handler
+    /// </summary>
     ~OrdersOverviewViewModel()
     {
         PropertyChanged -= Property_Changed!;
     }
 
+    /// <summary>
+    /// Property for the active menu
+    /// </summary>
     [ObservableProperty]
     ObservableCollection<OrderOverviewModel> _activeMenu;
 
+    /// <summary>
+    /// Property for the barcode value
+    /// </summary>
     [ObservableProperty] 
     string? _barcodeValue;
     
+    /// <summary>
+    /// Property for the current order
+    /// </summary>
     [ObservableProperty]
     PickingOrder? _currentOrder;
 
+    /// <summary>
+    /// Property if the view has errors
+    /// </summary>
     [ObservableProperty] 
     bool _hasErrors = true;
     
+    /// <summary>
+    /// Property for the search id
+    /// </summary>
     [ObservableProperty] 
     string? _searchId;
 
+    /// <summary>
+    /// Property for the selected order
+    /// </summary>
     [ObservableProperty] 
     PickingOrder? _selectedOrder;
     
+    /// <summary>
+    /// Property for the picking orders
+    /// </summary>
     [ObservableProperty]  
     ObservableCollection<PickingOrder>? _pickingOrders = new();
 
+    /// <summary>
+    /// Property for the selected view
+    /// </summary>
     [ObservableProperty]  
     OrderOverviewModel? _selectedView;
 
+    /// <summary>
+    /// Command to get the picking orders for the selected view
+    /// </summary>
+    /// <param name="selectedView"></param>
     [RelayCommand]
     private async Task GetPickingOrdersAsync(OrderOverviewModel selectedView)
     {
@@ -57,6 +98,9 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         await LoadPickingOrdersAsync();
     }
     
+    /// <summary>
+    /// Command to get the picking orders
+    /// </summary>
     [RelayCommand]
     private async Task LoadPickingOrdersAsync()
     {
@@ -93,6 +137,9 @@ public partial class OrdersOverviewViewModel : BaseViewModel
 
     }
     
+    /// <summary>
+    /// Command to get the barcode by scan
+    /// </summary>
     [RelayCommand]
     private async Task  GetBarcodeByScanAsync()
     {
@@ -100,12 +147,19 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         BarcodeValue = scannedBarcode?.ToString();
     }
 
+    /// <summary>
+    /// Command to get the barcode by search
+    /// </summary>
+    /// <param name="search"></param>
     [RelayCommand]
     private void  GetBarcodeBySearch(string search)
     {
         BarcodeValue = search;
     }
     
+    /// <summary>
+    /// Command to get the order by selection
+    /// </summary>
     [RelayCommand]
     private void GetOrderBySelection()
     {
@@ -114,6 +168,11 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         CurrentOrder = SelectedOrder;
     }
 
+    /// <summary>
+    /// Event handler for the property changed event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private async void Property_Changed(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(BarcodeValue))
@@ -129,6 +188,11 @@ public partial class OrdersOverviewViewModel : BaseViewModel
             await ErrorChanged(HasErrors);
         }
     }
+    
+    /// <summary>
+    /// Command to handle the barcode value changed
+    /// </summary>
+    /// <param name="value"></param>
     private async Task BarcodeValueChanged(string? value)
     {
         SearchId = String.Empty;
@@ -158,6 +222,10 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         CurrentOrder = foundOrder;
     }
 
+    /// <summary>
+    /// Command to handle the current order changed
+    /// </summary>
+    /// <param name="value"></param>
     private async Task CurrentOrderChanged(PickingOrder? value)
     {
         if (value is null) 
@@ -175,6 +243,7 @@ public partial class OrdersOverviewViewModel : BaseViewModel
             await Shell.Current.DisplayAlert(_localizationService.GetResourceValue("GeneralError"),
                 _localizationService.GetResourceValue("OrdersOverviewViewModel_CantAssign"),
                 _localizationService.GetResourceValue("GeneralOK"));
+               IsBusy = false;
             return;
         }
         await Shell.Current.GoToAsync("OrderPickingPage", true, new Dictionary<string, object>
@@ -184,6 +253,10 @@ public partial class OrdersOverviewViewModel : BaseViewModel
         IsBusy = false;
     }
 
+    /// <summary>
+    /// Helper method to handle the error changed
+    /// </summary>
+    /// <param name="value"></param>
     private async Task  ErrorChanged(bool value)
     {
         if (value)

@@ -264,4 +264,10 @@
   <data name="OrderPickingViewModel_IncompleteInput" xml:space="preserve">
     <value>Incomplete Input</value>
   </data>
+  <data name="OrderOverviewStorage_InProgress" xml:space="preserve">
+    <value>In Progress</value>
+  </data>
 </root>
+
+
+        

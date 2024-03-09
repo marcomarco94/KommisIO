@@ -2,12 +2,26 @@ using System.ComponentModel;
 
 namespace MauiClientLibrary.ViewModels;
 
+/// <summary>
+/// Query property  contains the picking order from the previous page
+/// </summary>
 [QueryProperty(nameof(PickingOrder), "PickingOrder")]
+
+/// <summary>
+/// The OrderPickingViewModel class is responsible for managing the order picking process.
+/// </summary>
 public partial class OrderPickingViewModel : BaseViewModel
 {
     private readonly ILocalizationService _localizationService;
     private readonly IKommissIOAPI _kommissIoapi;
     private readonly IPopupService _popupService;
+    
+    /// <summary>
+    /// Constructor for the OrderPickingViewModel. Set up the necessary services.
+    /// </summary>
+    /// <param name="localizationService"></param>
+    /// <param name="kommissIoApi"></param>
+    /// <param name="popupService"></param>
     public OrderPickingViewModel(
         ILocalizationService localizationService,
         IKommissIOAPI kommissIoApi,
@@ -19,50 +33,92 @@ public partial class OrderPickingViewModel : BaseViewModel
         PropertyChanged += Property_Changed!;
     }
         
+    /// <summary>
+    /// Destructor for the OrderPickingViewModel. Disposes the event handler.
+    /// </summary>
     ~OrderPickingViewModel()
     {
         PropertyChanged -= Property_Changed!;
     }
     
+    /// <summary>
+    /// Property for the picking order
+    /// </summary>
     [ObservableProperty] 
     PickingOrder? _pickingOrder;
 
+    /// <summary>
+    /// Property for the order positions
+    /// </summary>
     [ObservableProperty] 
     ObservableCollection<ArticleStockPositions>? _orderPositions = new();
     
+    /// <summary>
+    /// Current shelf number property
+    /// </summary>
     [ObservableProperty]
     [Required]
     string? _currentShelfNumber;
     
+    /// <summary>
+    /// Property for the current article number
+    /// </summary>
     [ObservableProperty]
     [Required]
     string? _currentArticleNumber;
     
+    /// <summary>
+    /// Property for the current article amount
+    /// </summary>
     [ObservableProperty]
     [Required]
     string? _currentAmount;
 
+    /// <summary>
+    /// Property indicated state of the article 
+    /// </summary>
     [ObservableProperty]  
     bool _articleEnabled;
 
+    /// <summary>
+    /// Property indicated state of the article amount
+    /// </summary>
     [ObservableProperty]  
     bool _amountEnabled;
 
+    /// <summary>
+    /// Property indicated state of the stock
+    /// </summary>
     [ObservableProperty]  
     bool _stockEnabled = true;
     
+    /// <summary>
+    /// Property sets the visibility state of the article input
+    /// </summary>
     [ObservableProperty]  
     bool _articleEnabledView;
 
+    /// <summary>
+    /// Property sets the visibility state of the article amount input
+    /// </summary>
     [ObservableProperty]  
     bool _amountEnabledView;
 
+    /// <summary>
+    /// Property sets the visibility state of the stock input
+    /// </summary>
     [ObservableProperty]  
     bool _stockEnabledView;
     
+    /// <summary>
+    /// Property contains the valid articles
+    /// </summary>
     [ObservableProperty]
     List<ArticleStockPositions> _validArticles = new();
 
+    /// <summary>
+    /// Command to pick the order
+    /// </summary>
     [RelayCommand]
     private async Task PickOrderAsync()
     {
@@ -100,6 +156,10 @@ public partial class OrderPickingViewModel : BaseViewModel
         IsBusy = false;
     }
 
+    /// <summary>
+    /// Helper method to validate the search frame
+    /// </summary>
+    /// <returns></returns>
     private async Task<bool> ValidateSearchFrame()
     {
         if (!HasErrors)
@@ -111,7 +171,9 @@ public partial class OrderPickingViewModel : BaseViewModel
         return false;
     }
     
-    
+    /// <summary>
+    /// Command to get the order positions
+    /// </summary>
     [RelayCommand]
     private async Task GetOrderPositionsAsync()
     {
@@ -121,16 +183,25 @@ public partial class OrderPickingViewModel : BaseViewModel
             if (OrderPositions != null)
             {
                 OrderPositions.Clear();
-                foreach (var pos in PickingOrder.OrderPositions)
+                try
                 {
-                    OrderPositions.Add(new ArticleStockPositions
+                    foreach (var pos in PickingOrder.OrderPositions)
                     {
-                        OrderPosition = await _kommissIoapi.GetPickingOrderPositionByIdAsync(pos.Id),
-                        StockPosition =
-                            new ObservableCollection<StockPosition>(
-                                await _kommissIoapi.GetStockPositionsForArticleAsync(pos.Article))
-                    });
+                        OrderPositions.Add(new ArticleStockPositions
+                        {
+                            OrderPosition = await _kommissIoapi.GetPickingOrderPositionByIdAsync(pos.Id),
+                            StockPosition =
+                                new ObservableCollection<StockPosition>(
+                                    await _kommissIoapi.GetStockPositionsForArticleAsync(pos.Article))
+                        });
+                    }
                 }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+
             }
       
             IsBusy = false;
@@ -140,6 +211,9 @@ public partial class OrderPickingViewModel : BaseViewModel
         }
     }
     
+    /// <summary>
+    /// Command to get the article by scan
+    /// </summary>
     [RelayCommand]
     private async Task GetArticleByScanAsync()
     {
@@ -148,6 +222,9 @@ public partial class OrderPickingViewModel : BaseViewModel
         ValidateArticleNumber();
     }
     
+    /// <summary>
+    /// Command to get the stock position by scan
+    /// </summary>
     [RelayCommand]
     private async Task GetStockPositionByScanAsync()
     {
@@ -156,12 +233,19 @@ public partial class OrderPickingViewModel : BaseViewModel
         ValidateStockInput();
     }
 
+    /// <summary>
+    /// Command to get the Amount by seachInput
+    /// </summary>
+    /// <param name="amount"></param>
     [RelayCommand]
     private void GetAmountbySearch(string amount)
     {
         CurrentAmount = amount;
     }
     
+    /// <summary>
+    /// Command to clear the search frame
+    /// </summary>
     [RelayCommand]
     public void ClearSearchFrame()
     {
@@ -173,6 +257,11 @@ public partial class OrderPickingViewModel : BaseViewModel
         AmountEnabled = false;
     }
 
+    /// <summary>
+    /// Event handler for property changes
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void Property_Changed(object sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(IsEnabled) 
@@ -186,6 +275,9 @@ public partial class OrderPickingViewModel : BaseViewModel
         }
     }
 
+    /// <summary>
+    /// Validates the stock input and set the enabled states
+    /// </summary>
     [RelayCommand]
     private void ValidateStockInput()
     {
@@ -207,6 +299,9 @@ public partial class OrderPickingViewModel : BaseViewModel
         }
     }
 
+    /// <summary>
+    /// Validates the article number and set the enabled states
+    /// </summary>
     [RelayCommand]
     private void ValidateArticleNumber()
     {

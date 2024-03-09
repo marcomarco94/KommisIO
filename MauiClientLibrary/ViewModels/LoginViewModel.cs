@@ -1,34 +1,57 @@
 ﻿
 namespace MauiClientLibrary.ViewModels;
 
+/// <summary>
+/// The LoginViewModel provides the login function
+/// </summary>
 public partial class LoginViewModel : BaseViewModel
 {
     private readonly IKommissIOAPI _kommissIoApi;
     private readonly ILocalizationService _localizationService;
     
+    /// <summary>
+    /// The LoginViewModel constructor. Set up the necessary services
+    /// </summary>
+    /// <param name="kommissIoApi"></param>
+    /// <param name="localizationService"></param>
     public LoginViewModel(IKommissIOAPI kommissIoApi, ILocalizationService localizationService)
     {
         _localizationService = localizationService;
         _kommissIoApi = kommissIoApi;
     }
     
+    /// <summary>
+    /// Property for the users personnel number
+    /// </summary>
     [Required]
     [Range(0, 9999)]
     [ObservableProperty]
     string _personnelNumber = string.Empty;
 
+    /// <summary>
+    /// Property for the users password
+    /// </summary>
     [Required]
     [MinLength(4)]
     [MaxLength(30)]
     [ObservableProperty]
     string _password = string.Empty;
 
+    /// <summary>
+    /// True if the password is valid
+    /// </summary>
     [ObservableProperty]
     bool  _isPasswordValid;
 
+    /// <summary>
+    /// True if the personnel number is valid
+    /// </summary>
     [ObservableProperty]
     bool _isPersonnelNumberValid;
     
+    /// <summary>
+    /// Checks if the entries are valid
+    /// </summary>
     [RelayCommand]
     private void ValidateEntries()
     {
@@ -37,6 +60,10 @@ public partial class LoginViewModel : BaseViewModel
         IsPasswordValid = !GetErrors(nameof(Password)).Any();
     }
 
+    /// <summary>
+    /// Logs out the current user
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private Task LogOutAsync()
     {
@@ -48,6 +75,9 @@ public partial class LoginViewModel : BaseViewModel
             return Task.CompletedTask;
     }
     
+    /// <summary>
+    /// Try to login the user with the given credentials
+    /// </summary>
     [RelayCommand]
     private async Task LoginAsync()
     {
@@ -87,6 +117,9 @@ public partial class LoginViewModel : BaseViewModel
         }
     }
     
+    /// <summary>
+    /// Helper method to display an alert if the login is invalid
+    /// </summary>
     private async Task DisplayInvalidLoginAlert()
     {
         string alertTitle = _localizationService.GetResourceValue("LoginViewModel_InvalidLogin");

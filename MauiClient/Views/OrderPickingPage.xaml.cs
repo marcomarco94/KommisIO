@@ -10,6 +10,9 @@ public partial class OrderPickingPage : ContentPage
        
     }
 
+    /// <summary>
+    /// OnAppearing event handler
+    /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();
