@@ -303,7 +303,7 @@ namespace DataRESTfulAPI.Controllers {
         /// <returns>Return the PickingOrder with the given id.</returns>
         [Route("pickingorder/{id}")]
         [HttpGet]
-        [Authorize(Roles = $"{nameof(Role.Employee)},{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IActionResult> GetPickingOrderByIdAsync(int id) {
             var po = (await _unitOfWork.PickingOrderRepository.FindAsync(a => a.Id == id))?.MapToDataModel();
             if (po is null)
@@ -321,7 +321,7 @@ namespace DataRESTfulAPI.Controllers {
         /// <returns>Return the PickingOrderPosition with the given id.</returns>
         [Route("pickingorder/position/{id}")]
         [HttpGet]
-        [Authorize(Roles = $"{nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
+        [Authorize(Roles = $"{nameof(Role.Employee)}, {nameof(Role.Manager)}, {nameof(Role.Administrator)}")]
         public async Task<IActionResult> GetPickingOrderPositionByIdAsync(int id) {
             var po = (await _unitOfWork.PickingOrderRepository.FindAsync(a => a.Positions!.Any(pop=>pop.Id == id)))?.MapToDataModel();
             if(po is null)
