@@ -9,7 +9,6 @@
              Title="{x:Static lang:AppResources.MainMenuPage_Title}">
 
     <ScrollView>
-          
             <FlexLayout
                 Direction="Row"
                 Wrap="Wrap"
@@ -32,6 +31,7 @@
                         HeightRequest="130" 
                         ImageSource="{Binding Icon}"
                         TextTransform="Uppercase"
+                        IsEnabled="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainMenuViewModel}}, Path=IsEnabled}"
                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainMenuViewModel}}, Path=ShowPageCommand}"
                         CommandParameter="{Binding Route}"/>
                 </DataTemplate>

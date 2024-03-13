@@ -231,6 +231,7 @@
         <Button Text="{x:Static lang:AppResources.OrderPickingPage_PickOrder}" 
                 VerticalOptions="End"
                 Margin="5"
+                IsEnabled="{Binding IsEnabled}"
                 Command="{Binding PickOrderCommand}"/>
     </StackLayout>
 </ContentPage>

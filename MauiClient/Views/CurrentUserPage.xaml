@@ -48,6 +48,7 @@
                 <Button
                     Text="{x:Static lang:AppResources.CurrentUserPage_Reset}"
                     IsVisible="{Binding IsAdmin}"
+                    IsEnabled="{Binding IsEnabled}"
                     Command="{Binding ResetDataCommand}"/>
             </VerticalStackLayout>
         </Frame>
