@@ -7,6 +7,9 @@ public partial class OrdersOverviewPage : ContentPage
         BindingContext = viewModel;
     }
 
+    /// <summary>
+    /// OnAppearing event handler
+    /// </summary>
     protected override void OnAppearing()
     {
         base.OnAppearing();

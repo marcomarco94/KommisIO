@@ -1,8 +1,14 @@
 ﻿
 namespace MauiClientLibrary.ViewModels;
 
+/// <summary>
+/// Navigation bar view model provides the navigation bar
+/// </summary>
 public partial class NavBarViewModel : BaseViewModel
 {
+    /// <summary>
+    /// Navigate to the current user page
+    /// </summary>
     [RelayCommand]
     private async Task  ShowUserPage()
     {

@@ -9,6 +9,10 @@ namespace MauiClient.Views
             BindingContext = viewModel;
         }
         
+        /// <summary>
+        /// OnNavigatedTo event handler
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnNavigatedTo(NavigatedToEventArgs args)
         {
             (BindingContext as LoginViewModel)?.LogOutCommand.Execute(null);

@@ -6,7 +6,6 @@
              x:DataType="viewmodel:OrdersOverviewViewModel"
              x:Class="MauiClient.Views.OrdersOverviewPage"
              xmlns:model="clr-namespace:DataRepoCore;assembly=DataRepoCore"
-             xmlns:System="clr-namespace:System;assembly=System.Runtime"
              xmlns:models="clr-namespace:MauiClientLibrary.Models;assembly=MauiClientLibrary"
              HideSoftInputOnTapped="True"
              Title="{x:Static lang:AppResources.OrderOverviewPage_Title}">
